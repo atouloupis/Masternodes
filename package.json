@@ -8,5 +8,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atouloupis/Masternodes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atouloupis/Masternodes/issues"
+  },
+  "homepage": "https://github.com/atouloupis/Masternodes#readme",
   "description": ""
 }

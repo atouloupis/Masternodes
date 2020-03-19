@@ -1,6 +1,17 @@
 // Creer un serveur scaleway
+// Requirement : 
+var urlmongodb = "mongodb://localhost:27017/";
+var mongoDb = require('./mongoDb');
+
+
 
 // Se connecter à la DB
+mongoClient.connect(urlOrderBook, function(err, db) {
+	    if (err) throw err;
+    dbase = db.db("masternode");
+	
+	
+}
 
 // Récupérer le dernier ID
 
@@ -15,5 +26,3 @@
 //Récup datecreation
 
 //Crypto
-
-// 

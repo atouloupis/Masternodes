@@ -7,7 +7,7 @@ var orderBook=require('./orderBookManagement');
 var symbol=require('./symbolManagement');
 var trades=require('./tradesManagement');
 var ticker=require('./tickerManagement');
-
+//créer les collections
 activeOrders.run();
 symbol.run();
 
