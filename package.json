@@ -16,5 +16,8 @@
     "url": "https://github.com/atouloupis/Masternodes/issues"
   },
   "homepage": "https://github.com/atouloupis/Masternodes#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "mongodb": "^3.5.5"
+  }
 }
