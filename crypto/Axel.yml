@@ -10,12 +10,12 @@
   
   tasks:
 
-  - name: APT Update
-    shell: apt-get update -y
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
 
-  # - name: APT Upgrade
-    # shell: apt-get upgrade -y
-    
   - name: got to root folder
     shell: cd /root
     
@@ -27,6 +27,12 @@
     
   # - name: launch MN setup
     # shell: /root/axel-install.sh -y
+    
+  - name: wait 20 sec
+
+  - name : Add masternode priv key
+    command:
+      cmd: xxxxxx    
     
   # - name: Finalize install
     # shell: mv /root/.axel/debug.log /root/.axel/debug.log-$(date +%y%m%d%H%M) && /root/axel-install.sh --upgrade && axel-cli -version

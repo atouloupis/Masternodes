@@ -61,7 +61,9 @@ function postNewServer(serverName,tag1,tag2,callback){
 					myObj=[{
 						serverName:serverName,
 						creationDate:res1.server.creation_date,
-						serverId:res1.server.id 
+						serverId:res1.server.id ,
+						crypto:tag1,
+						user:tag2
 					}]
 					mongo.insertCollection(dbase,'masternodes', myObj, function(res){
 						db.close();
@@ -90,16 +92,16 @@ function getServerInfos(serverId,callback){
 			mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
 				if (err) throw err;
 				dbase = db.db("masternode");
-				query={serverId:serverId}
+				query={serverId:serverId};
 				myObj={
 					serverName:res1.server.hostname,
 					creationDate:res1.server.creation_date,
 					serverId:res1.server.id, 
-					publicIp:res1.public_ip
-				}
-				mongo.updateCollection(dbase,'masternodes', qurey, myObj, function(res){
+					publicIp:res1.server.public_ip.address
+				};
+				mongo.updateCollection(dbase,'masternodes', query, { $set: myObj}, function(res){
 					db.close();
-					callback(res);
+					callback(myObj);
 				});	 
 	 		});
 		});

@@ -1,36 +1,51 @@
 //Axel masternode creation
 var Ansible = require ('node-ansible');
-//Récupérer le dernier ID de masternode
-var nb = 1;
-
-//Appeler "createserv" avec en intput: Axel&ID
-
+var mongo = require('../mongoDb');
+var urlMasternode = "mongodb://localhost:27017/masternode";
+var mongoClient = require('mongodb').MongoClient;
 var scaleway = require('../scaleway/scalewayApi');
 var crypto='Axel';
 var user='Andreas';
+//Récupérer le dernier ID de masternode
+mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
+	if (err) throw err;
+	dbase = db.db("masternode");
+	query={crypto:crypto,user:user};
+	mongo.findRecords(dbase,'masternodes', query, {_id: -1}, function(res){
+		console.log(res);
+		var nb = res.length;
+		db.close();
+//Appeler "createserv" avec en intput: Axel&ID
+
 var serverName='Axel'+nb;
-
-// scaleway.postNewServer('Axel',crypto,user,function(response){
+scaleway.postNewServer(serverName,crypto,user,function(response){
 var serverId=response.ops[0].serverId;
-// });
-//Wait
-var time=Date.now();
-setTimeout(masternodeDeploy,1000,"hoho",'hihi')
-console.log(time-Date.now());
 
+//Wait server is creating
+setTimeout(masternodeDeploy,30000,serverId,'hihi');
+	});	
+});
+}); 
 // --- Configurer le serveur Axel ----
 // Appeler le script ansible Axel avec en input la config du serveur
 
-function masternodeDeploy(publicIp,toto){
+function masternodeDeploy(serverId,toto){
 	//Récupérer l'IP
-	scaleway.getServerInfos(serverId,res){
-		var serverIp=res.server.public_ip.address;
+	scaleway.getServerInfos(serverId,function(res){
+		var serverIp=res.publicIp;
+		console.log(serverIp);
 		createHostFile(serverIp, function(){
-		new Ansible.Playbook().playbook('axel.yml').variables({ip:serverIp});
-		// ansible-playbook crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
+		var command = new Ansible.Playbook().playbook('Axel.yml').variables({ip:serverIp}).inventory('./temp-host');
+		
+		// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
 		var promise = command.exec();
-		};
-	};
+		console.log(promise);
+		promise.then(function(result) {
+  console.log(result.output);
+  console.log(result.code);
+});
+		});
+	});
 }
 
 function createHostFile(serverIp, callback){
