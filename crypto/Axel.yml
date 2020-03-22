@@ -6,7 +6,7 @@
     SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
 
   vars:
-    my_ipaddr: "{{ ip }}"
+    my_priv_key: "{{ priv_key }}"
   
   tasks:
 
@@ -25,17 +25,16 @@
   - name: download axel Mn script
     shell: wget https://raw.githubusercontent.com/axelnetwork/MN-Script/master/axel-install.sh && chmod u+x ./axel-install.sh
     
-  # - name: launch MN setup
-    # shell: /root/axel-install.sh -y
-    
-  - name: wait 20 sec
+  - name: launch MN setup
+    shell: (echo {{ my_priv_key }}) /root/axel-install.sh -y
 
-  - name : Add masternode priv key
-    command:
-      cmd: xxxxxx    
+  - name: sleep for 40 seconds
+    wait_for: timeout=40
+    delegate_to: localhost
     
-  # - name: Finalize install
-    # shell: mv /root/.axel/debug.log /root/.axel/debug.log-$(date +%y%m%d%H%M) && /root/axel-install.sh --upgrade && axel-cli -version
+
+  - name: Finalize install
+    shell: mv /root/.axel/debug.log /root/.axel/debug.log-$(date +%y%m%d%H%M) && /root/axel-install.sh --upgrade && axel-cli -version
 
   # - debug:
       # var: my_ipaddr
