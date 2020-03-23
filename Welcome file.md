@@ -48,6 +48,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Wait for collateral and generate TxID
 > 	- Update conf and synchronize with the hot masternode
 > 	- Automatic reward convertion (nice to have)
+> - Cold wall
  
 
 ## Rename a file
@@ -177,7 +178,7 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTUxNDY5NjI3LC05MjI3NzY0NjksLTE2MD
-U1MDAwNzEsLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1
-NzUsMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbLTY4ODAwNjg2NCwtOTIyNzc2NDY5LC0xNj
+A1NTAwMDcxLC0xNTA1MTU5NTU5LDE2MTMxOTcwNDUsNDY5MTQ2
+NTc1LDM4OTg5NjQ5M119
 -->
