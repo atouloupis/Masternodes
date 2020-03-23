@@ -36,7 +36,12 @@ Run the script, it's ask the user name (what you want) and the masternode privat
 > - For now only one coin is available (Axel coin)
 > - State of the Masternode after the script ends
 > - Watchdog to check masternodes health
-> - Add the wallet in the 
+> - Add the wallet in the same server to do on click deployement :
+> 
+
+ - [ ] List item
+
+ 
 
 ## Rename a file
 
@@ -165,6 +170,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIwODE1NTIxOTksLTE1MDUxNTk1NTksMT
-YxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbMTUwNDIwMzI0NywtMTUwNTE1OTU1OSwxNj
+EzMTk3MDQ1LDQ2OTE0NjU3NSwzODk4OTY0OTNdfQ==
 -->
