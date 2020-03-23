@@ -2,9 +2,12 @@
 
 This script is used to automatize masternodes install from a list of known blockchain projects. 
 
-# Files
+# Processus
 
-StackEdit stores your files in your browser, which means all your files are automatically saved locally and are accessible **offline!**
+The script :
+- connect to the VPS provider (scaleway)
+- create a 
+ 
 
 ## Create files and folders
 
@@ -141,6 +144,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTQzOTUzMzQsNDY5MTQ2NTc1LDM4OTg5Nj
-Q5M119
+eyJoaXN0b3J5IjpbLTk0MDQ2MDMzNiw0NjkxNDY1NzUsMzg5OD
+k2NDkzXX0=
 -->
