@@ -27,7 +27,10 @@ Before runnning the script you must :
 - Send those coin to the wallet
 - Create a masternode in the wallet et send the exact amount needed of collateral to the masternode address (depends on the blockchain project)
 - In the debug console of the wallet :
-	- masternode genkey
+	- `masternode genkey`
+Keep the result in a temporary text file. It's the masternode private key.
+
+Run the script
 
 ## Rename a file
 
@@ -156,6 +159,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMDU5ODY3NDMsMTYxMzE5NzA0NSw0Nj
+eyJoaXN0b3J5IjpbLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0Nj
 kxNDY1NzUsMzg5ODk2NDkzXX0=
 -->
