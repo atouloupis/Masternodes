@@ -23,7 +23,9 @@ Next step : create a dashboard UI to run the script.
 
 Before runnning the script you must :
 - Install the wallet of the blockchain projet you want to invest
-- Buy the necessary collateral (cryptocoin) needed to run 
+- Buy the necessary collateral (locked cryptocoin) needed to run the masternode. Choose the right exchange to do this.
+- Send those coin to the wallet
+- Create a masternode in the wallet et send the exact amount needed of collateral to the masternode address (depends on the 
 
 ## Rename a file
 
@@ -152,6 +154,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTg0NjMwOTMzOCw0NjkxNDY1NzUsMzg5OD
-k2NDkzXX0=
+eyJoaXN0b3J5IjpbMjQ0ODQxNzI0LDQ2OTE0NjU3NSwzODk4OT
+Y0OTNdfQ==
 -->
