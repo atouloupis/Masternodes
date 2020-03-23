@@ -30,7 +30,9 @@ Before runnning the script you must :
 	- `masternode genkey`
 Keep the result in a temporary text file. It's the masternode private key.
 
-Run the script
+Run the script, it's ask the user name (what you want) and the masternode private key generated at the last step. 
+
+
 
 ## Rename a file
 
@@ -159,6 +161,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0Nj
-kxNDY1NzUsMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbMjc4NDM0MjYxLC0xNTA1MTU5NTU5LDE2MT
+MxOTcwNDUsNDY5MTQ2NTc1LDM4OTg5NjQ5M119
 -->
