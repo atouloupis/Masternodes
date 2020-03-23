@@ -6,12 +6,14 @@ This script is used to automatize masternodes install from a list of known block
 
 The script :
 - connect to the VPS provider (scaleway)
-- create a 
- 
+- create a small VPS (3$/mo)
+- initialize the VPS with the right masternode setup
+- run the masternode
+- save all information in a mongoDB 
 
-## Create files and folders
+## How to install
 
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
+For now, juste install node
 
 ## Switch to another file
 
@@ -144,6 +146,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTk0MDQ2MDMzNiw0NjkxNDY1NzUsMzg5OD
+eyJoaXN0b3J5IjpbLTM4MjA2MDk1Myw0NjkxNDY1NzUsMzg5OD
 k2NDkzXX0=
 -->
