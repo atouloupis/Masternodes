@@ -48,15 +48,15 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 >   - Display wallet pub key address
 > 	- Wait for collateral and TxID
 > 	- Update conf and synchronize with the hot masternode
-> 	- Automatic reward convertion to BTC (nice to have)
->   - Performance report (nice to have)
->  - 
-> - Hardware cold wallet masternode (nice to have)
+> 	- *Automatic reward convertion to BTC (nice to have)*
+>   - *Performance report (nice to have)*
+>  - Website & App dashboard 
+> - *Hardware cold wallet masternode (nice to have)*
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTIxMjUyNTMzNzAsNTkzMzIyMzAzLDE0ND
-k0MTc3NDEsMzAzOTc5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAw
-NzEsLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMz
-g5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbODQwODc2NTQyLDU5MzMyMjMwMywxNDQ5ND
+E3NzQxLDMwMzk3OTIwNCwtOTIyNzc2NDY5LC0xNjA1NTAwMDcx
+LC0xNTA1MTU5NTU5LDE2MTMxOTcwNDUsNDY5MTQ2NTc1LDM4OT
+g5NjQ5M119
 -->
