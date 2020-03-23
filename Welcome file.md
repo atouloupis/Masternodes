@@ -33,6 +33,7 @@ Keep the result in a temporary text file. It's the masternode private key.
 Run the script, it'll be asked the user name (what you want) and the masternode private key generated at the last step. 
 Go back
 
+
 > Missing to finish the job : 
 > - For now only one coin is available (Axel coin)
 > - State of the Masternode after the script ends
@@ -172,6 +173,7 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2MDU1MDAwNzEsLTE1MDUxNTk1NTksMT
-YxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbLTkyMjc3NjQ2OSwtMTYwNTUwMDA3MSwtMT
+UwNTE1OTU1OSwxNjEzMTk3MDQ1LDQ2OTE0NjU3NSwzODk4OTY0
+OTNdfQ==
 -->
