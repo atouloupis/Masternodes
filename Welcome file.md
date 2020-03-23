@@ -47,7 +47,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Generate privkey
 > 	- Wait for collateral and generate TxID
 > 	- Update conf and synchronize with the hot masternode
-
+> 	- Automatic 
  
 
 ## Rename a file
@@ -177,7 +177,7 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEyNDAxNjAzNzAsLTkyMjc3NjQ2OSwtMT
-YwNTUwMDA3MSwtMTUwNTE1OTU1OSwxNjEzMTk3MDQ1LDQ2OTE0
-NjU3NSwzODk4OTY0OTNdfQ==
+eyJoaXN0b3J5IjpbNjgwNzMxNDY4LC05MjI3NzY0NjksLTE2MD
+U1MDAwNzEsLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1
+NzUsMzg5ODk2NDkzXX0=
 -->
