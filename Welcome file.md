@@ -45,7 +45,8 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Install wallet
 > 	- Create cold masternode
 > 	- Generate privkey
-> 	- Wait for collateral and generate TxID
+>   - Display wallet pub key address
+> 	- Wait for collateral and TxID
 > 	- Update conf and synchronize with the hot masternode
 > 	- Automatic reward convertion to BTC (nice to have)
 >   - Performance report (nice to have)
@@ -179,7 +180,7 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEzODQwNzE0MjksNTkzMzIyMzAzLDE0ND
+eyJoaXN0b3J5IjpbLTE4NDczMzIzOTYsNTkzMzIyMzAzLDE0ND
 k0MTc3NDEsMzAzOTc5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAw
 NzEsLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMz
 g5ODk2NDkzXX0=
