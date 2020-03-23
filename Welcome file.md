@@ -38,7 +38,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 
 
 > Missing to finish the job : 
-> - For now only one coin is available (Axel coin)
+> - 10 coin to accept. For now only one coin is available (Axel coin)
 > - State of the Masternode after the script ends
 > - Watchdog to check masternodes health
 > - Add the wallet in the same server to do on click deployement :
@@ -48,7 +48,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Wait for collateral and generate TxID
 > 	- Update conf and synchronize with the hot masternode
 > 	- Automatic reward convertion to BTC (nice to have)
->   - Performance managing 
+>   - Performance report (nice to have)
 >   - Hardware cold wallet masternode (nice to have)
  
 
@@ -179,7 +179,8 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTkzMzIyMzAzLDE0NDk0MTc3NDEsMzAzOT
-c5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAwNzEsLTE1MDUxNTk1
-NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbNzk4NjIyMTUxLDU5MzMyMjMwMywxNDQ5ND
+E3NzQxLDMwMzk3OTIwNCwtOTIyNzc2NDY5LC0xNjA1NTAwMDcx
+LC0xNTA1MTU5NTU5LDE2MTMxOTcwNDUsNDY5MTQ2NTc1LDM4OT
+g5NjQ5M119
 -->
