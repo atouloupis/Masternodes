@@ -22,7 +22,8 @@ Next step : create a dashboard UI to run the script.
 ## What to do
 
 Before runnning the script you must :
-- 
+- Install the wallet of the blockchain projet you want to invest
+- Buy the necessary collateral (cryptocoin) needed to run 
 
 ## Rename a file
 
@@ -151,6 +152,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjE2NzEzMjkyLDQ2OTE0NjU3NSwzODk4OT
-Y0OTNdfQ==
+eyJoaXN0b3J5IjpbMTg0NjMwOTMzOCw0NjkxNDY1NzUsMzg5OD
+k2NDkzXX0=
 -->
