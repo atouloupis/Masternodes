@@ -30,7 +30,7 @@ Before runnning the script you must :
 	- `masternode genkey`
 Keep the result in a temporary text file. It's the masternode private key.
 
-Run the script, it's ask the user name (what you want) and the masternode private key generated at the last step. 
+Run the script, it'll be asked the user name (what you want) and the masternode private key generated at the last step. 
 
 > Missing to finish the job : 
 > - For now only one coin is available (Axel coin)
@@ -38,8 +38,10 @@ Run the script, it's ask the user name (what you want) and the masternode privat
 > - Watchdog to check masternodes health
 > - Add the wallet in the same server to do on click deployement :
 > 	- Install wallet
-> 	- Create masternode
-> 	- I
+> 	- Create cold masternode
+> 	- Generate privkey
+> 	- Wait for collateral and generate TxID
+> 	- Update conf and synchronize with the hot masternode
  
 
 ## Rename a file
@@ -169,6 +171,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTU3NTc5NjExNywtMTUwNTE1OTU1OSwxNj
+eyJoaXN0b3J5IjpbMTUzODQ5MjA2MiwtMTUwNTE1OTU1OSwxNj
 EzMTk3MDQ1LDQ2OTE0NjU3NSwzODk4OTY0OTNdfQ==
 -->
