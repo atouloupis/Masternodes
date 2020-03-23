@@ -50,12 +50,12 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Update conf and synchronize with the hot masternode
 > 	- *Automatic reward convertion to BTC (nice to have)*
 >   - *Performance report (nice to have)*
->  - Website & App dashboard to monitor & manage crypto invest (need KYC, Authent, offline cold storage, Design thinking, payment system, automa
+>  - Website & App dashboard to monitor & manage crypto invest (need KYC, Authent, offline cold storage, Design thinking, payment system, administration declaration report, 
 > - *Hardware cold wallet masternode (nice to have)*
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMjA1NjMxNzEyOCwtMTMwNjU3NzMzOSwtMT
+eyJoaXN0b3J5IjpbMjExODYwNjQ3NywtMTMwNjU3NzMzOSwtMT
 MwNjU3NzMzOSwzMzk5MDE3NDgsNTkzMzIyMzAzLDE0NDk0MTc3
 NDEsMzAzOTc5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAwNzEsLT
 E1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2
