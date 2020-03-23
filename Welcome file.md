@@ -17,7 +17,7 @@ For now, just install nodeJS in your personnal environment and run the file laun
 
     node launcher.js
 
-(Next step : create a dashboard UI to run the script.)
+> Missing : create a dashboard UI to run the script and display informations about the coin/personnal masternode.
 
 ## What to do
 
@@ -34,7 +34,7 @@ Run the script, it's ask the user name (what you want) and the masternode privat
 
 > Missing to finish the job : 
 > - For now only one coin is available (Axel coin)
-> - 
+> - S
 
 ## Rename a file
 
@@ -163,6 +163,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTU1MjM0Mjg2MiwtMTUwNTE1OTU1OSwxNj
-EzMTk3MDQ1LDQ2OTE0NjU3NSwzODk4OTY0OTNdfQ==
+eyJoaXN0b3J5IjpbLTE2ODE3ODk0ODksLTE1MDUxNTk1NTksMT
+YxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
 -->
