@@ -37,8 +37,9 @@ Run the script, it's ask the user name (what you want) and the masternode privat
 > - State of the Masternode after the script ends
 > - Watchdog to check masternodes health
 > - Add the wallet in the same server to do on click deployement :
-	> - Install wallet
-
+> 	- Install wallet
+> 	- Create masternode
+> 	- I
  
 
 ## Rename a file
@@ -168,6 +169,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1ODIzNDc2NzYsLTE1MDUxNTk1NTksMT
-YxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbMTU3NTc5NjExNywtMTUwNTE1OTU1OSwxNj
+EzMTk3MDQ1LDQ2OTE0NjU3NSwzODk4OTY0OTNdfQ==
 -->
