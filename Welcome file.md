@@ -41,7 +41,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > - 10 coin to accept. For now only one coin is available (Axel coin)
 > - State of the Masternode after the script ends
 > - Watchdog to check masternodes health
-> - Add the wallet in the same server to do on click deployement :
+> - Automatic cold wallet deploy  :
 > 	- Install wallet
 > 	- Create cold masternode
 > 	- Generate privkey
@@ -179,8 +179,8 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNzk4NjIyMTUxLDU5MzMyMjMwMywxNDQ5ND
-E3NzQxLDMwMzk3OTIwNCwtOTIyNzc2NDY5LC0xNjA1NTAwMDcx
-LC0xNTA1MTU5NTU5LDE2MTMxOTcwNDUsNDY5MTQ2NTc1LDM4OT
-g5NjQ5M119
+eyJoaXN0b3J5IjpbLTEzODQwNzE0MjksNTkzMzIyMzAzLDE0ND
+k0MTc3NDEsMzAzOTc5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAw
+NzEsLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMz
+g5ODk2NDkzXX0=
 -->
