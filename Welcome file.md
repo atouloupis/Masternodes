@@ -34,7 +34,9 @@ Run the script, it's ask the user name (what you want) and the masternode privat
 
 > Missing to finish the job : 
 > - For now only one coin is available (Axel coin)
-> - S
+> - State of the Masternode after the script ends
+> - Watchdog to check masternodes health
+> - Add the wallet in the 
 
 ## Rename a file
 
@@ -163,6 +165,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE2ODE3ODk0ODksLTE1MDUxNTk1NTksMT
+eyJoaXN0b3J5IjpbLTIwODE1NTIxOTksLTE1MDUxNTk1NTksMT
 YxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
 -->
