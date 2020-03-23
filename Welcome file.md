@@ -13,13 +13,16 @@ The script :
 
 ## How to install
 
-For now, juste install nodeJS in your personnal environment and run the file Launcher.js
+For now, just install nodeJS in your personnal environment and run the file launcher.js
 
-    node Launcher.js
+    node launcher.js
 
-## Switch to another file
+Next step : create a dashboard UI to run the script.
 
-All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
+## What to do
+
+Before runnning the script you must :
+- 
 
 ## Rename a file
 
@@ -148,6 +151,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE4NTA1MTc5MDYsNDY5MTQ2NTc1LDM4OT
-g5NjQ5M119
+eyJoaXN0b3J5IjpbMjE2NzEzMjkyLDQ2OTE0NjU3NSwzODk4OT
+Y0OTNdfQ==
 -->
