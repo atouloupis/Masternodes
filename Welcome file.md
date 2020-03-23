@@ -13,7 +13,9 @@ The script :
 
 ## How to install
 
-For now, juste install node
+For now, juste install nodeJS in your personnal environment and run the file Launcher.js
+
+    node Launcher.js
 
 ## Switch to another file
 
@@ -146,6 +148,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTM4MjA2MDk1Myw0NjkxNDY1NzUsMzg5OD
-k2NDkzXX0=
+eyJoaXN0b3J5IjpbLTE4NTA1MTc5MDYsNDY5MTQ2NTc1LDM4OT
+g5NjQ5M119
 -->
