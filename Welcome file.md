@@ -17,7 +17,7 @@ For now, just install nodeJS in your personnal environment and run the file laun
 
     node launcher.js
 
-(Next step : create a dashboard UI to run the script.
+(Next step : create a dashboard UI to run the script.)
 
 ## What to do
 
@@ -26,7 +26,8 @@ Before runnning the script you must :
 - Buy the necessary collateral (locked cryptocoin) needed to run the masternode. Choose the right exchange to do this
 - Send those coin to the wallet
 - Create a masternode in the wallet et send the exact amount needed of collateral to the masternode address (depends on the blockchain project)
-- In the debug console, 
+- In the debug console of the wallet :
+	- masternode genkey
 
 ## Rename a file
 
@@ -155,6 +156,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTY5NzU4NTU5MSwxNjEzMTk3MDQ1LDQ2OT
-E0NjU3NSwzODk4OTY0OTNdfQ==
+eyJoaXN0b3J5IjpbLTIxMDU5ODY3NDMsMTYxMzE5NzA0NSw0Nj
+kxNDY1NzUsMzg5ODk2NDkzXX0=
 -->
