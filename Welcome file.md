@@ -50,12 +50,13 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Update conf and synchronize with the hot masternode
 > 	- Automatic reward convertion to BTC (nice to have)
 >   - Performance report (nice to have)
->   - Hardware cold wallet masternode (nice to have)
+>  - 
+> - Hardware cold wallet masternode (nice to have)
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTE2Mjk1MTE2Myw1OTMzMjIzMDMsMTQ0OT
-QxNzc0MSwzMDM5NzkyMDQsLTkyMjc3NjQ2OSwtMTYwNTUwMDA3
-MSwtMTUwNTE1OTU1OSwxNjEzMTk3MDQ1LDQ2OTE0NjU3NSwzOD
-k4OTY0OTNdfQ==
+eyJoaXN0b3J5IjpbLTIxMjUyNTMzNzAsNTkzMzIyMzAzLDE0ND
+k0MTc3NDEsMzAzOTc5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAw
+NzEsLTE1MDUxNTk1NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMz
+g5ODk2NDkzXX0=
 -->
