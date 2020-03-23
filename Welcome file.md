@@ -17,7 +17,7 @@ For now, just install nodeJS in your personnal environment and run the file laun
 
     node launcher.js
 
-Next step : create a dashboard UI to run the script.
+(Next step : create a dashboard UI to run the script.
 
 ## What to do
 
@@ -155,6 +155,6 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMTYxMzE5NzA0NSw0NjkxNDY1NzUsMzg5OD
-k2NDkzXX0=
+eyJoaXN0b3J5IjpbLTY5NzU4NTU5MSwxNjEzMTk3MDQ1LDQ2OT
+E0NjU3NSwzODk4OTY0OTNdfQ==
 -->
