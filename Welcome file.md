@@ -1,6 +1,6 @@
 # Readme
 
-This script is used to create scaleway 
+This script is used to create scaleway  
 
 
 # Files
@@ -142,5 +142,5 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbMzg5ODk2NDkzXX0=
+eyJoaXN0b3J5IjpbNDY5MTQ2NTc1LDM4OTg5NjQ5M119
 -->
