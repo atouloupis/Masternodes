@@ -48,7 +48,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Wait for collateral and generate TxID
 > 	- Update conf and synchronize with the hot masternode
 > 	- Automatic reward convertion to BTC (nice to have)
->   - 
+>   - Performance managing 
 >   - Hardware cold wallet masternode (nice to have)
  
 
@@ -179,7 +179,7 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkzNTE2NDA4MSwxNDQ5NDE3NzQxLDMwMz
-k3OTIwNCwtOTIyNzc2NDY5LC0xNjA1NTAwMDcxLC0xNTA1MTU5
-NTU5LDE2MTMxOTcwNDUsNDY5MTQ2NTc1LDM4OTg5NjQ5M119
+eyJoaXN0b3J5IjpbNTkzMzIyMzAzLDE0NDk0MTc3NDEsMzAzOT
+c5MjA0LC05MjI3NzY0NjksLTE2MDU1MDAwNzEsLTE1MDUxNTk1
+NTksMTYxMzE5NzA0NSw0NjkxNDY1NzUsMzg5ODk2NDkzXX0=
 -->
