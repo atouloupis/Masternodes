@@ -31,7 +31,10 @@ Before runnning the script you must :
 Keep the result in a temporary text file. It's the masternode private key.
 
 Run the script, it'll be asked the user name (what you want) and the masternode private key generated at the last step. 
-Go back
+
+Go back to your wallet and activate the masternode.
+
+You're on stage, enjoy. Your reward will appear on the wallet.
 
 
 > Missing to finish the job : 
@@ -44,6 +47,7 @@ Go back
 > 	- Generate privkey
 > 	- Wait for collateral and generate TxID
 > 	- Update conf and synchronize with the hot masternode
+
  
 
 ## Rename a file
@@ -173,7 +177,7 @@ B --> D{Rhombus}
 C --> D
 ```
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTkyMjc3NjQ2OSwtMTYwNTUwMDA3MSwtMT
-UwNTE1OTU1OSwxNjEzMTk3MDQ1LDQ2OTE0NjU3NSwzODk4OTY0
-OTNdfQ==
+eyJoaXN0b3J5IjpbLTEyNDAxNjAzNzAsLTkyMjc3NjQ2OSwtMT
+YwNTUwMDA3MSwtMTUwNTE1OTU1OSwxNjEzMTk3MDQ1LDQ2OTE0
+NjU3NSwzODk4OTY0OTNdfQ==
 -->
