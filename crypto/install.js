@@ -1,13 +1,13 @@
 //Axel masternode creation
 var Ansible = require ('node-ansible');
-module.exports.main_axel = main_axel;
+module.exports.main = main;
 var mongo = require('../mongoDb');
 var urlMasternode = "mongodb://localhost:27017/masternode";
 var mongoClient = require('mongodb').MongoClient;
 var scaleway = require('../scaleway/scalewayApi');
 var crypto='Axel';
 
-function main_axel(user, privKey){
+function main(user, privKey, crypto){
 //Récupérer le dernier ID de masternode
 mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
 	if (err) throw err;
@@ -19,7 +19,7 @@ mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db
 		db.close();
 //Appeler "createserv" avec en intput: Axel&ID
 
-var serverName='Axel'+nb;
+var serverName=crypto+nb;
 scaleway.postNewServer(serverName,crypto,user,function(response){
 var serverId=response.ops[0].serverId;
 
@@ -38,7 +38,7 @@ function masternodeDeploy(serverId,privKey){
 	scaleway.getServerInfos(serverId,function(res){
 		var serverIp=res.publicIp;
 		createHostFile(serverIp, function(){
-		var command = new Ansible.Playbook().playbook('Axel.yml').variables({my_priv_key:privKey}).inventory('./temp-host');
+		var command = new Ansible.Playbook().playbook(crypto+'.yml').variables({my_priv_key:privKey}).inventory('./temp-host');
 		
 		// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
 		var promise = command.exec();

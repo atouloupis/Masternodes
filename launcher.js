@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var axel = require('./crypto/AXEL');
+var install = require('./crypto/install');
 
 var readline = require("readline");
 var rl = readline.createInterface({
@@ -8,10 +8,11 @@ var rl = readline.createInterface({
 });
 
 //Select name, priv key, crypto
+rl.question("What is the crypto ? ", function(crypto) {
 rl.question("What is the user ? ", function(name) {
     rl.question("What is the private key ? ", function(priv_key) {
         console.log( `Your name is ${name}, and the private key is  ${priv_key}`);
-		axel.main_axel(name,priv_key);
+		install.main(name,priv_key,crypto);
     });
 });
-
+});

@@ -1,0 +1,36 @@
+---
+- name: Test compute instance lifecycle on a Scaleway account
+  hosts: current
+  gather_facts: no
+  environment:
+    SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
+
+  vars:
+    my_priv_key: "{{ priv_key }}"
+  
+  tasks:
+
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
+      
+  - name: git clone stream MNT install
+    git:
+      clone=https://github.com/StreamitCoin/stream-install/
+
+  - name: go vers dossier d'install
+    shell: cd stream-install
+    
+#  - name: download axel Mn script
+#    shell: wget https://raw.githubusercontent.com/axelnetwork/MN-Script/master/axel-install.sh && chmod u+x ./axel-install.sh
+#      
+  # - name: launch MN setup
+    # shell: stream-install.sh -y
+    
+
+  # - debug:
+      # var: my_ipaddr
+  # - debug:
+      # var: remote_user
