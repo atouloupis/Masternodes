@@ -11,7 +11,7 @@ var rl = readline.createInterface({
 rl.question("What is the crypto ? ", function(crypto) {
 rl.question("What is the user ? ", function(name) {
     rl.question("What is the private key ? ", function(priv_key) {
-        console.log( `Your name is ${name}, and the private key is  ${priv_key}`);
+        console.log( `Hello ${name}, your Masternode ${crypto} is under setup, the private key is  ${priv_key}`);
 		install.main(name,priv_key,crypto);
     });
 });

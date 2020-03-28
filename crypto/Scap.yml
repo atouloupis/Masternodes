@@ -15,26 +15,21 @@
       update_cache=yes
       state=latest
       upgrade=yes
-
-  - name: Install git
-    apt:
-      name: git
-      state: present
-      update_cache: yes
-
-  - name: git clone stream MNT install
-    git:
-      repo='https://github.com/StreamitCoin/stream-install.git'
-      dest='./stream'
-      version=master
-      force=yes
-    
-  - name: chmod autorize execution
-    shell: chmod u+x ./stream/stream-install.sh
      
   - name: launch MN setup
-    shell: echo {{ my_priv_key }} | ./stream/stream-install.sh
+    shell: wget -qO- https://github.com/SafeCapital/mn-installer/releases/latest/download/scap_mn_installer.sh | bash
+ 
+  - name: Update masternodeprivkey
+    lineinfile:
+      path: /root/.safecapital/safecapital.conf
+      regexp: '^masternodeprivkey='
+      line: masternodeprivkey={{ my_priv_key }}
+ 
+  - name: restart masternode
+    shell: systemctl restart safecapitald.service
     
+  - name: status of masternode
+    shell: 
 # /user/local/bin/streamitcoind status /////to know the status of the MNT
   # - debug:
       # var: my_ipaddr
