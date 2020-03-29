@@ -38,8 +38,8 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 
 
 > Missing to finish the job : 
-> - 10 coin to accept. For now only one coin is available (Axel coin)
-> - State of the Masternode after the script ends
+> - 10 coin to accept. For now only three coin is available (Axel, StreamIT, Scap coin)
+> ~~- State of the Masternode after the script ends~~**Done**
 > - Watchdog to check masternodes health
 > - Automatic cold wallet deploy  :
 > 	- Install wallet
@@ -55,5 +55,6 @@ You're on stage, enjoy. Your reward will appear on the wallet.
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbOTkyNjA2NjgyLDIxMTg2MDY0NzddfQ==
+eyJoaXN0b3J5IjpbLTExNTE3NzUxNjYsOTkyNjA2NjgyLDIxMT
+g2MDY0NzddfQ==
 -->
