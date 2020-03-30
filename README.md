@@ -51,11 +51,13 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Update conf and synchronize with the hot masternode
 > 	- *Automatic reward convertion to BTC (nice to have)*
 >   - *Performance report (nice to have)*
->  - Website & App B2C  (need KYC, Authent 2FA, offline cold storage, Design thinking, payment system, administration declaration report, )
+>  - Website & App B2C crypto platform. Need : 
+> 	  - KYC
+>    - Authent 2FA, offline cold storage, Design thinking, payment system, administration declaration report, )
 > - *Hardware cold wallet masternode (nice to have)*
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbNTMxMDA3MjgwLC0xMTUxNzc1MTY2LDk5Mj
-YwNjY4MiwyMTE4NjA2NDc3XX0=
+eyJoaXN0b3J5IjpbLTEwMjAxNDcwNzQsLTExNTE3NzUxNjYsOT
+kyNjA2NjgyLDIxMTg2MDY0NzddfQ==
 -->
