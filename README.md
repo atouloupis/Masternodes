@@ -53,11 +53,16 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 >   - *Performance report (nice to have)*
 >  - Website & App B2C crypto platform. Need : 
 > 	  - KYC
->    - Authent 2FA, offline cold storage, Design thinking, payment system, administration declaration report, )
+>    - Authent 2FA
+>     - Offline cold storage
+>      - Design thinking
+>      - Payment system
+>      - Administration declaration report
+>      - strong security & decentralization (to define)
 > - *Hardware cold wallet masternode (nice to have)*
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTEwMjAxNDcwNzQsLTExNTE3NzUxNjYsOT
-kyNjA2NjgyLDIxMTg2MDY0NzddfQ==
+eyJoaXN0b3J5IjpbODYzNjAzNTUwLC0xMTUxNzc1MTY2LDk5Mj
+YwNjY4MiwyMTE4NjA2NDc3XX0=
 -->
