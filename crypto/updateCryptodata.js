@@ -17,7 +17,3 @@
 
 //Update ROI (faire le calcul avec les masterndoes)
 
-
-
-
-
