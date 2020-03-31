@@ -39,6 +39,7 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 
 > Missing to finish the job : 
 > - 10 coin to accept. For now only three coin is available (Axel, StreamIT, Scap coin)
+> - Dashboard to monitor & manage MN [In Progress]
 > ~~- State of the Masternode after the script ends~~**Done**
 > - Watchdog to check masternodes health
 > - Automatic cold wallet deploy  :
@@ -50,11 +51,18 @@ You're on stage, enjoy. Your reward will appear on the wallet.
 > 	- Update conf and synchronize with the hot masternode
 > 	- *Automatic reward convertion to BTC (nice to have)*
 >   - *Performance report (nice to have)*
->  - Website & App dashboard to monitor & manage crypto invest (need KYC, Authent 2FA, offline cold storage, Design thinking, payment system, administration declaration report, 
+>  - Website & App B2C crypto platform. Need : 
+> 	  - KYC
+>    - Authent 2FA
+>     - Offline cold storage
+>      - Design thinking
+>      - Payment system
+>      - Administration declaration report
+>      - strong security & decentralization (to define)
 > - *Hardware cold wallet masternode (nice to have)*
  
 
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTExNTE3NzUxNjYsOTkyNjA2NjgyLDIxMT
-g2MDY0NzddfQ==
+eyJoaXN0b3J5IjpbODYzNjAzNTUwLC0xMTUxNzc1MTY2LDk5Mj
+YwNjY4MiwyMTE4NjA2NDc3XX0=
 -->
