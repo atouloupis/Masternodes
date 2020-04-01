@@ -5,34 +5,43 @@ var mongo = require('../mongoDb');
 var urlMasternode = "mongodb://localhost:27017/masternode";
 var mongoClient = require('mongodb').MongoClient;
 var scaleway = require('../scaleway/scalewayApi');
-var crypto='Axel';
 
 function main(user, privKey, crypto){
 //Récupérer le dernier ID de masternode
-mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
-	if (err) throw err;
-	dbase = db.db("masternode");
-	query={crypto:crypto,user:user};
-	mongo.findRecords(dbase,'masternodes', query, {_id: -1}, function(res){
-		var nb = res.length;
-		db.close();
-//Appeler "createserv" avec en intput: Axel&ID
+	mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
+		if (err) throw err;
+		dbase = db.db("masternode");
+		query={crypto:crypto,user:user};
+		mongo.findRecords(dbase,'masternodes', query, {_id: -1}, function(res){
+			var nb = res.length;
+			db.close();
+			//Appeler "createserv" avec en intput: Axel&ID
 
-var serverName=crypto+nb;
-scaleway.postNewServer(serverName,crypto,user,function(response){
-var serverId=response.ops[0].serverId;
+			var serverName=crypto+nb;
+			if (crypto=="Energi"){
+				scaleway.postNewServer(serverName,'f974feac-abae-4365-b988-8ec7d1cec10d',crypto,user,function(response){
+					var serverId=response.ops[0].serverId;
 
-//Wait server is creating
-setTimeout(masternodeDeploy,60000,serverId, privKey); //Input priv key
-	});	
-});
-}); 
+				//Wait server is creating
+				setTimeout(masternodeDeploy,60000,serverId, privKey,crypto); //Input priv key
+				});
+			}
+			else{
+				scaleway.postNewServer(serverName,'3d6804e0-086e-4a06-8124-7240a657668d',crypto,user,function(response){
+					var serverId=response.ops[0].serverId;
 
+				//Wait server is creating
+				setTimeout(masternodeDeploy,60000,serverId, privKey,crypto); //Input priv key
+				});
+			}
+			
+		});
+	}); 
 }
 // --- Configurer le serveur Axel ----
 // Appeler le script ansible Axel avec en input la config du serveur
 
-function masternodeDeploy(serverId,privKey){
+function masternodeDeploy(serverId,privKey,crypto){
 	//Récupérer l'IP
 	scaleway.getServerInfos(serverId,function(res){
 		var serverIp=res.publicIp;

@@ -1,0 +1,47 @@
+---
+- name: Setup Energi masternode
+  hosts: current
+  gather_facts: no
+  environment:
+    SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
+
+  vars:
+    my_priv_key: "{{ my_priv_key }}"
+  
+  tasks:
+
+  - debug:
+      msg: Begin MN setup
+
+  # - name: update and upgrade apt packages
+    # apt:
+      # update_cache=yes
+      # state=latest
+      # upgrade=yes
+    
+  # - name: download & launch Energi Mn script
+    # shell: bash -ic "$(wget -4qO- -o- raw.githubusercontent.com/energicryptocurrency/energi3-provisioning/master/scripts/linux/energi3-linux-installer.sh)" ; source ~/.bashrc
+    
+  # - name: launch MN setup
+    # shell: echo {{ my_priv_key }} | /root/axel-install.sh -y
+
+  # - name: sleep for 40 seconds
+    # wait_for: timeout=40
+    # delegate_to: localhost
+
+  # - name: start masternode
+    # shell: axeld -daemon
+    
+  # - name: status of masternode
+    # shell: axel-cli getinfo && axel-cli masternode status
+
+  # - debug:
+      # var: my_ipaddr
+  # - debug:
+      # var: remote_user
+      
+      
+      # y
+      # a
+      # n
+      # n

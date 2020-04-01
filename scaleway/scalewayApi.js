@@ -30,7 +30,7 @@ jsonfile.readFile(keyfile, function (err, obj) {
 });
 }
 
-function postNewServer(serverName,tag1,tag2,callback){
+function postNewServer(serverName,image,tag1,tag2,callback){
 	jsonfile.readFile(keyfile, function (err, obj) {
 		if (err) throw err;
 		var options = {
@@ -46,7 +46,7 @@ function postNewServer(serverName,tag1,tag2,callback){
 		var body = {
 			'name':serverName,
 			'commercial_type':'DEV1-S',
-			'image':'3d6804e0-086e-4a06-8124-7240a657668d',
+			'image':image,
 			'organization':'92098415-46b0-43ef-90ef-727182f4c3b5',
 			'tags': [tag1,tag2]
 		};	
