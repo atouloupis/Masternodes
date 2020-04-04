@@ -11,7 +11,8 @@ const basic = auth.basic({
 });
 
 router.get('/', (req, res) => {
-  res.render('form', { title: 'Registration form' });
+  res.render('dashboard', { title: 'Dashboard - Masternode' });
+  console.log("router");
 });
 
 router.post('/',
