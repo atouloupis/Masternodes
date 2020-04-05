@@ -6,12 +6,21 @@ const { check, validationResult } = require('express-validator');
 
 const router = express.Router();
 const Registration = mongoose.model('Registration');
+const Masternodes = mongoose.model('Masternodes');
 const basic = auth.basic({
   file: path.join(__dirname, '../users.htpasswd'),
 });
 
-router.get('/', (req, res) => {
-  res.render('dashboard', { title: 'Dashboard - Masternode' });
+router.get('/', auth.connect(basic), (req, res) => {
+  Masternodes.find()
+    .then((masternodes) => {
+		console.log(masternodes.length);
+      res.render('dashboard', { title: 'Dashboard - Masternodes', masternodes });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send('Sorry! Something went wrong.');
+    });
 });
 
 router.post('/',
