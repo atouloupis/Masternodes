@@ -2,34 +2,34 @@ extends layout
 
 
 block content
-  //Begin Page Content -->
+  //Begin Page Content
   div.container-fluid
 
-    //Page Heading -->
+    //Page Heading
     div.d-sm-flex.align-items-center.justify-content-between.mb-4
-      h1.h3.mb-0.text-gray-800 Dashboard
+      h1.h3.mb-0.text-gray-800
+        |Dashboard
       a(href="#").d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm 
         i.fas.fa-download.fa-sm.text-white-50 
-          Generate Report
+        | Generate Report
 
-    //Content Row -->
+    //Content Row
     div.row
 
-      //Earnings (Monthly) Card Example -->
+      //Earnings (Monthly) Card Example
       div.col-xl-3.col-md-6.mb-4
         div.card.border-left-primary.shadow.h-100.py-2
-    div.card-body
-      div.row.no-gutters.align-items-center
-        div.col.mr-2
-          div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1 
-            Earnings (Monthly)
-          div.h5.mb-0.font-weight-bold.text-gray-800 
-            $40,000
+          div.card-body
+            div.row.no-gutters.align-items-center
+              div.col.mr-2
+                div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1 
+                  |Earnings (Monthly)
+                div.h5.mb-0.font-weight-bold.text-gray-800 
+                  |$40,000
+              div.col-auto
+                i.fas.fa-calendar.fa-2x.text-gray-300
 
-        div.col-auto
-          i.fas.fa-calendar.fa-2x.text-gray-300
-
-      //Earnings (Monthly) Card Example -->
+      //Earnings (Monthly) Card Example
       div.col-xl-3.col-md-6.mb-4
         div.card.border-left-success.shadow.h-100.py-2
     div.card-body
@@ -38,11 +38,11 @@ block content
           div.text-xs.font-weight-bold.text-success.text-uppercase.mb-1 
             Earnings (Annual)
           div.h5 mb-0 font-weight-bold text-gray-800
-            $215,000
+            |$215,000
         div.col-auto
           i.fas.fa-dollar-sign.fa-2x.text-gray-300
 
-      //Earnings (Monthly) Card Example -->
+      //Earnings (Monthly) Card Example
       div.col-xl-3.col-md-6.mb-4
         div.card.border-left-info.shadow.h-100.py-2
     div.card-body
@@ -53,14 +53,14 @@ block content
           div.row.no-gutters.align-items-center
       div.col-auto
         div.h5 mb-0.mr-3.font-weight-bold.text-gray-800
-          50%
+          |50%
       div.col
         div.progress.progress-sm.mr-2
           div.progress-bar.bg-info(role="progressbar",style="width: 50%",aria-valuenow="50",aria-valuemin="0",aria-valuemax="100")
         div.col-auto
           i.fas.fa-clipboard-list.fa-2x.text-gray-300
 
-      //Pending Requests Card Example -->
+      //Pending Requests Card Example
       div.col-xl-3.col-md-6.mb-4
         div.card.border-left-warning.shadow.h-100.py-2
     div.card-body
@@ -69,17 +69,17 @@ block content
           div.text-xs.font-weight-bold.text-warning.text-uppercase.mb-1
             Pending Requests
           div.h5.mb-0.font-weight-bold.text-gray-800
-            18
+            |18
         div.col-auto
           i.fas.fa-comments.fa-2x.text-gray-300
 
-    //Content Row -->
+    //Content Row
     div.row
 
-      //Area Chart -->
+      //Area Chart
       div.col-xl-8.col-lg-7
         div.card.shadow.mb-4
-    //Card Header - Dropdown -->
+    //Card Header - Dropdown
     div.card-header.py-3.d-flex.flex-row.align-items-center.justify-content-between
       h6.m-0.font-weight-bold.text-primaryEarnings 
         Overview
@@ -94,15 +94,15 @@ block content
           div.dropdown-divider
           a.dropdown-item(href="#Something else here")
 
-    //Card Body -->
+    //Card Body
     div.card-body
       div.chart-area
         canvas#myAreaChart
 
-      //Pie Chart -->
+      //Pie Chart
       div.col-xl-4.col-lg-5
         div.card.shadow.mb-4
-    //Card Header - Dropdown -->
+    //Card Header - Dropdown
     div.card-header.py-3.d-flex.flex-row.align-items-center.justify-content-between
       h6.m-0.font-weight-bold.text-primary
         Revenue Sources
@@ -117,7 +117,7 @@ block content
           div.dropdown-divider
           a.dropdown-item(href="#Something else here")
 
-    //Card Body -->
+    //Card Body
     div.card-body
       div.chart-pie.pt-4.pb-2
         canvas#myPieChart
@@ -135,13 +135,13 @@ block content
           i.fas.fa-circle.text-info
             Referral
 
-    //Content Row -->
+    //Content Row
     div.row
 
-      //Content Column -->
+      //Content Column
       div.col-lg-6.mb-4
 
-        //Project Card Example -->
+        //Project Card Example
         div.card.shadow.mb-4
     div.card-header.py-3
       h6.m-0.font-weight-bold.text-primary
@@ -150,35 +150,35 @@ block content
       h4.small.font-weight-bold
         Server Migration 
         span.float-right
-          20%
+          |20%
       div.progress.mb-4
         div.progress-bar.bg-danger(role="progressbar",style="width: 20%",aria-valuenow="20",aria-valuemin="0",aria-valuemax="100")
       h4.small font-weight-boldSales 
         Tracking
         span.float-right
-          40%
+          |40%
       div.progress.mb-4
         div.progress-bar.bg-warning(role="progressbar",style="width: 40%",aria-valuenow="40",aria-valuemin="0",aria-valuemax="100")
       h4.small.font-weight-bold 
         Customer Database 
         span.float-right
-          60%
+          |60%
       div.progress.mb-4
         div.progress-bar(role="progressbar",style="width: 60%",aria-valuenow="60",aria-valuemin="0",aria-valuemax="100")
       h4.small.font-weight-bold
         Payout Details
         span.float-right
-          80%
+          |80%
       div.progress.mb-4
         div.progress-bar.bg-info(role="progressbar",style="width: 80%",aria-valuenow="80",aria-valuemin="0",aria-valuemax="100")
       h4.small.font-weight-bold
         Account Setup 
         span.float-right
-          Complete!
+          |Complete!
       div.progress
         div.progress-bar.bg-success(role="progressbar",style="width: 100%",aria-valuenow="100",aria-valuemin="0",aria-valuemax="100")
 
-        //Color System -->
+        //Color System
         div.row
     div.col-lg-6.mb-4
       div.card.bg-primary.text-white.shadow
@@ -231,7 +231,7 @@ block content
 
       div.col-lg-6.mb-4
 
-        //Illustrations -->
+        //Illustrations
         div.card.shadow.mb-4
     div.card-header.py-3
       h6.m-0.font-weight-bold.text-primary
@@ -242,11 +242,11 @@ block content
       p 
         Add some quality, svg illustrations to your project courtesy of 
         a(target="_blank",rel="nofollow",href="https://undraw.co/unDraw")
-          , a constantly updated collection of beautiful svg images that you can use completely free and without attribution!
+          |, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!
       a(target="_blank",rel="nofollow",href="https://undraw.co/Browse") 
-        Illustrations on unDraw &rarr;
+        |Illustrations on unDraw &rarr;
 
-        //Approach -->
+        //Approach
         div.card.shadow.mb-4
     div.card-header.py-3
       h6.m-0.font-weight-bold.text-primary
@@ -255,4 +255,4 @@ block content
       p SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.
       p.mb-0 Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.
 
-  ///.container-fluid -->
+  ///.container-fluid
