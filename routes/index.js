@@ -4,23 +4,26 @@ const mongoose = require('mongoose');
 const path = require('path');
 const { check, validationResult } = require('express-validator');
 
+const dashboard = require('./dashboard_data');
 const router = express.Router();
 const Registration = mongoose.model('Registration');
 const Masternodes = mongoose.model('Masternodes');
 const basic = auth.basic({
-  file: path.join(__dirname, '../users.htpasswd'),
+  file: path.join(__dirname, '../conf/users.htpasswd'),
 });
 
 router.get('/', auth.connect(basic), (req, res) => {
+	dashboard.data(function(data){
   Masternodes.find()
     .then((masternodes) => {
 		console.log(masternodes.length);
-      res.render('dashboard', { title: 'Dashboard - Masternodes', masternodes });
+      res.render('dashboard', { title: 'Dashboard - Masternodes', masternodes, data });
     })
     .catch((err) => {
       console.log(err);
       res.send('Sorry! Something went wrong.');
     });
+	})
 });
 
 router.post('/',

@@ -2,7 +2,9 @@ module.exports.getServersList=getServersList;
 module.exports.postNewServer=postNewServer;
 module.exports.getServerInfos=getServerInfos;
 
-var keyfile = './key.json';
+const path = require('path');
+
+var keyfile = path.join(__dirname, '../../../conf/key.json');
 var jsonfile = require('jsonfile');
 var restFull = require('../restFullApi');
 var mongo = require('../mongoDb');

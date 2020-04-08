@@ -2,5 +2,4 @@ key.json
 node_modules/
 temp-host
 .env
-bootstrap/
 users.htpasswd

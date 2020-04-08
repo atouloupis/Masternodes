@@ -16,6 +16,7 @@ mongoose.connection
   
 require('./models/Registration');
 require('./models/Masternodes');
+require('./models/Crypto_datas');
 const app = require('./app');
 
 const server = app.listen(3000, () => {

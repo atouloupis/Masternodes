@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var install = require('./crypto/install');
+var install = require('./MNinstall/install');
 
 var readline = require("readline");
 var rl = readline.createInterface({

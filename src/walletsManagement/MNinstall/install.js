@@ -1,10 +1,11 @@
 //Axel masternode creation
+const path = require('path');
 var Ansible = require ('node-ansible');
 module.exports.main = main;
-var mongo = require('../mongoDb');
+var mongo = require('../../tools/mongoDb');
 var urlMasternode = "mongodb://localhost:27017/masternode";
 var mongoClient = require('mongodb').MongoClient;
-var scaleway = require('../scaleway/scalewayApi');
+var scaleway = require('../../tools/vps/scalewayApi');
 
 function main(user, privKey, crypto){
 //Récupérer le dernier ID de masternode
@@ -46,14 +47,13 @@ function masternodeDeploy(serverId,privKey,crypto){
 	scaleway.getServerInfos(serverId,function(res){
 		var serverIp=res.publicIp;
 		createHostFile(serverIp, function(){
-var command = new Ansible.Playbook().playbook('./crypto/'+crypto).variables({my_priv_key:privKey}).inventory('./temp-host');
-	command.on('stdout', function(data) { console.log(data.toString()); });
-command.on('stderr', function(data) { console.log(data.toString()); });
-		// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
-		var promise = command.exec();
-		promise.then(function(result) {
-				console.log(result);
-});
+			var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto)).variables({my_priv_key:privKey}).inventory('./temp-host');
+			command.on('stdout', function(data) { console.log(data.toString()); });
+			command.on('stderr', function(data) { console.log(data.toString()); });
+			// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
+			var promise = command.exec();
+			promise.then(function(result) {
+			});
 		});
 	});
 }
