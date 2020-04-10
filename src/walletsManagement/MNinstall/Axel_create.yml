@@ -1,0 +1,84 @@
+---
+- name: Setup Axel masternode
+  hosts: current
+  gather_facts: no
+  environment:
+    SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
+
+  vars:
+    serverName: "{{serverName}}"
+    
+
+  tasks:
+
+  - debug:
+      msg: Begin MN setup
+
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
+
+  - name: got to root folder
+    shell: cd /root
+    
+  - name: delete axel install if exists
+    shell: rm -f ./axel-install.sh
+    
+  - name: download axel Mn script
+    shell: wget https://raw.githubusercontent.com/axelnetwork/MN-Script/master/axel-install.sh && chmod u+x ./axel-install.sh
+    
+  # - name: launch MN setup
+    # shell: echo 123 | /root/axel-install.sh -y
+
+  - name: sleep for 40 seconds
+    wait_for: timeout=40
+    delegate_to: localhost
+
+  # - name: start masternode
+    # shell: axeld -daemon
+  - name: Desactivate masternode conf
+    lineinfile:
+      path: /root/.axel/axel.conf
+      regexp: '^masternode='
+      line: masternode= 0
+    
+  - name: start wallet
+    shell: axeld -daemon -conf=/root/.axel/axel.conf -datadir=/root/.axel -debug -logips=1 -forcestart -rescan
+    
+  - name: generate masternode priv key
+    shell: axel-cli masternode genkey
+    register: masternodeprivkey
+
+  - name: Update masternode priv key
+    lineinfile:
+      path: /root/.axel/axel.conf
+      regexp: '^masternodeprivkey='
+      line: masternodeprivkey= {{ masternodeprivkey.stdout }}
+
+  - name: generate wallet pub key
+    shell: axel-cli getaccountaddress "MN{{ serverName }}"
+    register: pub_key
+
+  - name: backup wallet
+    shell: axel-cli dumpwallet "backup_{{ serverName }}"
+
+  - name: storing backup
+    fetch:
+      src: backup_{{ serverName }}
+      dest: tmp/backup_{{ serverName }}
+      flat: yes
+    
+  - name: store important variable
+    local_action :
+      module: copy
+      content: '{"pubKey": {{ pub_key.stdout }} }, "masternodeprivkey":{{ masternodeprivkey.stdout }}'
+      dest: ./output_data_{{ serverName }}.json
+
+  - name: status of masternode
+    shell: axel-cli getinfo
+    register: axel_status
+
+  - debug:
+      var: axel_status

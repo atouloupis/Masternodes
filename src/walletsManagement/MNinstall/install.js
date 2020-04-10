@@ -1,5 +1,6 @@
 //Axel masternode creation
 const path = require('path');
+var keyfile = path.join(__dirname, '../../../conf/key.json');
 var Ansible = require ('node-ansible');
 module.exports.main = main;
 var mongo = require('../../tools/mongoDb');
@@ -24,7 +25,7 @@ function main(user, privKey, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, privKey,crypto); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto); //Input priv key
 				});
 			}
 			else{
@@ -32,7 +33,7 @@ function main(user, privKey, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, privKey,crypto); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto); //Input priv key
 				});
 			}
 			
@@ -42,12 +43,12 @@ function main(user, privKey, crypto){
 // --- Configurer le serveur Axel ----
 // Appeler le script ansible Axel avec en input la config du serveur
 
-function masternodeDeploy(serverId,privKey,crypto){
+function masternodeDeploy(serverId,serverName,crypto){
 	//Récupérer l'IP
 	scaleway.getServerInfos(serverId,function(res){
 		var serverIp=res.publicIp;
 		createHostFile(serverIp, function(){
-			var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto)).variables({my_priv_key:privKey}).inventory('./temp-host');
+			var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto+"_create")).variables({serverName:serverName}).inventory('./temp-host');
 			command.on('stdout', function(data) { console.log(data.toString()); });
 			command.on('stderr', function(data) { console.log(data.toString()); });
 			// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host

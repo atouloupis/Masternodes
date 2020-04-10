@@ -3,3 +3,5 @@ node_modules/
 temp-host
 .env
 users.htpasswd
+tmp/
+output_data*
