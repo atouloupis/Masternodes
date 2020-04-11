@@ -65,7 +65,8 @@ function postNewServer(serverName,image,tag1,tag2,callback){
 						creationDate:res1.server.creation_date,
 						serverId:res1.server.id ,
 						crypto:tag1,
-						user:tag2
+						user:tag2,
+						status:"ongoing"
 					}]
 					mongo.insertCollection(dbase,'masternodes', myObj, function(res){
 						db.close();

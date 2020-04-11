@@ -3,11 +3,11 @@
   hosts: current
   gather_facts: no
   environment:
-    SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
+    SCW_API_KEY: {{SCW_API_KEY}}
 
   vars:
     serverName: "{{serverName}}"
-    
+    SCW_API_KEY:"{{SCW_API_KEY}}"
 
   tasks:
 
@@ -67,8 +67,9 @@
   - name: storing backup
     fetch:
       src: backup_{{ serverName }}
-      dest: tmp/backup_{{ serverName }}
+      dest: backup/backup_{{ serverName }}
       flat: yes
+    
     
   - name: store important variable
     local_action :

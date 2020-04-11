@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var install = require('./MNinstall/install');
+var install = require('./MNinstall/createMN');
 
 var readline = require("readline");
 var rl = readline.createInterface({
@@ -10,9 +10,6 @@ var rl = readline.createInterface({
 //Select name, priv key, crypto
 rl.question("What is the crypto ? ", function(crypto) {
 rl.question("What is the user ? ", function(name) {
-    rl.question("What is the private key ? ", function(priv_key) {
-        console.log( `Hello ${name}, your Masternode ${crypto} is under setup, the private key is  ${priv_key}`);
-		install.main(name,priv_key,crypto);
-    });
+		install.main(name,crypto);
 });
 });

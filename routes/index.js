@@ -5,6 +5,7 @@ const path = require('path');
 const { check, validationResult } = require('express-validator');
 
 const dashboard = require('./dashboard_data');
+const masternodes = require('./masternodes_data');
 const router = express.Router();
 const Registration = mongoose.model('Registration');
 const Masternodes = mongoose.model('Masternodes');
@@ -25,6 +26,19 @@ router.get('/', auth.connect(basic), (req, res) => {
     });
 	})
 });
+
+router.get('/masternodes', auth.connect(basic), (req, res) => {
+	masternodes.data(function(data){
+		res.render('masternodes', { title: 'Masternodes - Management', data });
+		.catch((err) => {
+			console.log(err);
+			res.send('Sorry! Something went wrong.');
+		});
+	})
+});
+
+
+
 
 router.post('/',
   [

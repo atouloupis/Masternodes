@@ -7,8 +7,10 @@ var mongo = require('../../tools/mongoDb');
 var urlMasternode = "mongodb://localhost:27017/masternode";
 var mongoClient = require('mongodb').MongoClient;
 var scaleway = require('../../tools/vps/scalewayApi');
+var jsonfile = require('jsonfile');
 
-function main(user, privKey, crypto){
+
+function main(user, crypto){
 //Récupérer le dernier ID de masternode
 	mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
 		if (err) throw err;
@@ -25,7 +27,7 @@ function main(user, privKey, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(){}); //Input priv key
 				});
 			}
 			else{
@@ -33,7 +35,7 @@ function main(user, privKey, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(){}); //Input priv key
 				});
 			}
 			
@@ -43,21 +45,38 @@ function main(user, privKey, crypto){
 // --- Configurer le serveur Axel ----
 // Appeler le script ansible Axel avec en input la config du serveur
 
-function masternodeDeploy(serverId,serverName,crypto){
+function masternodeDeploy(serverId,serverName,crypto,dbase,callback){
 	//Récupérer l'IP
 	scaleway.getServerInfos(serverId,function(res){
 		var serverIp=res.publicIp;
 		createHostFile(serverIp, function(){
-			var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto+"_create")).variables({serverName:serverName}).inventory('./temp-host');
-			command.on('stdout', function(data) { console.log(data.toString()); });
-			command.on('stderr', function(data) { console.log(data.toString()); });
-			// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
-			var promise = command.exec();
-			promise.then(function(result) {
+			jsonfile.readFile(keyfile, function (err, obj) {
+				var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto+"_create")).variables({serverName:serverName,SCW_API_KEY:obj.scalewayApi.pkey}).inventory('./temp-host');
+				command.on('stdout', function(data) { console.log(data.toString()); });
+				command.on('stderr', function(data) { console.log(data.toString()); });
+				// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
+				var promise = command.exec();
+				promise.then(function(result) {
+					jsonfile.readFile(path.join(__dirname,"output_data_"+serverName), function (err, obj) {
+						if (err) throw err;
+						var MNobj = {
+						backup:path.join(__dirname,"/backup/backup_"+serverName),
+						masternodeprivatekey:obj.masternodeprivatekey,
+						pubkey:obj.pubKey,
+						ip:serverIp,
+						status:"installed"
+						};
+						var query={serverName:serverName};
+						mongo.updateCollection(dbase,'masternodes', query, MNobj, function(res){
+							callback('Done');
+						});
+					});
+				});
 			});
 		});
 	});
 }
+
 
 function createHostFile(serverIp, callback){
 	var fs = require('fs');

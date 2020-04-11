@@ -3,10 +3,13 @@
   hosts: current
   gather_facts: no
   environment:
-    SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
+    SCW_API_KEY: {{SCW_API_KEY}}
 
   vars:
- #   my_priv_key: "{{ my_priv_key }}"
+    servername:"{{ servername}}"
+    pub_IP:"{{pub_IP}}"
+    masternode_priv_key:"{{ masternode_priv_key }}"
+    SCW_API_KEY: "{{SCW_API_KEY}}"
   
   tasks:
 
@@ -15,12 +18,12 @@
       
   - name: get Tx Id
     shell: axel-cli masternode outputs
-    register: tx_id
+    register: txid
 
   - name: Add masternode conf
     lineinfile:
       path: /root/.axel/masternode.conf
-      line: MN{{ servername}} {{pub_IP}}:32323 {{ masternode_priv_key }} {{ tx_id }}
+      line: MN{{ servername}} {{pub_IP}}:32323 {{ masternode_priv_key }} {{ tx_id.stdout }}
       insertafter: EOF
 
   - name: Desactivate masternode conf
@@ -37,8 +40,8 @@
   - name : store important variable
   - local_action :
     module: copy
-    content: "{{ tx_id }}"
+    content: '"txid":{{ txid.stdout }}'
     dest: ./output_data
 
   - name: status of masternode
-    shell: axel-cli getinfo
+    shell: axel-cli masternode status
