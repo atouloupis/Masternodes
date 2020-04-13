@@ -1,0 +1,34 @@
+---
+- name: Setup Axel masternode
+  hosts: current
+  gather_facts: no
+  environment:
+    SCW_API_KEY: "{{SCW_API_KEY}}"
+
+  vars:
+    masternode_priv_key:"{{ masternode_priv_key }}"
+  
+  tasks:
+
+  - debug:
+      msg: Begin Axel Only MN config
+
+  - name: Activate masternode conf
+    lineinfile:
+      path: /root/.axel/axel.conf
+      regexp: '^masternodeprivkey='
+      line: "masternodeprivkey= {{ masternode_priv_key }}"
+
+  - name: Activate masternode conf
+    lineinfile:
+      path: /root/.axel/axel.conf
+      regexp: '^masternode='
+      line: "masternode= 1"
+
+  - name: stop wallet
+    shell: axel-cli stop
+  - name: start wallet
+    shell: axeld -daemon -conf=/root/.axel/axel.conf -datadir=/root/.axel -debug -logips=1 -forcestart -rescan
+
+  - name: status of masternode
+    shell: axel-cli masternode status

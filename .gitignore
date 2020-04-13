@@ -5,3 +5,5 @@ temp-host
 users.htpasswd
 tmp/
 output_data*
+.output_data*
+backup*

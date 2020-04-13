@@ -3,13 +3,12 @@
   hosts: current
   gather_facts: no
   environment:
-    SCW_API_KEY: {{SCW_API_KEY}}
+    SCW_API_KEY: "{{SCW_API_KEY}}"
 
   vars:
     servername:"{{ servername}}"
     pub_IP:"{{pub_IP}}"
     masternode_priv_key:"{{ masternode_priv_key }}"
-    SCW_API_KEY: "{{SCW_API_KEY}}"
   
   tasks:
 

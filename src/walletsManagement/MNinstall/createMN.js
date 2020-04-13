@@ -20,14 +20,13 @@ function main(user, crypto){
 			var nb = res.length;
 			db.close();
 			//Appeler "createserv" avec en intput: Axel&ID
-
 			var serverName=crypto+nb;
 			if (crypto=="Energi"){
 				scaleway.postNewServer(serverName,'f974feac-abae-4365-b988-8ec7d1cec10d',crypto,user,function(response){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(){}); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(MNinfos){return MNinfos}); //Input priv key
 				});
 			}
 			else{
@@ -35,7 +34,7 @@ function main(user, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(){}); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(MNinfos){return MNinfos}); //Input priv key
 				});
 			}
 			
@@ -51,16 +50,17 @@ function masternodeDeploy(serverId,serverName,crypto,dbase,callback){
 		var serverIp=res.publicIp;
 		createHostFile(serverIp, function(){
 			jsonfile.readFile(keyfile, function (err, obj) {
-				var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto+"_create")).variables({serverName:serverName,SCW_API_KEY:obj.scalewayApi.pkey}).inventory('./temp-host');
+				console.log(obj.scalewayApi.pkey);
+				var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto+"_create")).variables({serverName:serverName,SCW_API_KEY:obj.scalewayApi.pkey}).inventory(path.join(__dirname,"../../../temp-host"));
 				command.on('stdout', function(data) { console.log(data.toString()); });
 				command.on('stderr', function(data) { console.log(data.toString()); });
 				// ansible-playbook -v crypto/Axel.yml --extra-vars "ip=51.158.124.213" -i temp-host
 				var promise = command.exec();
 				promise.then(function(result) {
-					jsonfile.readFile(path.join(__dirname,"output_data_"+serverName), function (err, obj) {
+					jsonfile.readFile(path.join(__dirname,".output_data_"+serverName+".json"), function (err, obj) {
 						if (err) throw err;
 						var MNobj = {
-						backup:path.join(__dirname,"/backup/backup_"+serverName),
+						backup:path.join(__dirname,"/backup/.backup_"+serverName),
 						masternodeprivatekey:obj.masternodeprivatekey,
 						pubkey:obj.pubKey,
 						ip:serverIp,
@@ -68,7 +68,7 @@ function masternodeDeploy(serverId,serverName,crypto,dbase,callback){
 						};
 						var query={serverName:serverName};
 						mongo.updateCollection(dbase,'masternodes', query, MNobj, function(res){
-							callback('Done');
+							callback(query);
 						});
 					});
 				});

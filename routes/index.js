@@ -1,11 +1,11 @@
+const async = require('asyncawait/async');
 const auth = require('http-auth');
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const { check, validationResult } = require('express-validator');
-
-const dashboard = require('./dashboard_data');
-const masternodes = require('./masternodes_data');
+const dashboard_data = require('./dashboard_data');
+const masternodes_data = require('./masternodes_data');
 const router = express.Router();
 const Registration = mongoose.model('Registration');
 const Masternodes = mongoose.model('Masternodes');
@@ -28,16 +28,22 @@ router.get('/', auth.connect(basic), (req, res) => {
 });
 
 router.get('/masternodes', auth.connect(basic), (req, res) => {
-	masternodes.data(function(data){
+	masternodes_data.data(function(data){
 		res.render('masternodes', { title: 'Masternodes - Management', data });
-		.catch((err) => {
-			console.log(err);
-			res.send('Sorry! Something went wrong.');
-		});
 	})
 });
 
-
+router.post('/masternodes',
+  async((req, res) => {
+	  console.log(req.body);
+		//res.render('masternodes', { title: 'Masternodes - Management'});
+	masternodes_data.createMN(req.body.crypto,req.body.user)
+	    .then((MNinfos) => {
+			return res.redirect('/masternodes');
+	    }, (error) => {
+		    return res.redirect('/masternodes');;
+		})
+  }));
 
 
 router.post('/',

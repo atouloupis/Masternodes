@@ -3,11 +3,10 @@
   hosts: current
   gather_facts: no
   environment:
-    SCW_API_KEY: {{SCW_API_KEY}}
+    SCW_API_KEY: "{{SCW_API_KEY}}"
 
   vars:
     serverName: "{{serverName}}"
-    SCW_API_KEY:"{{SCW_API_KEY}}"
 
   tasks:
 
@@ -29,15 +28,13 @@
   - name: download axel Mn script
     shell: wget https://raw.githubusercontent.com/axelnetwork/MN-Script/master/axel-install.sh && chmod u+x ./axel-install.sh
     
-  # - name: launch MN setup
-    # shell: echo 123 | /root/axel-install.sh -y
+  - name: launch MN setup
+    shell: echo 123 | /root/axel-install.sh -y
 
   - name: sleep for 40 seconds
     wait_for: timeout=40
     delegate_to: localhost
 
-  # - name: start masternode
-    # shell: axeld -daemon
   - name: Desactivate masternode conf
     lineinfile:
       path: /root/.axel/axel.conf
@@ -67,15 +64,23 @@
   - name: storing backup
     fetch:
       src: backup_{{ serverName }}
-      dest: backup/backup_{{ serverName }}
+      dest: backup/.backup_{{ serverName }}
       flat: yes
-    
+
+  - name: cron empty log file
+    lineinfile:
+      path: /etc/cron.d/sysstat
+      line: "*/10 * * * * root find /root/.axel/ -name debug.log -size +1G -exec truncate -s 0 {} \\;"
+      insertafter: EOF
+
+  - name: restart crontab
+    shell: /etc/init.d/cron force-reload
     
   - name: store important variable
     local_action :
       module: copy
       content: '{"pubKey": {{ pub_key.stdout }} }, "masternodeprivkey":{{ masternodeprivkey.stdout }}'
-      dest: ./output_data_{{ serverName }}.json
+      dest: ./.output_data_{{ serverName }}.json
 
   - name: status of masternode
     shell: axel-cli getinfo
