@@ -5,6 +5,7 @@ const Crypto_datas = mongoose.model('Crypto_datas');
 const createMNscript = require(path.join(__dirname,'../src/walletsManagement/MNinstall/createMN'));
 const async = require('asyncawait/async');
 const await = require('asyncawait/await');
+
 //1. Import coingecko-api
 const CoinGecko = require('coingecko-api');
 //2. Initiate the CoinGecko API Client
@@ -15,7 +16,7 @@ var func = async() => {
   let data = await CoinGeckoClient.ping();
 };
 
-function data( res){
+function data(res){
 	var MNinfo = [];
 	Masternodes.find().then((masternodes) => {
 		masternodes.forEach( masternodes =>{
@@ -31,25 +32,25 @@ function data( res){
 				{
 				if(MNinfo[i].crypto==masternodes.crypto)
 				{
-					MNinfo[i].count=MNinfo[i].count+1
+					MNinfo[i].count=MNinfo[i].count+1;
 				}
 				}
 			}
 		});
 		console.log(MNinfo);
+		
 		res(MNinfo);
 	})
 }
 
-const createMN = async ((crypto,user)=>{
-	console.log("Create MN " + crypto);
-	console.log("user "+user);
-	console.log(createMNscript);
-	const promise = createMNscript.main(user,crypto);
-	const MNinfos = await(promise);
-	console.log(MNinfos);
-	return MNinfos;
-})
+const createMN = async ((io,crypto,user)=>{
+	// const promise = createMNscript.main(user, crypto);
+	// const MNinfos = await(promise);
+	io.sockets.on('connection', function (socket) {
+		socket.emit('MNinfos', "Le serveur vous salue !");
+
+	});
+});
 
 module.exports.data = data;
 exports.createMN = createMN;

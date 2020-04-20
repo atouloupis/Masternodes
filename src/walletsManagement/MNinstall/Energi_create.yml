@@ -1,0 +1,104 @@
+---
+- name: Setup Energi masternode
+  hosts: current
+  gather_facts: no
+  environment:
+    SCW_API_KEY: "SCW7JVYVXWJ43ZCZNQ0W"
+
+  vars:
+    my_priv_key: "{{ my_priv_key }}"
+  
+  tasks:
+
+  - debug:
+      msg: Begin MN setup
+
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
+    
+  - name: Create keystore dir
+  file:
+    path: home/nrgstaker/.energi3/keystore
+    state: directory
+    
+  - name: Create keystore file
+  file:
+    path: home/nrgstaker/.energi3/keystore/UTC-123
+    state: touch
+    
+    #name: copy/paste wallet information in /home/nrgstaker/.energi3/keystore/UTC-123
+    
+    
+  - name: download & launch Energi Mn script
+    shell: echo y | echo a | echo n | echo n | bash -ic "$(wget -4qO- -o- raw.githubusercontent.com/energicryptocurrency/energi3-provisioning/master/scripts/linux/energi3-linux-installer.sh)" ; source ~/.bashrc
+    
+    
+  # - name: launch MN setup
+    # shell: echo {{ my_priv_key }} | /root/axel-install.sh -y
+
+  # - name: sleep for 40 seconds
+    # wait_for: timeout=40
+    # delegate_to: localhost
+
+  # - name: start masternode
+    # shell: axeld -daemon
+    
+  # - name: status of masternode
+    # shell: axel-cli getinfo && axel-cli masternode status
+
+  # - debug:
+      # var: my_ipaddr
+  # - debug:
+      # var: remote_user
+      
+  systemctl restart energi3
+  energi3 attach --exec xxxx
+
+  // download last blocks
+  exit
+  systemctl stop energi3
+  su nrgstaker
+  energi3 removedb -y
+  wget https://github.com/energicryptocurrency/energi3-provisioning/releases/download/v2020.04.07/gen3-chaindata.tar.gz
+  tar xvfz gen3-chaindata.tar.gz
+  systemctl restart energi3
+
+
+
+
+  //create keystore file & masternode address wallet
+  su nrgstaker
+  energi3 attach --exec personal.newAccount()
+  echo password | echo password
+
+  //get adress wallet
+  energi3 attach --exec personal.listAccounts
+  register publ address wallet
+
+  //copy keystore file (bkcup)
+  .energicore3/keystore/UTC*
+
+  //get enode info
+  energi3 attach --exec admin.nodeInfo.enode
+  register
+
+
+  //////deposit collateral so address wallet or copy/past personnal keystore/////
+
+  ///Next launch MN
+
+  energi3 attach --exec masternode.announce('walletadresswithcollateral', admin.nodeInfo.enode, 'password')
+  energi3 attach --exec masternode.announce('0x41035ec27017147c1735648368a269d0ad635b51', admin.nodeInfo.enode, 'password')
+  "0xf250c030e3a5a79610d4ff159d4082f26564668d814bc287adb3427da7cec152"
+
+  ///status
+  masternode.masternodeInfo('0x41035ec27017147c1735648368a269d0ad635b51')
+
+ eth.getBalance('0x41035ec27017147c1735648368a269d0ad635b51')
+
+ masternode.collateralBalance('0x41035ec27017147c1735648368a269d0ad635b51')
+
+ masternode.masternodeInfo('0x41035ec27017147c1735648368a269d0ad635b51')

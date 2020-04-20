@@ -12,13 +12,12 @@ var jsonfile = require('jsonfile');
 
 function main(user, crypto){
 //Récupérer le dernier ID de masternode
-	mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
+	mongoClient.connect(urlMasternode, { useUnifiedTopology: true }, function(err, db) {
 		if (err) throw err;
 		dbase = db.db("masternode");
 		query={crypto:crypto,user:user};
 		mongo.findRecords(dbase,'masternodes', query, {_id: -1}, function(res){
 			var nb = res.length;
-			db.close();
 			//Appeler "createserv" avec en intput: Axel&ID
 			var serverName=crypto+nb;
 			if (crypto=="Energi"){
@@ -26,7 +25,10 @@ function main(user, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(MNinfos){return MNinfos}); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,function(MNinfos){
+					db.close();
+					return MNinfos
+					});
 				});
 			}
 			else{
@@ -34,7 +36,12 @@ function main(user, crypto){
 					var serverId=response.ops[0].serverId;
 
 				//Wait server is creating
-				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,dbase,function(MNinfos){return MNinfos}); //Input priv key
+				setTimeout(masternodeDeploy,60000,serverId, serverName,crypto,function(MNinfos){
+					console.log("CreateMN");
+					console.log(MNinfos);
+					db.close();
+					return MNinfos
+					});
 				});
 			}
 			
@@ -44,13 +51,12 @@ function main(user, crypto){
 // --- Configurer le serveur Axel ----
 // Appeler le script ansible Axel avec en input la config du serveur
 
-function masternodeDeploy(serverId,serverName,crypto,dbase,callback){
+function masternodeDeploy(serverId,serverName,crypto,callback){
 	//Récupérer l'IP
 	scaleway.getServerInfos(serverId,function(res){
 		var serverIp=res.publicIp;
 		createHostFile(serverIp, function(){
 			jsonfile.readFile(keyfile, function (err, obj) {
-				console.log(obj.scalewayApi.pkey);
 				var command = new Ansible.Playbook().playbook(path.join(__dirname,crypto+"_create")).variables({serverName:serverName,SCW_API_KEY:obj.scalewayApi.pkey}).inventory(path.join(__dirname,"../../../temp-host"));
 				command.on('stdout', function(data) { console.log(data.toString()); });
 				command.on('stderr', function(data) { console.log(data.toString()); });
@@ -59,16 +65,20 @@ function masternodeDeploy(serverId,serverName,crypto,dbase,callback){
 				promise.then(function(result) {
 					jsonfile.readFile(path.join(__dirname,".output_data_"+serverName+".json"), function (err, obj) {
 						if (err) throw err;
-						var MNobj = {
-						backup:path.join(__dirname,"/backup/.backup_"+serverName),
-						masternodeprivatekey:obj.masternodeprivatekey,
-						pubkey:obj.pubKey,
-						ip:serverIp,
-						status:"installed"
-						};
-						var query={serverName:serverName};
-						mongo.updateCollection(dbase,'masternodes', query, MNobj, function(res){
-							callback(query);
+						var MNobj = {$set:{
+						'backup':path.join(__dirname,"/backup/.backup_"+serverName),
+						'masternodeprivatekey':obj.masternodeprivkey,
+						'pubkey':obj.pubKey,
+						'ip':serverIp,
+						'status':"installed"
+						}};
+						var query={'serverName':serverName};
+						mongoClient.connect(urlMasternode, { useUnifiedTopology: true }, function(err, db) {
+							if (err) throw err;
+							dbase = db.db("masternode");
+							mongo.updateCollection(dbase,'masternodes', query, MNobj, function(res){
+								callback(MNobj);
+							});
 						});
 					});
 				});

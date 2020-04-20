@@ -1,4 +1,6 @@
+const start = require('../start');
 const async = require('asyncawait/async');
+const test_async =require('./test_async');
 const auth = require('http-auth');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -34,16 +36,16 @@ router.get('/masternodes', auth.connect(basic), (req, res) => {
 });
 
 router.post('/masternodes',
-  async((req, res) => {
-	  console.log(req.body);
-		//res.render('masternodes', { title: 'Masternodes - Management'});
-	masternodes_data.createMN(req.body.crypto,req.body.user)
-	    .then((MNinfos) => {
-			return res.redirect('/masternodes');
-	    }, (error) => {
-		    return res.redirect('/masternodes');;
-		})
-  }));
+  async(req, res) => {
+	// masternodes_data.createMN(req.body.crypto,req.body.user)
+	    // .then((MNinfos) => {
+			// return res.render('masternodes',{ title: 'Masternodes - Management', MNinfos});
+	    // }, (error) => {
+		    // return res.render('masternodes');;
+		// })
+		const MNinfos= masternodes_data.createMN(start.io,req.body.crypto,req.body.user);
+		res.redirect('/masternodes');
+  });
 
 
 router.post('/',
@@ -87,3 +89,4 @@ router.get('/registrations', auth.connect(basic), (req, res) => {
 });
 
 module.exports = router;
+

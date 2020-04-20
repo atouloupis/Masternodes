@@ -22,3 +22,13 @@ const app = require('./app');
 const server = app.listen(3000, () => {
 	console.log(`Express is running on port ${server.address().port}`);
 });
+
+const io = require('socket.io').listen(server);
+io.on('connection', function(socket) {
+    console.log('a user connected');
+	socket.on('message', function (message) {
+	console.log(message);
+	});
+});
+
+exports.io = io;

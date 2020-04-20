@@ -1,5 +1,5 @@
 ---
-- name: Setup Axel masternode
+- name: Setup Scap masternode
   hosts: current
   gather_facts: no
   environment:
@@ -7,59 +7,47 @@
 
   vars:
     serverName: "{{serverName}}"
-
+  
   tasks:
-
-  - debug:
-      msg: Begin MN setup
 
   - name: update and upgrade apt packages
     apt:
       update_cache=yes
       state=latest
       upgrade=yes
-
-  - name: got to root folder
-    shell: cd /root
-    
-  - name: delete axel install if exists
-    shell: rm -f ./axel-install.sh
-    
-  - name: download axel Mn script
-    shell: wget https://raw.githubusercontent.com/axelnetwork/MN-Script/master/axel-install.sh && chmod u+x ./axel-install.sh
-    
+     
   - name: launch MN setup
-    shell: echo 123 | /root/axel-install.sh -y
-
+    shell: wget -qO- https://github.com/SafeCapital/mn-installer/releases/latest/download/scap_mn_installer.sh | bash
+    
   - name: sleep for 20 seconds
     wait_for: timeout=20
     delegate_to: localhost
 
   - name: Desactivate masternode conf
     lineinfile:
-      path: /root/.axel/axel.conf
+      path: /root/.safecapital/safecapital.conf
       regexp: '^masternode='
       line: masternode= 0
     
   - name: start wallet
-    shell: axeld -daemon -conf=/root/.axel/axel.conf -datadir=/root/.axel -debug -logips=1 -forcestart -rescan
+    shell: systemctl start safecapitald.service
 
   - name: sleep for 20 seconds
     wait_for: timeout=20
     delegate_to: localhost
 
   - name: generate masternode priv key
-    shell: axel-cli masternode genkey
+    shell: safecapital-cli masternode genkey
     register: masternodeprivkey
 
   - name: Update masternode priv key
     lineinfile:
-      path: /root/.axel/axel.conf
+      path: /root/.safecapital/safecapital.conf
       regexp: '^masternodeprivkey='
       line: masternodeprivkey= {{ masternodeprivkey.stdout }}
 
   - name: generate wallet pub key
-    shell: axel-cli getaccountaddress "MN{{ serverName }}"
+    shell: safecapital-cli getaccountaddress "MN{{ serverName }}"
     register: pub_key
 
   - name: sleep for 5 seconds
@@ -67,7 +55,7 @@
     delegate_to: localhost
 
   - name: backup wallet
-    shell: axel-cli dumpwallet "/root/backup_{{ serverName }}"
+    shell: safecapital-cli dumpwallet "/root/backup_{{ serverName }}"
 
   - name: storing backup
     fetch:
@@ -78,7 +66,7 @@
   - name: cron empty log file
     lineinfile:
       path: /etc/cron.d/sysstat
-      line: "*/10 * * * * root find /root/.axel/ -name debug.log -size +1G -exec truncate -s 0 {} \\;"
+      line: "*/10 * * * * root find /root/.safecapital/ -name debug.log -size +1G -exec truncate -s 0 {} \\;"
       insertafter: EOF
 
   - name: restart crontab
@@ -91,8 +79,8 @@
       dest: ./.output_data_{{ serverName }}.json
 
   - name: status of masternode
-    shell: axel-cli getinfo
-    register: axel_status
+    shell: safecapital-cli getinfo
+    register: status
 
   - debug:
-      var: axel_status
+      var: status

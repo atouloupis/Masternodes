@@ -62,6 +62,9 @@ function update(dbase,collectionName, query, newValues, callback) {
         {console.log(err);
             console.log("UPDATE ERROR")
             console.log(dbase+collectionName+query+newValues);
+			console.log(dbase);
+			console.log(query);
+			console.log(newValues);
         }
         callback(res);
     });
