@@ -1,0 +1,158 @@
+---
+- name: Setup iqcash masternode
+  hosts: current
+  gather_facts: no
+  environment:
+    SCW_API_KEY: "{{SCW_API_KEY}}"
+
+  vars:
+    serverName: "{{serverName}}"
+  
+  tasks:
+
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
+      
+  - name: upgrade iqcash
+    shell: sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+  - name: installs for iqcash
+    shell: sudo apt install curl wget git python3 python3-pip virtualenv -y
+
+  - name: download install
+    shell: wget https://github.com/IQ-Cash/iqcash/releases/download/v0.8.2.2/iqcash-cli-linux.tar.gz --directory-prefix /root/
+
+  - name: untar install
+    shell: tar -xzvf /root/iqcash-cli-linux.tar.gz -C /root/
+  - name: delete tar file
+    shell: rm /root/iqcash-cli-linux.tar.gz
+  - name: create dir
+    shell: mkdir /root/.iqcashcore/
+  - name: chown
+    shell: chown -R root:root /root/iqcash*
+  - name: chmod
+    shell: chmod 755 /root/iqcash*
+  - name: update iqcash.conf
+    shell: echo -e "rpcuser=iqcashrpc\nrpcpassword=1234\nlisten=1\nserver=1\nrpcallowip=127.0.0.1\nmaxconnections=256" | sudo tee /root/.iqcashcore/iqcash.conf
+  - name: chown
+    shell: chown -R root:root /root/.iqcashcore/
+  - name: chmod
+    shell: chmod 500 /root/.iqcashcore/iqcash.conf
+
+  - name: update iqcash service conf
+    shell:
+      cmd: |
+        tee /etc/systemd/system/iqcash.service <<EOF
+        [Unit]
+        Description=IQcash, distributed currency daemon
+        After=network.target
+        [Service]
+        User=root
+        Group=root
+        WorkingDirectory=/root/
+        ExecStart=/root/iqcashd
+        Restart=always
+        PrivateTmp=true
+        TimeoutStopSec=60s
+        TimeoutStartSec=2s
+        StartLimitInterval=120s
+        StartLimitBurst=5
+        [Install]
+        WantedBy=multi-user.target
+        EOF
+
+  - name: enable iqcash
+    shell: systemctl enable iqcash
+
+  - name: start iqcash
+    shell: systemctl start iqcash
+
+  - name: sleep for 20 seconds
+    wait_for: timeout=20
+    delegate_to: localhost
+  - name: get IP
+    shell: curl -s -4 ifconfig.co
+    register: externalip
+  - name: launch MN setup
+    shell: echo -e "externalip={{externalip}}:14014" | sudo tee -a /home/iqcash/.iqcashcore/iqcash.conf
+
+  - name: git clone sentinel
+    shell: git clone https://github.com/IQ-Cash/sentinel.git /root/sentinel/
+  - name: chown
+    shell: chown -R root:root /root/sentinel/
+  - name: create virt env
+    shell: sudo -H -u root virtualenv -p python3 ./venv
+    args:
+      chdir: /root/sentinel/
+  - name: run pip install
+    shell: sudo -H -u root ./venv/bin/pip install -r requirements.txt
+    args:
+      chdir: /root/sentinel/
+  - name: cron sentinel
+    shell: echo "* * * * * root cd /root/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1" | sudo tee /etc/cron.d/iqcash_sentinel
+  - name: chmod
+    shell: chmod 644 /etc/cron.d/iqcash_sentinel
+
+  - name: Desactivate masternode conf
+    lineinfile:
+      path: /root/.iqcashcore/iqcash.conf
+      regexp: '^masternode='
+      line: masternode= 0
+    
+  - name: start wallet
+    shell: systemctl restart iqcash
+
+  - name: sleep for 20 seconds
+    wait_for: timeout=20
+    delegate_to: localhost
+
+  - name: generate masternode priv key
+    shell: ./iqcash-cli masternode genkey
+    register: masternodeprivkey
+
+  - name: Update masternode priv key
+    lineinfile:
+      path: /root/.iqcashcore/iqcash.conf
+      regexp: '^masternodeprivkey='
+      line: masternodeprivkey= {{ masternodeprivkey.stdout }}
+
+  - name: generate wallet pub key
+    shell: ./iqcash-cli getaccountaddress "MN{{ serverName }}"
+    register: pub_key
+
+  - name: sleep for 5 seconds
+    wait_for: timeout=5
+    delegate_to: localhost
+
+  - name: backup wallet
+    shell: ./iqcash-cli dumpwallet "/root/backup_{{ serverName }}"
+
+  - name: storing backup
+    fetch:
+      src: backup_{{ serverName }}
+      dest: backup/.backup_{{ serverName }}
+      flat: yes
+
+  - name: cron empty log file
+    lineinfile:
+      path: /etc/cron.d/sysstat
+      line: "*/10 * * * * root find /root/.iqcashcore/ -name debug.log -size +1G -exec truncate -s 0 {} \\;"
+      insertafter: EOF
+
+  - name: restart crontab
+    shell: /etc/init.d/cron force-reload
+    
+  - name: store important variable
+    local_action :
+      module: copy
+      content: '{"pubKey": "{{ pub_key.stdout }}" , "masternodeprivkey":"{{ masternodeprivkey.stdout }}"}'
+      dest: ./.output_data_{{ serverName }}.json
+
+  - name: status of masternode
+    shell: ./iqcash-cli getinfo
+    register: status
+
+  - debug:
+      var: status

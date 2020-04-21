@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Masternodes = mongoose.model('Masternodes');
 var getTrittiumMNInfos=require(path.join(__dirname,'./explorer/trittium/getMNInfo'));
 var oneweektime=(Date.now()/1000)-(7*24*60*60);
+var apiexplorer=require(path.join(__dirname,'./explorer/apiexplorer'));
 
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
@@ -25,16 +26,19 @@ Masternodes.find().then((masternodes) => {
 		item=JSON.stringify(item);
 		item=JSON.parse(item);
 		//if axel, telos, scap go trittium
-		if (item.crypto=="Energi")
-		{
-		}
-		else if (item.crypto.match(/^(Telos|Scap|Axel)$/))
+
+		if (item.crypto.match(/^(Telos|Scap|Axel)$/))
 		{
 			getTrittiumMNInfos.synthesis(item.crypto.toUpperCase(),function (Synthesis){
+				var counter1=0;
+				var counter2=0;
 				Synthesis.response.forEach( MNitem =>{
+					counter1++;
 					if (MNitem.addr==item.pubkey){
-						console.log(item.serverName+" : "+MNitem.status+"  last paid : "+(Date.now()-new Date(MNitem.lastpaid*1000))/1000/60/60+" active time : "+(MNitem.activetime/60/60/24));
+						counter2++;
+						console.log(item.serverName+" : "+MNitem.status+" active time : "+(MNitem.activetime/60/60/24));
 						}
+					if (counter1==Synthesis.response.length && counter2==0){console.log(item.serverName+" : OFFLINE active time : 0");}
 				});
 				getTrittiumMNInfos.txList(item.crypto.toUpperCase(),item.pubkey,function (TxList){
 					var MNbalance=TxList.response.balance;
@@ -48,11 +52,19 @@ Masternodes.find().then((masternodes) => {
 							}
 						}
 					});
-					console.log(item.serverName+"  gain per week  "+gainperweek+"  total gain  "+gainsincecreate);
+					var lastpaid=0;
+					if (TxList.response.address!='undefined'){
+						lastpaid=(Date.now()-new Date(TxList.response.transactions[0].time)*1000)/1000;
+						}
+					console.log(item.serverName+"  gain per week  "+gainperweek+"  total gain  "+gainsincecreate+"  last paid(s) : "+lastpaid);
 				});
 			});
 		}
-		else{}
+		else{
+			apiexplorer.getMNInfos(item.crypto,item.pubkey,function(MNinfos){
+				console.log(MNinfos);
+			});
+			
+		}
 	});
-
 });
