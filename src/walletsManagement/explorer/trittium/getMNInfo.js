@@ -11,7 +11,7 @@ module.exports.txList=txList;
 function synthesis(crypto,callback){
 		var options = {
         host: "chains.trittium.cc",
-        path: "/coreapi/v1/coins/AXEL/masternodes",
+        path: "/coreapi/v1/coins/"+crypto+"/masternodes",
         method: 'GET',
 	    headers: {
             'Content-Type': 'application/json'
@@ -28,14 +28,15 @@ function synthesis(crypto,callback){
 function txList(crypto,address,callback){
 			var options = {
         host: "chains.trittium.cc",
-        path: "/coreapi/v1/coins/"+crypto+"/address/"+address,
+        path: "/coreapi/v1/coins/"+crypto+"/address/"+address+"?perPage=100000&page=1",
         method: 'GET',
 	    headers: {
             'Content-Type': 'application/json'
-        }
+        },
+		maxRedirects:20
     };
 	restFull.getRestFull(options,function(err,response){
-		if (err) throw err;
+		if (err) throw (err);
 		callback(response);
 	});
 }
