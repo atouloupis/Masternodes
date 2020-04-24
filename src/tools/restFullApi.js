@@ -40,7 +40,7 @@ function postRestFull(options, data, callback) {
 	var data = JSON.stringify(data);
 
 const req = https.request(options, res => {
-  console.log(`statusCode: ${res.statusCode}`)
+  //console.log(`statusCode: ${res.statusCode}`)
 var buffer = '';
   res.on('data', d => {
     buffer += d;
@@ -55,8 +55,8 @@ var buffer = '';
         })
 })
 
-req.on('error', error => {
-  console.error(error)
+req.on('error', err => {
+  callback(err);
 })
 
 req.write(data)

@@ -1,6 +1,6 @@
 require('../../models/Masternodes');
-require('dotenv').config({path: '../../.env' });
 const path = require('path');
+require('dotenv').config({path: path.join(__dirname,'../../.env') });
 var mongo = require(path.join(__dirname,'../tools/mongoDb'));
 const mongoose = require('mongoose');
 const Masternodes = mongoose.model('Masternodes');
@@ -62,9 +62,9 @@ Masternodes.find().then((masternodes) => {
 		}
 		else{
 			apiexplorer.getMNInfos(item.crypto,item.pubkey,function(MNinfos){
-				console.log(MNinfos);
+				 console.log(item.serverName);
+				 console.log(MNinfos);
 			});
-			
 		}
 	});
 });
