@@ -48,7 +48,6 @@ const createMN = async ((io,crypto,user)=>{
 	const MNinfos = await(promise);
 	io.sockets.on('connection', function (socket) {
 		socket.emit('MNinfos', "Le serveur vous salue !");
-
 	});
 });
 

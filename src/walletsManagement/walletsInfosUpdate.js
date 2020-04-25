@@ -26,7 +26,7 @@ Masternodes.find().then((masternodes) => {
 		item=JSON.stringify(item);
 		item=JSON.parse(item);
 		//if axel, telos, scap go trittium
-
+	const filter = { serverName: item.serverName };
 		if (item.crypto.match(/^(Telos|Scap|Axel)$/))
 		{
 			getTrittiumMNInfos.synthesis(item.crypto.toUpperCase(),function (Synthesis){
@@ -36,9 +36,24 @@ Masternodes.find().then((masternodes) => {
 					counter1++;
 					if (MNitem.addr==item.pubkey){
 						counter2++;
-						console.log(item.serverName+" : "+MNitem.status+" active time : "+(MNitem.activetime/60/60/24));
+						if (MNitem.status=="ENABLED"){var status=true;}else{var status=false;}
+						const update = JSON.parse(JSON.stringify({ "status": status,
+						"activetime":MNitem.activetime}));
+						let doc =  Masternodes.findOneAndUpdate(filter, update, {
+  new: true
+});
+						console.log(filter);
+						console.log(update);
 						}
-					if (counter1==Synthesis.response.length && counter2==0){console.log(item.serverName+" : OFFLINE active time : 0");}
+					if (counter1==Synthesis.response.length && counter2==0){
+						const update = JSON.parse(JSON.stringify({ "status": false,
+						"activetime":0}));
+												let doc =  Masternodes.findOneAndUpdate(filter, update, {
+  new: true
+});
+						console.log(filter);
+						console.log(update);
+					}
 				});
 				getTrittiumMNInfos.txList(item.crypto.toUpperCase(),item.pubkey,function (TxList){
 					var MNbalance=TxList.response.balance;
@@ -56,14 +71,26 @@ Masternodes.find().then((masternodes) => {
 					if (TxList.response.address!='undefined'){
 						lastpaid=(Date.now()-new Date(TxList.response.transactions[0].time)*1000)/1000;
 						}
-					console.log(item.serverName+"  gain per week  "+gainperweek+"  total gain  "+gainsincecreate+"  last paid(s) : "+lastpaid);
+					const update = JSON.parse(JSON.stringify({"gain": gainsincecreate,
+					"gainperweek": gainperweek,
+					"lastpaid": lastpaid,
+					"balance": MNbalance}));
+											let doc =  Masternodes.findOneAndUpdate(filter, update, {
+  new: true
+});
+					console.log(filter);
+					console.log(update);
 				});
 			});
 		}
 		else{
 			apiexplorer.getMNInfos(item.crypto,item.pubkey,function(MNinfos){
-				 console.log(item.serverName);
-				 console.log(MNinfos);
+				const update = MNinfos;
+										let doc =  Masternodes.findOneAndUpdate(filter, update, {
+  new: true
+});
+				console.log(filter);
+				console.log(update);
 			});
 		}
 	});
