@@ -83,13 +83,25 @@ block content
             strong Click on the card header out strong
             |to see the card body collapse and expand!
           p
-            form(name="scap-submit",method="post")
+            form(name="iqcash-submit",method="post")
               input(type="hidden",id="crypto",value="Iqcash",name="crypto")
               input(type="hidden",id="user",value="Andreas",name="user")
               button(type="submit",value="Iqcash").btn.btn-primary.btn-icon-split
                 span.icon.text-white-50
                   i.fas.fa-arrow-right
                 span.text.text-white Create New IQ MN
+          p
+            form(name="iqcash-submit",method="post")
+              input(type="hidden",id="crypto",value="Iqcash",name="crypto")
+              input(type="hidden",id="user",value="Andreas",name="user")
+              button(type="submit",value="Iqcash").btn.btn-primary.btn-icon-split
+                span.icon.text-white-50
+                  i.spinner-grow.spinner-grow-sm.m-0.text-info(role="status")
+                span.sr-only Loading...
+                span.text.text-white Wait
+              //div.spinner-grow.text-info(role="status")
+                // span.sr-only Loading...
+                // span.text.text-white Wait
           if MNinfos
             if MNinfos.status==installed
             |  Now send your 5000 collateral to

@@ -44,8 +44,9 @@ function data(res){
 }
 
 const createMN = async ((io,crypto,user)=>{
-	const promise = createMNscript.main(user, crypto);
+	const promise = createMNscript.test(user, crypto);
 	const MNinfos = await(promise);
+	console.log(MNinfos);
 	io.sockets.on('connection', function (socket) {
 		socket.emit('MNinfos', "Le serveur vous salue !");
 	});

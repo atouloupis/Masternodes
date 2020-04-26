@@ -9,16 +9,40 @@ const masternodesSchema = new mongoose.Schema({
     type: Date,
     trim: true,
   },
-    serverId: {
+  serverId: {
     type: String,
     trim: true,
   },
-    crypto: {
+  crypto: {
     type: String,
     trim: true,
   },
-    user: {
+  user: {
     type: String,
+    trim: true,
+  },
+  gainsincecreated: {
+    type: Number,
+    trim: true,
+  },
+  gainperweek: {
+    type: Number,
+    trim: true,
+  },
+  lastpaid: {
+    type: Date,
+    trim: true,
+  },
+  totalToken: {
+    type: Number,
+    trim: true,
+  },
+  isactive: {
+    type: Boolean,
+    trim: true,
+  },
+  activetime: {
+    type: Number,
     trim: true,
   },
 });

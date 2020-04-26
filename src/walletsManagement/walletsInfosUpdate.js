@@ -13,18 +13,18 @@ mongoose.connect(process.env.DATABASE, {
   useUnifiedTopology: true
 });
 
-// mongoose.connection
-  // .on('open', () => {
-    // console.log('Mongoose connection open');
-  // })
-  // .on('error', (err) => {
-    // console.log(`Connection error: ${err.message}`);
-  // });
+mongoose.connection
+  .on('open', () => {
+    console.log('Mongoose connection open');
+  })
+  .on('error', (err) => {
+    console.log(`Connection error: ${err.message}`);
+  });
 
 Masternodes.find().then((masternodes) => {
 	masternodes.forEach( item =>{
-		item=JSON.stringify(item);
-		item=JSON.parse(item);
+		item=JSON.parse(JSON.stringify(item));
+		if(item.pubkey!="" && item.pubkey!=undefined){
 		//if axel, telos, scap go trittium
 	const filter = { serverName: item.serverName };
 		if (item.crypto.match(/^(Telos|Scap|Axel)$/))
@@ -37,22 +37,23 @@ Masternodes.find().then((masternodes) => {
 					if (MNitem.addr==item.pubkey){
 						counter2++;
 						if (MNitem.status=="ENABLED"){var status=true;}else{var status=false;}
-						const update = JSON.parse(JSON.stringify({ "status": status,
-						"activetime":MNitem.activetime}));
-						let doc =  Masternodes.findOneAndUpdate(filter, update, {
-  new: true
-});
-						console.log(filter);
-						console.log(update);
+						var activetime=MNitem.activetime;
+						const update = JSON.parse(JSON.stringify({$set:{ "isactive": status,
+						"activetime":MNitem.activetime}}));
+						let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
+							if (err){console.log(err)};
+							console.log(doc);
+						});
 						}
-					if (counter1==Synthesis.response.length && counter2==0){
-						const update = JSON.parse(JSON.stringify({ "status": false,
-						"activetime":0}));
-												let doc =  Masternodes.findOneAndUpdate(filter, update, {
-  new: true
-});
-						console.log(filter);
-						console.log(update);
+					else if (counter1==Synthesis.response.length && counter2==0){
+						var activetime=0;
+						var status=false;
+						const update = JSON.parse(JSON.stringify({$set:{ "isactive": false,
+						"activetime":0}}));
+						let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
+							if (err){console.log(err)};
+							console.log(doc);
+						});
 					}
 				});
 				getTrittiumMNInfos.txList(item.crypto.toUpperCase(),item.pubkey,function (TxList){
@@ -71,27 +72,27 @@ Masternodes.find().then((masternodes) => {
 					if (TxList.response.address!='undefined'){
 						lastpaid=(Date.now()-new Date(TxList.response.transactions[0].time)*1000)/1000;
 						}
-					const update = JSON.parse(JSON.stringify({"gain": gainsincecreate,
+					const update = JSON.parse(JSON.stringify({$set:{"gainsincecreated": gainsincecreate,
 					"gainperweek": gainperweek,
 					"lastpaid": lastpaid,
-					"balance": MNbalance}));
-											let doc =  Masternodes.findOneAndUpdate(filter, update, {
-  new: true
-});
-					console.log(filter);
-					console.log(update);
+					"totalToken": MNbalance}}));
+					let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
+					if (err){console.log(err)};
+					console.log(doc);
+				});
 				});
 			});
 		}
 		else{
 			apiexplorer.getMNInfos(item.crypto,item.pubkey,function(MNinfos){
-				const update = MNinfos;
-										let doc =  Masternodes.findOneAndUpdate(filter, update, {
-  new: true
-});
-				console.log(filter);
-				console.log(update);
+				const update = JSON.parse(JSON.stringify({"$set":{}}));
+				update.$set=MNinfos;
+				let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
+					if (err){console.log(err)};
+					console.log(doc);
+				});
 			});
+		}
 		}
 	});
 });

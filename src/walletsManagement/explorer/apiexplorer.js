@@ -46,7 +46,7 @@ function energiMasternodes(pubkey,callback){
 		if (err) throw(err);
 		response.result.forEach(masternodes =>{
 			if(masternodes.Owner==pubkey){
-				callback(JSON.parse(JSON.stringify({"status":masternodes.IsActive})))
+				callback(JSON.parse(JSON.stringify({"isactive":masternodes.IsActive})))
 				}
 		});
 	});
@@ -73,7 +73,7 @@ function energiWallet(pubkey,callback){
 			if (transaction.timeStamp>oneweektime){gainperweek=transaction.value/1000000000000000000+gainperweek;}
 			if (transaction.timeStamp>lastTimestamp){lastTimestamp=transaction.timeStamp}
 		});
-		callback(JSON.parse(JSON.stringify({"gain":totalgain,"gainperweek":gainperweek,"lastpaid":new Date(lastTimestamp*1000)})));
+		callback(JSON.parse(JSON.stringify({"gainsincecreated":totalgain,"gainperweek":gainperweek,"lastpaid":new Date(lastTimestamp*1000)})));
 	});
 }
 function energiBalance(pubkey,callback){
@@ -89,7 +89,7 @@ function energiBalance(pubkey,callback){
 	restFull.getRestFull(options,function(err,response){
 		if (err) throw(err);
 		balance=response.result/1000000000000000000;
-		callback(JSON.parse(JSON.stringify({"balance":balance+1000})));
+		callback(JSON.parse(JSON.stringify({"totalToken":balance+1000})));
 	});
 
 }
@@ -110,9 +110,9 @@ function iqcashMasternodes(pubkey,callback){
 		response.forEach(masternode =>{
 			if (masternode.address==pubkey){
 				if (masternode.status=="ENABLED"){
-					callback(JSON.parse(JSON.stringify({"lastpaid":new Date(masternode.lastpaidtime*1000),"status":true})));
+					callback(JSON.parse(JSON.stringify({"lastpaid":new Date(masternode.lastpaidtime*1000),"isactive":true})));
 				} else {
-					callback(JSON.parse(JSON.stringify({"lastpaid":new Date(masternode.lastpaidtime*1000),"status":false})));
+					callback(JSON.parse(JSON.stringify({"lastpaid":new Date(masternode.lastpaidtime*1000),"isactive":false})));
 				}
 			}
 		});
@@ -130,7 +130,7 @@ function iqcashBalance(pubkey,callback){
 	};
 	restFull.getRestFull(options,function(err,balance){
 		if (err) throw(err);
-		callback(JSON.parse(JSON.stringify({"balance":balance})));
+		callback(JSON.parse(JSON.stringify({"totalToken":balance})));
 	});
 }
 
@@ -148,7 +148,7 @@ function iqcashWallet(pubkey,callback){
 	restFull.getRestFull(options,function(err,txList){
 		if (err) throw(err);
 		iqcashTx(txList,pubkey,function(txgain){
-			callback(JSON.parse(JSON.stringify({"gain":txList.received-3000,"gainperweek":txgain})));
+			callback(JSON.parse(JSON.stringify({"gainsincecreated":txList.received-3000,"gainperweek":txgain})));
 		});
 	});
 }
