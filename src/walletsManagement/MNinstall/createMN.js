@@ -70,6 +70,7 @@ function masternodeDeploy(serverId,serverName,crypto,callback){
 						'masternodeprivatekey':obj.masternodeprivkey,
 						'pubkey':obj.pubKey,
 						'ip':serverIp,
+						'collateral':collateral,
 						'status':"installed"
 						}};
 						var query={'serverName':serverName};
@@ -96,3 +97,10 @@ function createHostFile(serverIp, callback){
 		callback('done');
 	});
 }
+
+function test(user, crypto){
+	  //setTimeout(function() {
+    // return("YOLO");
+ // }, 10000);
+}
+	module.exports.test = test;

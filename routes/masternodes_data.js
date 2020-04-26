@@ -17,39 +17,42 @@ var func = async() => {
 };
 
 function data(res){
-	var MNinfo = [];
+	var MNinfo = {summary:[]};
+	var MNsummary={masternodes:[]};
 	Masternodes.find().then((masternodes) => {
-		masternodes.forEach( masternodes =>{
-			const exist = MNinfo.find(exist => exist.crypto == masternodes.crypto);
+		masternodes.forEach( masternode =>{
+			const exist = MNinfo.summary.find(exist => exist.crypto == masternode.crypto);
 			if (exist==undefined)
 			{
-			var item1 = {'crypto' : masternodes.crypto, 'count': 1};
-			MNinfo.push(item1);
+			var item1 = {'crypto' : masternode.crypto, 'count': 1};
+			MNinfo.summary.push(item1);
 			}
 			else {
 				i = 0;
-				for (i=0; i<MNinfo.length;i++)
+				for (i=0; i<MNinfo.summary.length;i++)
 				{
-				if(MNinfo[i].crypto==masternodes.crypto)
+				if(MNinfo.summary[i].crypto==masternode.crypto)
 				{
-					MNinfo[i].count=MNinfo[i].count+1;
+					MNinfo.summary[i].count=MNinfo.summary[i].count+1;
 				}
 				}
 			}
+			MNsummary.masternodes.push(masternode);
 		});
-		console.log(MNinfo);
-		
-		res(MNinfo);
+		MNsummary=Object.assign(MNinfo,MNsummary);
+		console.log(MNsummary);
+		res(MNsummary);
 	})
 }
 
 const createMN = async ((io,crypto,user)=>{
 	const promise = createMNscript.test(user, crypto);
 	const MNinfos = await(promise);
-	console.log(MNinfos);
-	io.sockets.on('connection', function (socket) {
-		socket.emit('MNinfos', "Le serveur vous salue !");
-	});
+	// console.log(MNinfos);
+	// io.sockets.on('connection', function (socket) {
+		      // var loadingbutton='Loading...';
+		// socket.emit("loadingbutton",loadingbutton );
+	// });
 });
 
 module.exports.data = data;

@@ -87,7 +87,7 @@
   - name: store important variable
     local_action :
       module: copy
-      content: '{"pubKey": "{{ pub_key.stdout }}" , "masternodeprivkey":"{{ masternodeprivkey.stdout }}"}'
+      content: '{"pubKey": "{{ pub_key.stdout }}" , "masternodeprivkey":"{{ masternodeprivkey.stdout }}","collateral":3000}'
       dest: ./.output_data_{{ serverName }}.json
 
   - name: status of masternode
