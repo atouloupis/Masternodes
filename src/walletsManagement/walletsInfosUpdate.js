@@ -1,7 +1,6 @@
 require('../../models/Masternodes');
 const path = require('path');
 require('dotenv').config({path: path.join(__dirname,'../../.env') });
-var mongo = require(path.join(__dirname,'../tools/mongoDb'));
 const mongoose = require('mongoose');
 const Masternodes = mongoose.model('Masternodes');
 var getTrittiumMNInfos=require(path.join(__dirname,'./explorer/trittium/getMNInfo'));
@@ -41,8 +40,8 @@ Masternodes.find().then((masternodes) => {
 						const update = JSON.parse(JSON.stringify({$set:{ "isactive": status,
 						"activetime":MNitem.activetime}}));
 						let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
-							if (err){console.log(err)};
-							console.log(doc);
+							if (err)throw (err);
+							// console.log(doc);
 						});
 						}
 					else if (counter1==Synthesis.response.length && counter2==0){
@@ -51,8 +50,8 @@ Masternodes.find().then((masternodes) => {
 						const update = JSON.parse(JSON.stringify({$set:{ "isactive": false,
 						"activetime":0}}));
 						let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
-							if (err){console.log(err)};
-							console.log(doc);
+							if (err) throw (err);
+							// console.log(doc);
 						});
 					}
 				});
@@ -77,8 +76,8 @@ Masternodes.find().then((masternodes) => {
 					"lastpaid": lastpaid,
 					"totalToken": MNbalance}}));
 					let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
-					if (err){console.log(err)};
-					console.log(doc);
+					if (err) throw (err);
+					// console.log(doc);
 				});
 				});
 			});
@@ -88,11 +87,12 @@ Masternodes.find().then((masternodes) => {
 				const update = JSON.parse(JSON.stringify({"$set":{}}));
 				update.$set=MNinfos;
 				let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
-					if (err){console.log(err)};
+					if (err)throw(err);
 					console.log(doc);
 				});
 			});
 		}
 		}
 	});
+	mongoose.connection.close();
 });

@@ -104,7 +104,6 @@ function iqcashMasternodes(pubkey,callback){
 		},
 	maxRedirects:20
 	};
-
 	restFull.getRestFull(options,function(err,response){
 		if (err) throw(err);
 		response.forEach(masternode =>{
@@ -147,7 +146,8 @@ function iqcashWallet(pubkey,callback){
 	};
 	restFull.getRestFull(options,function(err,txList){
 		if (err) throw(err);
-		iqcashTx(txList,pubkey,function(txgain){
+		
+		setTimeout(iqcashTx,300,txList,pubkey,function(txgain){
 			callback(JSON.parse(JSON.stringify({"gainsincecreated":txList.received-3000,"gainperweek":txgain})));
 		});
 	});
@@ -169,6 +169,7 @@ function iqcashTx(txList,pubkey,callback){
 				maxRedirects:20
 			};
 			restFull.getRestFull(options1,function(err,txDetail){
+				if (err) throw(err);
 				iqcashTxgain(txDetail,pubkey,function(txgain){
 					count++;
 					sumtxgain=txgain+sumtxgain;
