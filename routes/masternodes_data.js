@@ -6,35 +6,29 @@ const createMNscript = require(path.join(__dirname,'../src/walletsManagement/MNi
 const async = require('asyncawait/async');
 const await = require('asyncawait/await');
 
-//1. Import coingecko-api
-const CoinGecko = require('coingecko-api');
-//2. Initiate the CoinGecko API Client
-const CoinGeckoClient = new CoinGecko();
 
-//3. Make calls
-var func = async() => {
-  let data = await CoinGeckoClient.ping();
-};
 
-function data(res){
+function MNdata(res){
 	var MNinfo = {summary:[]};
 	var MNsummary={masternodes:[]};
 	Masternodes.find().then((masternodes) => {
+		var totalGain;
 		masternodes.forEach( masternode =>{
 			const exist = MNinfo.summary.find(exist => exist.crypto == masternode.crypto);
 			if (exist==undefined)
 			{
-			var item1 = {'crypto' : masternode.crypto, 'count': 1};
-			MNinfo.summary.push(item1);
+				var item1 = {'crypto' : masternode.crypto, 'count': 1,'total':masternode.totalToken};
+				MNinfo.summary.push(item1);
 			}
 			else {
 				i = 0;
 				for (i=0; i<MNinfo.summary.length;i++)
 				{
-				if(MNinfo.summary[i].crypto==masternode.crypto)
-				{
-					MNinfo.summary[i].count=MNinfo.summary[i].count+1;
-				}
+					if(MNinfo.summary[i].crypto==masternode.crypto)
+					{
+						MNinfo.summary[i].count=MNinfo.summary[i].count+1;
+						MNinfo.summary[i].total=MNinfo.summary[i].total+masternode.totalToken;
+					}
 				}
 			}
 			MNsummary.masternodes.push(masternode);
@@ -42,6 +36,12 @@ function data(res){
 		MNsummary=Object.assign(MNinfo,MNsummary);
 		console.log(MNsummary);
 		res(MNsummary);
+	})
+}
+
+function Cryptodata(res){
+	Crypto_datas.find().then((Cryptodatas) => {
+		res(Cryptodatas);
 	})
 }
 
@@ -55,5 +55,6 @@ const createMN = async ((io,crypto,user)=>{
 	// });
 });
 
-module.exports.data = data;
+module.exports.MNdata = MNdata;
+module.exports.Cryptodata = Cryptodata;
 exports.createMN = createMN;

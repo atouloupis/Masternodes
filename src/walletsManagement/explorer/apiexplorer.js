@@ -147,7 +147,7 @@ function iqcashWallet(pubkey,callback){
 	restFull.getRestFull(options,function(err,txList){
 		if (err) throw(err);
 		
-		setTimeout(iqcashTx,300,txList,pubkey,function(txgain){
+		setTimeout(iqcashTx,500,txList,pubkey,function(txgain){
 			callback(JSON.parse(JSON.stringify({"gainsincecreated":txList.received-3000,"gainperweek":txgain})));
 		});
 	});
@@ -164,11 +164,12 @@ function iqcashTx(txList,pubkey,callback){
 				path: "/api/getrawtransaction?txid="+tx.addresses+"&decrypt=1",
 				method: 'GET',
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0'
 				},
 				maxRedirects:20
 			};
-			restFull.getRestFull(options1,function(err,txDetail){
+			setTimeout(restFull.getRestFull,i*500,options1,function(err,txDetail){
 				if (err) throw(err);
 				iqcashTxgain(txDetail,pubkey,function(txgain){
 					count++;

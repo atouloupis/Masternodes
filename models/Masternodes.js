@@ -45,6 +45,10 @@ const masternodesSchema = new mongoose.Schema({
     type: Number,
     trim: true,
   },
+  collateral: {
+    type: Number,
+    trim: true,
+  },
 });
 
 module.exports = mongoose.model('Masternodes', masternodesSchema);

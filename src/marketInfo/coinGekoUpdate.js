@@ -22,15 +22,14 @@ mongoose.connection
 const CoinGecko = require('coingecko-api');
 //2. Initiate the CoinGecko API Client
 const CoinGeckoClient = new CoinGecko();
-// var coinList=['axel','energi','safecapital','streamit-coin','telos-coin','iq-cash','bitcoin'];
-var coinList=['bitcoin'];
+var coinList=['axel','energi','safecapital','streamit-coin','telos-coin','iq-cash','bitcoin'];
+// var coinList=['bitcoin'];
 //3. Make calls
 var func = async(cryptoId) => {
 	let data = await CoinGeckoClient.coins.fetch(cryptoId,{});
-	data=JSON.parse(JSON.stringify(data));
-	var test=toJsonSchema(data.data.symbol)
-console.log(test);
-	let doc = Crypto_datas.findOneAndUpdate({'id':cryptoId}, {"$set":{"symbol":data.data.symbol}}, {new: true,useFindAndModify:false, upsert: true, setDefaultsOnInsert: true },(err, doc) => {if (err)throw (err);console.log(doc);});
+	data=JSON.parse(JSON.stringify(data.data));
+var update={};
+	let doc = Crypto_datas.findOneAndUpdate({'id':cryptoId}, {"$set":data}, {new: true,useFindAndModify:false, upsert: true, setDefaultsOnInsert: true },(err, doc) => {if (err)throw (err);});
 
 };
 

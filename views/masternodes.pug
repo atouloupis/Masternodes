@@ -14,7 +14,9 @@ block content
     div.card.shadow.mb-4
       //Card Header - Accordion
       a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
-        h6.m-0.font-weight-bold.text-primary My Axel Masternodes
+          h6.m-0.font-weight-bold.text-primary My Axel Masternodes
+          | Total value = 
+          =MNdata.summary[0].total
       //Card Content - Collapse
       div.collapse.show#collapseCardExample(style="")
         div.card-body
@@ -36,10 +38,94 @@ block content
             =MNinfos.pubkey
           div.my-2
           p
-            a(href="#").btn.btn-primary.btn-icon-split
-              span.icon.text-white-50
-                i.fas.fa-arrow-right
-              span.text Split Button Primary
+          //Content Row
+          div.row
+            if MNdata.masternodes.length != 0
+              each masternode in MNdata.masternodes
+                if masternode.crypto == 'Axel'
+                  each cryptodata in Cryptodata
+                    if cryptodata.symbol=='axel'
+                      //Earnings (Monthly) Card Example
+                      div.col-xl-3.col-md-6.mb-4
+                        if masternode.isactive === true
+                          div.card.border-left-success.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  Axels  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  Axels  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  Axels  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+                        else
+                          div.card.border-left-danger.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  Axels  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  Axels  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  Axels  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+            else
+              p No masternodes yet :(
 
     //Collapse card example
     div.card.shadow.mb-4
@@ -67,6 +153,95 @@ block content
             |  Now send your 5000 collateral to
             =MNinfos.pubkey
           div.my-2
+          //Content Row
+          div.row
+            if MNdata.masternodes.length != 0
+              each masternode in MNdata.masternodes
+                if masternode.crypto == 'Scap'
+                  each cryptodata in Cryptodata
+                    if cryptodata.symbol=='scap'
+                      //Earnings (Monthly) Card Example
+                      div.col-xl-3.col-md-6.mb-4
+                        if masternode.isactive === true
+                          div.card.border-left-success.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  Scap  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  Scap  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  Scap  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+                        else
+                          div.card.border-left-danger.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  Scap  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  Scap  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  Scap  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+            else
+              p No masternodes yet :(
 
     //Collapse card example
     div.card.shadow.mb-4
@@ -99,44 +274,327 @@ block content
               |  Now send your 5000 collateral to
               =MNinfos.pubkey
           div.my-2
+          //Content Row
+          div.row
+            if MNdata.masternodes.length != 0
+              each masternode in MNdata.masternodes
+                if masternode.crypto == 'Iqcash'
+                  each cryptodata in Cryptodata
+                    if cryptodata.symbol=='iq'
+                      //Earnings (Monthly) Card Example
+                      div.col-xl-3.col-md-6.mb-4
+                        if masternode.isactive === true
+                          div.card.border-left-success.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  IQ  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  IQ  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  IQ  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+                        else
+                          div.card.border-left-danger.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  IQ  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  IQ  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  IQ  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+            else
+              p No masternodes yet :(
 
+    //Collapse card example
+    div.card.shadow.mb-4
+      //Card Header - Accordion
+      a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
+        h6.m-0.font-weight-bold.text-primary My Transcendence (TELOS) Masternodes
+      //Card Content - Collapse
+      div.collapse.show#collapseCardExample(style="")
+        div.card-body
+          #MNinfos
+          p
+            |This is a collapsable card example using Bootstrap's built in collapse functionality. 
+            strong Click on the card header out strong
+            |to see the card body collapse and expand!
+          p
+            form(name="telos-submit",method="post")
+              input(type="hidden",id="crypto",value="Telos",name="crypto")
+              input(type="hidden",id="user",value="Andreas",name="user")
+              button(type="submit",value="Telos").btn.btn-primary.btn-icon-split
+                span.icon.text-white-50
+                  i.fas.fa-arrow-right
+                span.text.text-white Create New Telos MN
+          if MNinfos
+            if MNinfos.status==installed
+            |  Now send your 100 000 collateral to
+            =MNinfos.pubkey
+          div.my-2
+          //Content Row
+          div.row
+            if MNdata.masternodes.length != 0
+              each masternode in MNdata.masternodes
+                if masternode.crypto == 'Telos'
+                  each cryptodata in Cryptodata
+                    if cryptodata.symbol=='telos'
+                      //Earnings (Monthly) Card Example
+                      div.col-xl-3.col-md-6.mb-4
+                        if masternode.isactive === true
+                          div.card.border-left-success.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  Telos  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  Telos  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  Telos  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+                        else
+                          div.card.border-left-danger.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  Telos  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  Telos  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  Telos  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+            else
+              p No masternodes yet :(
 
-    //Content Row
-    div.row
-      if data.masternodes.length != 0
-        each masternode in data.masternodes
-           if masternode.crypto != 'xoxo'
-            //Earnings (Monthly) Card Example
-            div.col-xl-3.col-md-6.mb-4
-              if masternode.isactive === true
-                div.card.border-left-success.shadow.h-100.py-2
-                  div.card-body
-                    div.row.no-gutters.align-items-center
-                      div.col.mr-2
-                        div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1 
-                          =masternode.serverName
-                        div.h5.mb-0.font-weight-bold.text-gray-800 
-                          | Total : 
-                          =masternode.totalToken
-                        div.h5.mb-0.font-weight-bold.text-gray-800 
-                          =masternode.gainsincecreated
-                      div.col-auto
-                        i.fas.fa-calendar.fa-2x.text-gray-300 
-              else
-                div.card.border-left-danger.shadow.h-100.py-2
-                  div.card-body
-                    div.row.no-gutters.align-items-center
-                      div.col.mr-2
-                        div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1 
-                          =masternode.serverName
-                        div.h5.mb-0.font-weight-bold.text-gray-800 
-                          | total Token
-                          =masternode.totalToken
-                      div.col-auto
-                        i.fas.fa-calendar.fa-2x.text-gray-300 
-      else
-        p No masternodes yet :(
-
+    //Collapse card example
+    div.card.shadow.mb-4
+      //Card Header - Accordion
+      a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
+        h6.m-0.font-weight-bold.text-primary My Energi (NRG) Masternodes
+      //Card Content - Collapse
+      div.collapse.show#collapseCardExample(style="")
+        div.card-body
+          #MNinfos
+          p
+            |This is a collapsable card example using Bootstrap's built in collapse functionality. 
+            strong Click on the card header out strong
+            |to see the card body collapse and expand!
+          p
+            form(name="energi-submit",method="post")
+              input(type="hidden",id="crypto",value="Energi",name="crypto")
+              input(type="hidden",id="user",value="Andreas",name="user")
+              button(type="submit",value="Energi").btn.btn-primary.btn-icon-split
+                span.icon.text-white-50
+                  i.fas.fa-arrow-right
+                span.text.text-white Create New Telos MN
+          if MNinfos
+            if MNinfos.status==installed
+            |  Now send your 1 000 collateral to
+            =MNinfos.pubkey
+          div.my-2
+          //Content Row
+          div.row
+            if MNdata.masternodes.length != 0
+              each masternode in MNdata.masternodes
+                if masternode.crypto == 'Energi'
+                  each cryptodata in Cryptodata
+                    if cryptodata.symbol=='nrg'
+                      //Earnings (Monthly) Card Example
+                      div.col-xl-3.col-md-6.mb-4
+                        if masternode.isactive === true
+                          div.card.border-left-success.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  NRG  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  NRG  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  NRG  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+                        else
+                          div.card.border-left-danger.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1.d-flex
+                                    =masternode.serverName
+                                    |  -  ROI  : 
+                                    =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
+                                    | %
+                                    |  -   Par mois  : 
+                                    =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
+                                    | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Total : 
+                                    =Math.round(masternode.totalToken*100)/100
+                                    |  NRG  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.totalToken*100)/100
+                                      | €
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Gain since created : 
+                                    =Math.round(masternode.gainsincecreated*100)/100
+                                    |  NRG  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*masternode.gainsincecreated*100)/100
+                                      |€
+                                  div.text-xs.mb-0.font-weight-bold.text-gray-800 
+                                    | Available : 
+                                    =Math.round((masternode.totalToken-masternode.collateral)*100)/100
+                                    |  NRG  
+                                    a.text-gray-500 
+                                      =Math.round(cryptodata.market_data.current_price.eur*(masternode.totalToken-masternode.collateral)*100)/100
+                                      | €
+                                div.col-auto.d-flex.flex-column
+                                  div
+                                    i.fas.fa-exchange-alt.fa-1x.text-primary
+                                  div
+                                    i.fa.fa-trash.fa-1x.text-danger
+            else
+              p No masternodes yet :(
   script.
     const socket = io();
     socket.on('loadingbutton', function(message) {

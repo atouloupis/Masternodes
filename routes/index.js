@@ -30,9 +30,11 @@ router.get('/', auth.connect(basic), (req, res) => {
 });
 
 router.get('/masternodes', auth.connect(basic), (req, res) => {
-	masternodes_data.data(function(data){
-		res.render('masternodes', { title: 'Masternodes - Management', data });
-	})
+	masternodes_data.MNdata(function(MNdata){
+		masternodes_data.Cryptodata(function(Cryptodata){
+			res.render('masternodes', { title: 'Masternodes - Management', MNdata, Cryptodata });
+		});
+	});
 });
 
 router.post('/masternodes',
