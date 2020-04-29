@@ -1,0 +1,93 @@
+---
+- name: Setup app
+  hosts: localhost
+  gather_facts: no
+
+  vars_prompt :
+    - name : scalewayAPI
+    prompt:"What is your scaleway API"
+    private:no
+    
+    - name : adminName
+    prompt:"What is your admin account name"
+    private:no
+    
+    - name : adminPassword
+    prompt:"What is your admin password"
+    private :no
+    
+  tasks:
+
+  - debug:
+      msg: Begin setup
+
+  - name: got to root folder
+    shell: cd /root
+    
+  - name: git install
+    shell: apt get install git
+
+  - name: git clone
+    shell: git clone git@github.com:atouloupis/Masternodes.git
+
+  - name: install nodejs
+    shell: apt-get install nodejs
+
+  - name: install npm
+    shell: apt-get install npm
+
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
+
+  - name: store important variable
+    local_action :
+      module: copy
+      content: '{{adminName}}:{{adminPassword}}'
+      dest: /root/MAsternodes/users.htpasswd
+
+  - name: cron walletsInfosUpdate
+    lineinfile:
+      path: /etc/cron.d/sysstat
+      line: "*/20 * * * * root node /root/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
+      insertafter: EOF
+      
+  - name: cron coinGekoUpdate
+    lineinfile:
+      path: /etc/cron.d/sysstat
+      line: "*/10 * * * * root node /root/Masternodes/src/marketInfo/coinGekoUpdate.js"
+      insertafter: EOF
+
+  - name: restart crontab
+    shell: /etc/init.d/cron force-reload
+    
+
+
+
+
+
+
+  - name: Desactivate masternode conf
+    lineinfile:
+      path: /root/.axel/axel.conf
+      regexp: '^masternode='
+      line: masternode= 0
+
+  - name: Update masternode priv key
+    lineinfile:
+      path: /root/.axel/axel.conf
+      regexp: '^masternodeprivkey='
+      line: masternodeprivkey= {{ masternodeprivkey.stdout }}
+
+  - name: backup wallet
+    shell: axel-cli dumpwallet "/root/backup_{{ serverName }}"
+
+  - name: storing backup
+    fetch:
+      src: backup_{{ serverName }}
+      dest: backup/.backup_{{ serverName }}
+      flat: yes
+
+ 

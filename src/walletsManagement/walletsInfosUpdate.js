@@ -96,5 +96,4 @@ Masternodes.find().then((masternodes) => {
 		}
 		}
 	});
-
 });

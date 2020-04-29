@@ -8,6 +8,7 @@ var urlMasternode = "mongodb://localhost:27017/masternode";
 var mongoClient = require('mongodb').MongoClient;
 var scaleway = require('../../tools/vps/scalewayApi');
 var jsonfile = require('jsonfile');
+var fs = require('fs');
 
 
 function main(user, crypto){
@@ -78,6 +79,7 @@ function masternodeDeploy(serverId,serverName,crypto,callback){
 							if (err) throw err;
 							dbase = db.db("masternode");
 							mongo.updateCollection(dbase,'masternodes', query, MNobj, function(res){
+								fs.unlink(".output_data_"+serverName+".json",function(err){if (err) throw err;});
 								callback(MNobj);
 							});
 						});
@@ -90,7 +92,6 @@ function masternodeDeploy(serverId,serverName,crypto,callback){
 
 
 function createHostFile(serverIp, callback){
-	var fs = require('fs');
 	var content='[current]\n'+serverIp;
 	fs.writeFile('temp-host',content, function (err) {
 		if (err) throw err;
