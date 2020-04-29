@@ -19,6 +19,7 @@ mongoose.connection
   .on('error', (err) => {
     console.log(`Connection error: ${err.message}`);
   });
+function closeMongoose (){mongoose.connection.close();}
 
 Masternodes.find().then((masternodes) => {
 	masternodes.forEach( item =>{
@@ -41,7 +42,7 @@ Masternodes.find().then((masternodes) => {
 						"activetime":MNitem.activetime}}));
 						let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
 							if (err)throw (err);
-							// console.log(doc);
+							console.log(doc);
 						});
 						}
 					else if (counter1==Synthesis.response.length && counter2==0){
@@ -51,7 +52,7 @@ Masternodes.find().then((masternodes) => {
 						"activetime":0}}));
 						let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
 							if (err) throw (err);
-							// console.log(doc);
+							console.log(doc);
 						});
 					}
 				});
@@ -77,7 +78,7 @@ Masternodes.find().then((masternodes) => {
 					"totalToken": MNbalance}}));
 					let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
 					if (err) throw (err);
-					// console.log(doc);
+					console.log(doc);
 				});
 				});
 			});
@@ -89,10 +90,11 @@ Masternodes.find().then((masternodes) => {
 				let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
 					if (err)throw(err);
 					console.log(doc);
+					setTimeout(closeMongoose,15000);
 				});
 			});
 		}
 		}
 	});
-	mongoose.connection.close();
+
 });

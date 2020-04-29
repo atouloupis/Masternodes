@@ -25,14 +25,20 @@ const CoinGeckoClient = new CoinGecko();
 var coinList=['axel','energi','safecapital','streamit-coin','telos-coin','iq-cash','bitcoin'];
 // var coinList=['bitcoin'];
 //3. Make calls
-var func = async(cryptoId) => {
+var getCoinGeckoData = async(cryptoId) => {
 	let data = await CoinGeckoClient.coins.fetch(cryptoId,{});
 	data=JSON.parse(JSON.stringify(data.data));
-var update={};
-	let doc = Crypto_datas.findOneAndUpdate({'id':cryptoId}, {"$set":data}, {new: true,useFindAndModify:false, upsert: true, setDefaultsOnInsert: true },(err, doc) => {if (err)throw (err);});
-
+	let doc = Crypto_datas.findOneAndUpdate({'id':cryptoId}, {"$set":data}, {new: true,useFindAndModify:false, upsert: true, setDefaultsOnInsert: true },(err, doc) => {if (err)throw (err);console.log(doc);});
 };
 
-coinList.forEach( cryptoId =>{
-	let data = func(cryptoId);
-});
+var allCoinInfos= async() => {
+	count=0;
+	let endloop =  await coinList.forEach(async(cryptoId) =>{
+		count++;
+		let data = await getCoinGeckoData(cryptoId);
+	});
+};
+
+let test = allCoinInfos();
+function closeConnection(){mongoose.connection.close();}
+setTimeout(closeConnection,10000);
