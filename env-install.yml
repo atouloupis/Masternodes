@@ -4,17 +4,25 @@
   gather_facts: no
 
   vars_prompt :
-    - name : scalewayAPI
-    prompt:"What is your scaleway API"
-    private:no
+    - name: scalewayAPIsKey
+      prompt: "What is your scaleway API"
+      private: no
+
+    - name: scalewayAPIpKey
+      prompt: "What is your scaleway API"
+      private: no
+      
+    - name: adminName
+      prompt: "What is your admin account name"
+      private: no
     
-    - name : adminName
-    prompt:"What is your admin account name"
-    private:no
-    
-    - name : adminPassword
-    prompt:"What is your admin password"
-    private :no
+    - name: adminPassword
+      prompt: "What is your admin password"
+      private: yes
+      encrypt: "sha512_crypt"
+      confirm: yes
+      salt_size: 7
+      
     
   tasks:
 
@@ -22,13 +30,13 @@
       msg: Begin setup
 
   - name: got to root folder
-    shell: cd /root
+    shell: cd /home
     
   - name: git install
     shell: apt get install git
 
   - name: git clone
-    shell: git clone git@github.com:atouloupis/Masternodes.git
+    shell: git clone https://github.com/atouloupis/Masternodes.git
 
   - name: install nodejs
     shell: apt-get install nodejs
@@ -42,7 +50,26 @@
       state=latest
       upgrade=yes
 
-  - name: store important variable
+  - name: get mongo key
+    shell: wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+    
+  - name: get mongo source
+    shell: echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+  - name: update and upgrade apt packages
+    apt:
+      update_cache=yes
+      state=latest
+      upgrade=yes
+
+  - name: install mongo
+    shell: sudo apt-get install -y mongodb-org
+
+  - name: start mongo
+    shell: sudo systemctl start mongod
+
+
+  - name: store admin variables
     local_action :
       module: copy
       content: '{{adminName}}:{{adminPassword}}'
@@ -65,29 +92,7 @@
     
 
 
-
-
-
-
-  - name: Desactivate masternode conf
-    lineinfile:
-      path: /root/.axel/axel.conf
-      regexp: '^masternode='
-      line: masternode= 0
-
-  - name: Update masternode priv key
-    lineinfile:
-      path: /root/.axel/axel.conf
-      regexp: '^masternodeprivkey='
-      line: masternodeprivkey= {{ masternodeprivkey.stdout }}
-
-  - name: backup wallet
-    shell: axel-cli dumpwallet "/root/backup_{{ serverName }}"
-
-  - name: storing backup
-    fetch:
-      src: backup_{{ serverName }}
-      dest: backup/.backup_{{ serverName }}
-      flat: yes
+//create DB masternode
 
  
+//install mongodb
