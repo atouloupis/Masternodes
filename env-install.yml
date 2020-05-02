@@ -5,50 +5,67 @@
 
   vars_prompt :
     - name: scalewayAPIsKey
-      prompt: "What is your scaleway API"
+      prompt: "What is your scaleway API secret key"
       private: no
 
     - name: scalewayAPIpKey
-      prompt: "What is your scaleway API"
+      prompt: "What is your scaleway API public key"
       private: no
       
     - name: adminName
       prompt: "What is your admin account name"
       private: no
-    
+
     - name: adminPassword
-      prompt: "What is your admin password"
-      private: yes
-      encrypt: "sha512_crypt"
-      confirm: yes
-      salt_size: 7
-      
+      prompt: "What is your admin password name"      
     
   tasks:
 
   - debug:
       msg: Begin setup
 
-  - name: got to root folder
-    shell: cd /home
-    
-  - name: git install
-    shell: apt get install git
-
-  - name: git clone
-    shell: git clone https://github.com/atouloupis/Masternodes.git
-
-  - name: install nodejs
-    shell: apt-get install nodejs
-
-  - name: install npm
-    shell: apt-get install npm
-
   - name: update and upgrade apt packages
     apt:
       update_cache=yes
       state=latest
       upgrade=yes
+
+  - name: Install passlib
+    apt:
+      name: python-passlib
+      state: present
+
+
+  # - name: Admin password
+    # prompt: "What is your admin password"
+    # register: adminPassword
+    # private: yes
+    # encrypt: "sha512_crypt"
+    # confirm: yes
+    # salt_size: 7
+
+  - name: got to hom folder
+    shell: cd /home
+    
+  - name: Install git
+    apt:
+      name: git
+      state: present
+
+  - git:
+      repo: https://github.com/atouloupis/Masternodes.git
+      dest: /home/Masternodes
+      update: no
+
+  - name: Install nodejs
+    apt:
+      name: nodejs
+      state: present
+
+  - name: Install npm
+    apt:
+      name: npm
+      state: present
 
   - name: get mongo key
     shell: wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
@@ -62,6 +79,11 @@
       state=latest
       upgrade=yes
 
+  - name: Install mongo
+    apt:
+      name: mongodb-org
+      state: present
+
   - name: install mongo
     shell: sudo apt-get install -y mongodb-org
 
@@ -69,30 +91,53 @@
     shell: sudo systemctl start mongod
 
 
-  - name: store admin variables
+  # - name: store admin variables
+    # local_action :
+      # module: copy
+      # content: '{{adminName}}:{{adminPassword}}'
+      # dest: /root/Masternodes/users.htpasswd
+      
+  - htpasswd:
+      path: /home/Masternodes/users.htpasswd
+      name: "{{ adminName }}"
+      password: "{{ adminPassword }}"
+      crypt_scheme: sha512_crypt
+
+  - name: store Scaleway API key
     local_action :
       module: copy
-      content: '{{adminName}}:{{adminPassword}}'
-      dest: /root/MAsternodes/users.htpasswd
+      content: '{"scalewayApi":{"skey":{{scalewayAPIsKey}}},{"pkey":{{scalewayAPIpKey}}}}'
+      dest: /home/Masternodes/.env
 
   - name: cron walletsInfosUpdate
     lineinfile:
-      path: /etc/cron.d/sysstat
-      line: "*/20 * * * * root node /root/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
+      path: /etc/cron.d/masternode
+      line: "*/20 * * * * root node /home/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
       insertafter: EOF
+      create: yes
       
   - name: cron coinGekoUpdate
     lineinfile:
-      path: /etc/cron.d/sysstat
-      line: "*/10 * * * * root node /root/Masternodes/src/marketInfo/coinGekoUpdate.js"
+      path: /etc/cron.d/masternode
+      line: "*/10 * * * * root node /home/Masternodes/src/marketInfo/coinGekoUpdate.js"
       insertafter: EOF
+      create: yes
 
   - name: restart crontab
     shell: /etc/init.d/cron force-reload
     
+  - name: got to hom folder
+    shell: cd /home/Masternodes
 
 
-//create DB masternode
-
+#create DB masternode
+  - name: Install npm depedencies
+    shell : sudo npm install
  
-//install mongodb
+# config nginx
+  - name: Update the repository cache and update package "nginx" to latest version using default release squeeze-backport
+    apt:
+      name: nginx
+      state: latest
+      default_release: bionic-backports
+      update_cache: yes
