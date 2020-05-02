@@ -20,10 +20,7 @@
       prompt: "What is your admin password name"      
     
   tasks:
-
-  - debug:
-      msg: Begin setup
-
+ 
   - name: update and upgrade apt packages
     apt:
       update_cache=yes
@@ -35,17 +32,8 @@
       name: python-passlib
       state: present
 
-
-  # - name: Admin password
-    # prompt: "What is your admin password"
-    # register: adminPassword
-    # private: yes
-    # encrypt: "sha512_crypt"
-    # confirm: yes
-    # salt_size: 7
-
   - name: got to hom folder
-    shell: cd /home
+    shell: cd ~/
     
   - name: Install git
     apt:
@@ -54,7 +42,7 @@
 
   - git:
       repo: https://github.com/atouloupis/Masternodes.git
-      dest: /home/Masternodes
+      dest: ~/Masternodes
       update: no
 
   - name: Install nodejs
@@ -89,16 +77,9 @@
 
   - name: start mongo
     shell: sudo systemctl start mongod
-
-
-  # - name: store admin variables
-    # local_action :
-      # module: copy
-      # content: '{{adminName}}:{{adminPassword}}'
-      # dest: /root/Masternodes/users.htpasswd
       
   - htpasswd:
-      path: /home/Masternodes/users.htpasswd
+      path: ~/Masternodes/users.htpasswd
       name: "{{ adminName }}"
       password: "{{ adminPassword }}"
       crypt_scheme: sha512_crypt
@@ -107,19 +88,19 @@
     local_action :
       module: copy
       content: '{"scalewayApi":{"skey":{{scalewayAPIsKey}}},{"pkey":{{scalewayAPIpKey}}}}'
-      dest: /home/Masternodes/.env
+      dest: ~/Masternodes/.env
 
   - name: cron walletsInfosUpdate
     lineinfile:
       path: /etc/cron.d/masternode
-      line: "*/20 * * * * root node /home/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
+      line: "*/20 * * * * root node ~/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
       insertafter: EOF
       create: yes
       
   - name: cron coinGekoUpdate
     lineinfile:
       path: /etc/cron.d/masternode
-      line: "*/10 * * * * root node /home/Masternodes/src/marketInfo/coinGekoUpdate.js"
+      line: "*/10 * * * * root node ~/Masternodes/src/marketInfo/coinGekoUpdate.js"
       insertafter: EOF
       create: yes
 
@@ -127,7 +108,7 @@
     shell: /etc/init.d/cron force-reload
     
   - name: got to hom folder
-    shell: cd /home/Masternodes
+    shell: cd ~/Masternodes
 
 
 #create DB masternode
