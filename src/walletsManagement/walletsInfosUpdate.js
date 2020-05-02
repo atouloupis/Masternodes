@@ -22,6 +22,7 @@ mongoose.connection
 function closeMongoose (){mongoose.connection.close();}
 
 Masternodes.find().then((masternodes) => {
+	if(masternodes.length==0){closeMongoose();};
 	masternodes.forEach( item =>{
 		item=JSON.parse(JSON.stringify(item));
 		if(item.pubkey!="" && item.pubkey!=undefined){
