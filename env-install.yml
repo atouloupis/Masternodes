@@ -79,15 +79,33 @@
     shell: sudo systemctl start mongod
       
   - htpasswd:
-      path: ~/Masternodes/users.htpasswd
+      dest: /home/users.htpasswd
       name: "{{ adminName }}"
       password: "{{ adminPassword }}"
-      crypt_scheme: sha512_crypt
-
+      crypt_scheme: md5_crypt
+      
+  - name: copy
+    local_action :
+      module: copy
+      src: /home/users.htpasswd
+      dest: ~/Masternodes/conf/users.htpasswd
+      
+  - name: Create a directory if it does not exist
+    file:
+      path: ~/Masternodes/conf
+      state: directory
+      mode: '0755'
+    
   - name: store Scaleway API key
     local_action :
       module: copy
-      content: '{"scalewayApi":{"skey":{{scalewayAPIsKey}}},{"pkey":{{scalewayAPIpKey}}}}'
+      content: '{"scalewayApi":{"skey":"{{scalewayAPIsKey}}"},{"pkey":"{{scalewayAPIpKey}}"}}'
+      dest: ~/Masternodes/conf/key.json
+
+  - name: mongo db
+    local_action :
+      module: copy
+      content: 'DATABASE=mongodb://localhost:27017/masternode'
       dest: ~/Masternodes/.env
 
   - name: cron walletsInfosUpdate

@@ -15,7 +15,7 @@ const basic = auth.basic({
   file: path.join(__dirname, '../conf/users.htpasswd'),
 });
 
-router.get('/', auth.connect(basic), (req, res) => {
+router.get('/', basic.check( (req, res) => {
 	dashboard.data(function(data){
   Masternodes.find()
     .then((masternodes) => {
@@ -27,15 +27,15 @@ router.get('/', auth.connect(basic), (req, res) => {
       res.send('Sorry! Something went wrong.');
     });
 	})
-});
+}));
 
-router.get('/masternodes', auth.connect(basic), (req, res) => {
+router.get('/masternodes', basic.check( (req, res) => {
 	masternodes_data.MNdata(function(MNdata){
 		masternodes_data.Cryptodata(function(Cryptodata){
 			res.render('masternodes', { title: 'Masternodes - Management', MNdata, Cryptodata });
 		});
 	});
-});
+}));
 
 router.post('/masternodes',
   async(req, res) => {
@@ -79,7 +79,7 @@ router.post('/',
     }
   });
 
-router.get('/registrations', auth.connect(basic), (req, res) => {
+router.get('/registrations', basic.check( (req, res) => {
   Registration.find()
     .then((registrations) => {
       res.render('index', { title: 'Listing registrations', registrations });
@@ -88,7 +88,7 @@ router.get('/registrations', auth.connect(basic), (req, res) => {
       console.log(err);
       res.send('Sorry! Something went wrong.');
     });
-});
+}));
 
 module.exports = router;
 
