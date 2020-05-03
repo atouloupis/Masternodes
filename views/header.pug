@@ -12,6 +12,23 @@ nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
       div.input-group-append
         button.btn.btn-primary(type="button")
           i.fas.fa-search.fa-sm
+        each cryptodata in Cryptodata
+          if cryptodata.symbol=='btc'
+            span.mr-2.d-none.d-lg-inline.small.text-primary.ml-4.my-auto
+              a.ml-2
+                img(src=cryptodata.image.small,width="25 px")
+              a.ml-2
+                =cryptodata.market_data.current_price.eur
+                |  €
+            if cryptodata.market_data.price_change_percentage_24h>0
+              span.mr-2.d-none.d-lg-inline.small.font-weight-bold.text-success.ml-1.my-auto
+                  |+
+                  =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                  | %
+            else
+              span.mr-2.d-none.d-lg-inline.small.font-weight-bold.text-danger.ml-1.my-auto
+                  =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                  | %
 
 
   //Topbar Navbar

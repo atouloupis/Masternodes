@@ -9,15 +9,23 @@ const await = require('asyncawait/await');
 
 
 function MNdata(res){
-	var MNinfo = {summary:[]};
+	var MNinfo = {totalTokenEur:0,totalgainperweekEur:0,totalTokenBtc:0,totalgainperweekBtc:0,summary:[]};
 	var MNsummary={masternodes:[]};
+	Cryptodatas(function(cryptodatas){
 	Masternodes.find().then((masternodes) => {
-		var totalGain;
 		masternodes.forEach( masternode =>{
+			cryptodatas.forEach(cryptodata =>{
+				if (cryptodata.symbol==masternode.symbol){ 
+				var priceEur=cryptodata.market_data.current_price.eur;
+				var priceBtc=cryptodata.market_data.current_price.btc;
+			MNinfo.totalTokenBtc=MNinfo.totalTokenBtc+masternode.totalToken*priceBtc;
+			MNinfo.totalgainperweekBtc=MNinfo.totalgainperweekBtc+masternode.gainperweek*priceBtc;
+			MNinfo.totalTokenEur=MNinfo.totalTokenEur+masternode.totalToken*priceEur;
+			MNinfo.totalgainperweekEur=MNinfo.totalgainperweekEur+masternode.gainperweek*priceEur;
 			const exist = MNinfo.summary.find(exist => exist.crypto == masternode.crypto);
 			if (exist==undefined)
 			{
-				var item1 = {'crypto' : masternode.crypto, 'count': 1,'total':masternode.totalToken};
+				var item1 = {'crypto' : masternode.crypto, 'count': 1,'totalEur':masternode.totalToken*priceEur,'totalBtc':masternode.totalToken*priceBtc,'gainperweekEur':masternode.gainperweek*priceEur,'gainperweekBtc':masternode.gainperweek*priceBtc};
 				MNinfo.summary.push(item1);
 			}
 			else {
@@ -27,19 +35,24 @@ function MNdata(res){
 					if(MNinfo.summary[i].crypto==masternode.crypto)
 					{
 						MNinfo.summary[i].count=MNinfo.summary[i].count+1;
-						MNinfo.summary[i].total=MNinfo.summary[i].total+masternode.totalToken;
+						MNinfo.summary[i].totalEur=MNinfo.summary[i].totalEur+masternode.totalToken*priceEur;
+						MNinfo.summary[i].totalBtc=MNinfo.summary[i].totalBtc+masternode.totalToken*priceBtc;
+						MNinfo.summary[i].gainperweekEur=MNinfo.summary[i].gainperweekEur+masternode.gainperweek*priceEur;
+						MNinfo.summary[i].gainperweekBtc=MNinfo.summary[i].gainperweekBtc+masternode.gainperweek*priceBtc;
 					}
 				}
 			}
 			MNsummary.masternodes.push(masternode);
+			}});
 		});
 		MNsummary=Object.assign(MNinfo,MNsummary);
 		console.log(MNsummary);
 		res(MNsummary);
 	})
+	});
 }
 
-function Cryptodata(res){
+function Cryptodatas(res){
 	Crypto_datas.find().then((Cryptodatas) => {
 		res(Cryptodatas);
 	})
@@ -56,5 +69,4 @@ const createMN = async ((io,crypto,user)=>{
 });
 
 module.exports.MNdata = MNdata;
-module.exports.Cryptodata = Cryptodata;
 exports.createMN = createMN;

@@ -8,6 +8,8 @@ const path = require('path');
 const { check, validationResult } = require('express-validator');
 const dashboard_data = require('./dashboard_data');
 const masternodes_data = require('./masternodes_data');
+const crypto_data = require('./crypto_data');
+const summary_data = require('./summary_data');
 const router = express.Router();
 const Registration = mongoose.model('Registration');
 const Masternodes = mongoose.model('Masternodes');
@@ -31,7 +33,7 @@ router.get('/', basic.check( (req, res) => {
 
 router.get('/masternodes', basic.check( (req, res) => {
 	masternodes_data.MNdata(function(MNdata){
-		masternodes_data.Cryptodata(function(Cryptodata){
+		crypto_data.Cryptodata(function(Cryptodata){
 			res.render('masternodes', { title: 'Masternodes - Management', MNdata, Cryptodata });
 		});
 	});

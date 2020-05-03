@@ -80,6 +80,7 @@ Masternodes.find().then((masternodes) => {
 					let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
 					if (err) throw (err);
 					console.log(doc);
+					setTimeout(closeMongoose,15000);
 				});
 				});
 			});

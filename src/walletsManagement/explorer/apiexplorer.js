@@ -146,7 +146,6 @@ function iqcashWallet(pubkey,callback){
 	};
 	restFull.getRestFull(options,function(err,txList){
 		if (err) throw(err);
-		
 		setTimeout(iqcashTx,500,txList,pubkey,function(txgain){
 			callback(JSON.parse(JSON.stringify({"gainsincecreated":txList.received-3000,"gainperweek":txgain})));
 		});
@@ -155,10 +154,12 @@ function iqcashWallet(pubkey,callback){
 
 function iqcashTx(txList,pubkey,callback){
 	var sumtxgain=0;
-	var count=1;
+	var count=0;
+	var count1=0;
 	for (var i=0;i<txList.last_txs.length;i++){
 		var tx=txList.last_txs[i];
 		if (tx.type=="vout") {
+			count1++;
 			var options1 = {
 				host: "explorer.iq.cash",
 				path: "/api/getrawtransaction?txid="+tx.addresses+"&decrypt=1",
@@ -171,10 +172,11 @@ function iqcashTx(txList,pubkey,callback){
 			};
 			setTimeout(restFull.getRestFull,i*500,options1,function(err,txDetail){
 				if (err) throw(err);
+
 				iqcashTxgain(txDetail,pubkey,function(txgain){
 					count++;
 					sumtxgain=txgain+sumtxgain;
-					if (count==txList.last_txs.length){callback(sumtxgain)}
+					if (count==count1){callback(sumtxgain)}
 				});
 			});
 		}
@@ -193,4 +195,5 @@ function iqcashTxgain(txDetail,pubkey,callback){
 		if(txDetail.vout.length==count1){callback(txgain);}
 	});
 	}
+	else {callback(0);}
 }

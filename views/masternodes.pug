@@ -10,14 +10,50 @@ block content
     div.d-sm-flex.align-items-center.justify-content-between.mb-4
       h1.h3.mb-0.text-gray-800
         |Masternodes
+        if MNdata.summary.length != 0
+            h4.mb-0.text-primary
+              =Math.round(MNdata.totalTokenBtc*1000)/1000
+              |  Btc  -  
+              =Math.round(MNdata.totalgainperweekBtc*1000)/1000
+              |  Btc/sem
+            span.text-xs.text-gray-500
+              =Math.round(MNdata.totalTokenEur)
+              |  €  -  
+              =Math.round(MNdata.totalgainperweekEur*10)/10
+              |  €/sem
+
     //Collapse card example
     div.card.shadow.mb-4
       //Card Header - Accordion
       a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
-          h6.m-0.font-weight-bold.text-primary My Axel Masternodes
-          | Total value = 
+          h6.m-1.font-weight-bold.text-primary 
+            | Axel   -   
+            each cryptodata in Cryptodata
+              if cryptodata.symbol=='axel'
+                h7.mb-0.text-primary.font-weight-light
+                  img(src=cryptodata.image.small,width="20 px")
+                  |      
+                  =cryptodata.market_data.current_price.eur
+                  |  €       
+                if cryptodata.market_data.price_change_percentage_24h>0
+                  span.text-success
+                    |+
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %  
+                else
+                  span.text-danger
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %
           if MNdata.summary.length != 0
-            =MNdata.summary[0].total
+            each summary in MNdata.summary 
+              if summary.crypto=="Axel"
+                h7.text-primary
+                  | Total  
+                  =Math.round(summary.totalBtc*100)/100
+                  |  Btc  
+                span.text-xs.text-gray-500
+                  =Math.round(summary.totalEur*100)/100
+                  |  €
       //Card Content - Collapse
       div.collapse.show#collapseCardExample(style="")
         div.card-body
@@ -47,7 +83,7 @@ block content
                   each cryptodata in Cryptodata
                     if cryptodata.symbol=='axel'
                       //Earnings (Monthly) Card Example
-                      div.col-xl-3.col-md-6.mb-4
+                      div.col-xl-4.col-md-6.mb-4
                         if masternode.isactive === true
                           div.card.border-left-success.shadow.h-100.py-2
                             div.card-body
@@ -128,15 +164,42 @@ block content
             else
               p No masternodes yet :(
 
+
     //Collapse card example
     div.card.shadow.mb-4
       //Card Header - Accordion
       a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
-        h6.m-0.font-weight-bold.text-primary My SafeCapital (SCAP) Masternodes
+          h6.m-1.font-weight-bold.text-primary 
+            | Scap   -   
+            each cryptodata in Cryptodata
+              if cryptodata.symbol=='scap'
+                h7.mb-0.text-primary.font-weight-light
+                  img(src=cryptodata.image.small,width="20 px")
+                  |      
+                  =cryptodata.market_data.current_price.eur
+                  |  €       
+                if cryptodata.market_data.price_change_percentage_24h>0
+                  span.text-success
+                    |+
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %  
+                else
+                  span.text-danger
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %
+          if MNdata.summary.length != 0
+            each summary in MNdata.summary 
+              if summary.crypto=="Scap"
+                h7.text-primary
+                  | Total  
+                  =Math.round(summary.totalBtc*100)/100
+                  |  Btc  
+                span.text-xs.text-gray-500
+                  =Math.round(summary.totalEur*100)/100
+                  |  €
       //Card Content - Collapse
       div.collapse.show#collapseCardExample(style="")
         div.card-body
-          #MNinfos
           p
             |This is a collapsable card example using Bootstrap's built in collapse functionality. 
             strong Click on the card header out strong
@@ -154,6 +217,7 @@ block content
             |  Now send your 5000 collateral to
             =MNinfos.pubkey
           div.my-2
+          p
           //Content Row
           div.row
             if MNdata.masternodes.length != 0
@@ -162,7 +226,7 @@ block content
                   each cryptodata in Cryptodata
                     if cryptodata.symbol=='scap'
                       //Earnings (Monthly) Card Example
-                      div.col-xl-3.col-md-6.mb-4
+                      div.col-xl-4.col-md-6.mb-4
                         if masternode.isactive === true
                           div.card.border-left-success.shadow.h-100.py-2
                             div.card-body
@@ -172,7 +236,6 @@ block content
                                     =masternode.serverName
                                     |  -  ROI  : 
                                     =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
-                                    | %
                                     |  -   Par mois  : 
                                     =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
                                     | €
@@ -244,37 +307,60 @@ block content
             else
               p No masternodes yet :(
 
+
     //Collapse card example
     div.card.shadow.mb-4
       //Card Header - Accordion
-      a(href="#collapseCardExample1",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample1")
-        h6.m-0.font-weight-bold.text-primary My Iqcash (IQ) Masternodes
+      a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
+          h6.m-1.font-weight-bold.text-primary 
+            | IQ Cash   -   
+            each cryptodata in Cryptodata
+              if cryptodata.symbol=='iq'
+                h7.mb-0.text-primary.font-weight-light
+                  img(src=cryptodata.image.small,width="20 px")
+                  |      
+                  =cryptodata.market_data.current_price.eur
+                  |  €       
+                if cryptodata.market_data.price_change_percentage_24h>0
+                  span.text-success
+                    |+
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %  
+                else
+                  span.text-danger
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %
+          if MNdata.summary.length != 0
+            each summary in MNdata.summary 
+              if summary.crypto=="Iqcash"
+                h7.text-primary
+                  | Total  
+                  =Math.round(summary.totalBtc*100)/100
+                  |  Btc  
+                span.text-xs.text-gray-500
+                  =Math.round(summary.totalEur*100)/100
+                  |  €
       //Card Content - Collapse
-      div.collapse.show#collapseCardExample1(style="")
+      div.collapse.show#collapseCardExample(style="")
         div.card-body
           p
             |This is a collapsable card example using Bootstrap's built in collapse functionality. 
             strong Click on the card header out strong
             |to see the card body collapse and expand!
-            p
-              #loadingbutton
-            p
-              form(name="iqcash-submit",method="post")
-                input(type="hidden",id="crypto",value="Iqcash",name="crypto")
-                input(type="hidden",id="user",value="Andreas",name="user")
-                button(type="submit",value="Iqcash").btn.btn-primary.btn-icon-split
-                  span.icon.text-white-50
-                    i.fas.fa-arrow-right
-                  span.text.text-white Create New IQ MN
-            p
-              button.btn.btn-primary(type="button").disabled
-                span.spinner-grow.spinner-grow-sm(role="status",aria-hidden="true")
-                |Loading...
-            if MNinfos
-              if MNinfos.status==installed
-              |  Now send your 5000 collateral to
-              =MNinfos.pubkey
+          p
+            form(name="iqcash-submit",method="post")
+              input(type="hidden",id="crypto",value="Iqcash",name="crypto")
+              input(type="hidden",id="user",value="Andreas",name="user")
+              button(type="submit",value="Iqcash").btn.btn-primary.btn-icon-split
+                span.icon.text-white-50
+                  i.fas.fa-arrow-right
+                span.text.text-white Create New IQ-cash MN
+          if MNinfos
+            if MNinfos.status==installed
+            |  Now send your 5000 collateral to
+            =MNinfos.pubkey
           div.my-2
+          p
           //Content Row
           div.row
             if MNdata.masternodes.length != 0
@@ -283,7 +369,7 @@ block content
                   each cryptodata in Cryptodata
                     if cryptodata.symbol=='iq'
                       //Earnings (Monthly) Card Example
-                      div.col-xl-3.col-md-6.mb-4
+                      div.col-xl-4.col-md-6.mb-4
                         if masternode.isactive === true
                           div.card.border-left-success.shadow.h-100.py-2
                             div.card-body
@@ -293,7 +379,6 @@ block content
                                     =masternode.serverName
                                     |  -  ROI  : 
                                     =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
-                                    | %
                                     |  -   Par mois  : 
                                     =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
                                     | €
@@ -365,15 +450,42 @@ block content
             else
               p No masternodes yet :(
 
+
     //Collapse card example
     div.card.shadow.mb-4
       //Card Header - Accordion
       a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
-        h6.m-0.font-weight-bold.text-primary My Transcendence (TELOS) Masternodes
+          h6.m-1.font-weight-bold.text-primary 
+            | Telos   -   
+            each cryptodata in Cryptodata
+              if cryptodata.symbol=='telos'
+                h7.mb-0.text-primary.font-weight-light
+                  img(src=cryptodata.image.small,width="20 px")
+                  |      
+                  =cryptodata.market_data.current_price.eur
+                  |  €       
+                if cryptodata.market_data.price_change_percentage_24h>0
+                  span.text-success
+                    |+
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %  
+                else
+                  span.text-danger
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %
+          if MNdata.summary.length != 0
+            each summary in MNdata.summary 
+              if summary.crypto=="Telos"
+                h7.text-primary
+                  | Total  
+                  =Math.round(summary.totalBtc*100)/100
+                  |  Btc  
+                span.text-xs.text-gray-500
+                  =Math.round(summary.totalEur*100)/100
+                  |  €
       //Card Content - Collapse
       div.collapse.show#collapseCardExample(style="")
         div.card-body
-          #MNinfos
           p
             |This is a collapsable card example using Bootstrap's built in collapse functionality. 
             strong Click on the card header out strong
@@ -388,9 +500,10 @@ block content
                 span.text.text-white Create New Telos MN
           if MNinfos
             if MNinfos.status==installed
-            |  Now send your 100 000 collateral to
+            |  Now send your 5000 collateral to
             =MNinfos.pubkey
           div.my-2
+          p
           //Content Row
           div.row
             if MNdata.masternodes.length != 0
@@ -399,7 +512,7 @@ block content
                   each cryptodata in Cryptodata
                     if cryptodata.symbol=='telos'
                       //Earnings (Monthly) Card Example
-                      div.col-xl-3.col-md-6.mb-4
+                      div.col-xl-4.col-md-6.mb-4
                         if masternode.isactive === true
                           div.card.border-left-success.shadow.h-100.py-2
                             div.card-body
@@ -409,7 +522,6 @@ block content
                                     =masternode.serverName
                                     |  -  ROI  : 
                                     =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
-                                    | %
                                     |  -   Par mois  : 
                                     =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
                                     | €
@@ -481,15 +593,42 @@ block content
             else
               p No masternodes yet :(
 
+
     //Collapse card example
     div.card.shadow.mb-4
       //Card Header - Accordion
       a(href="#collapseCardExample",class="d-block card-header py-3",data-toggle="collapse",role="button",aria-expanded="true",aria-controls="collapseCardExample")
-        h6.m-0.font-weight-bold.text-primary My Energi (NRG) Masternodes
+          h6.m-1.font-weight-bold.text-primary 
+            | Energi   -   
+            each cryptodata in Cryptodata
+              if cryptodata.symbol=='nrg'
+                h7.mb-0.text-primary.font-weight-light
+                  img(src=cryptodata.image.small,width="20 px")
+                  |      
+                  =cryptodata.market_data.current_price.eur
+                  |  €       
+                if cryptodata.market_data.price_change_percentage_24h>0
+                  span.text-success
+                    |+
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %  
+                else
+                  span.text-danger
+                    =Math.round(cryptodata.market_data.price_change_percentage_24h*10)/10
+                    | %
+          if MNdata.summary.length != 0
+            each summary in MNdata.summary 
+              if summary.crypto=="Energi"
+                h7.text-primary
+                  | Total  
+                  =Math.round(summary.totalBtc*100)/100
+                  |  Btc  
+                span.text-xs.text-gray-500
+                  =Math.round(summary.totalEur*100)/100
+                  |  €
       //Card Content - Collapse
       div.collapse.show#collapseCardExample(style="")
         div.card-body
-          #MNinfos
           p
             |This is a collapsable card example using Bootstrap's built in collapse functionality. 
             strong Click on the card header out strong
@@ -501,12 +640,13 @@ block content
               button(type="submit",value="Energi").btn.btn-primary.btn-icon-split
                 span.icon.text-white-50
                   i.fas.fa-arrow-right
-                span.text.text-white Create New Telos MN
+                span.text.text-white Create New Energi MN
           if MNinfos
             if MNinfos.status==installed
-            |  Now send your 1 000 collateral to
+            |  Now send your 5000 collateral to
             =MNinfos.pubkey
           div.my-2
+          p
           //Content Row
           div.row
             if MNdata.masternodes.length != 0
@@ -515,7 +655,7 @@ block content
                   each cryptodata in Cryptodata
                     if cryptodata.symbol=='nrg'
                       //Earnings (Monthly) Card Example
-                      div.col-xl-3.col-md-6.mb-4
+                      div.col-xl-4.col-md-6.mb-4
                         if masternode.isactive === true
                           div.card.border-left-success.shadow.h-100.py-2
                             div.card-body
@@ -525,7 +665,6 @@ block content
                                     =masternode.serverName
                                     |  -  ROI  : 
                                     =Math.round(((masternode.gainperweek/7)*365)/masternode.collateral*1000)/10
-                                    | %
                                     |  -   Par mois  : 
                                     =Math.round((cryptodata.market_data.current_price.eur*masternode.gainperweek/7)*30*100)/100
                                     | €
@@ -596,6 +735,7 @@ block content
                                     i.fa.fa-trash.fa-1x.text-danger
             else
               p No masternodes yet :(
+
   script.
     const socket = io();
     socket.on('loadingbutton', function(message) {
