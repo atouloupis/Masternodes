@@ -6,12 +6,8 @@ nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
     i.fa.fa-bars
 
   //Topbar Search
-  form.d-none.d-sm-inline-block.form-inline.mr-auto.ml-md-3.my-2.my-md-0.mw-100.navbar-search
+  form.d-none.d-sm-inline-block.form-inline.mr-auto.ml-md-0.my-2.my-md-0.mw-100.navbar-search
     div.input-group
-      input.form-control.bg-light.border-0.small(type="text", placeholder="Search for...", aria-label="Search", aria-describedby="basic-addon2")
-      div.input-group-append
-        button.btn.btn-primary(type="button")
-          i.fas.fa-search.fa-sm
         each cryptodata in Cryptodata
           if cryptodata.symbol=='btc'
             span.mr-2.d-none.d-lg-inline.small.text-primary.ml-4.my-auto
@@ -143,7 +139,7 @@ nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
       li.nav-item.dropdown.no-arrow
         a.nav-link.dropdown-toggle(href="#",id="userDropdown",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false")
           span.mr-2.d-none.d-lg-inline.text-gray-600.small
-            |Valerie Luna
+            =User
           img.img-profile.rounded-circle(src="https://source.unsplash.com/QAB-WJcbgJk/60x60")
         //Dropdown - User Information
         div.dropdown-menu.dropdown-menu-right.shadow.animated--grow-in(aria-labelledby="userDropdown")

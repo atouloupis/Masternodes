@@ -12,29 +12,8 @@ block content
         |Dashboard
       a(href="#").d-none.d-sm-inline-block.btn.btn-sm.btn-primary.shadow-sm 
         i.fas.fa-download.fa-sm.text-white-50 
-        | Generate Report
-
-    //Content Row
+          | Generate Report
     div.row
-      if masternodes.length != 0
-        = data
-        each masternode in masternodes
-          if masternodes.crypto === 'Axel'
-          //Earnings (Monthly) Card Example
-          div.col-xl-3.col-md-6.mb-4
-            div.card.border-left-primary.shadow.h-100.py-2
-              div.card-body
-                div.row.no-gutters.align-items-center
-                  div.col.mr-2
-                    div.text-xs.font-weight-bold.text-primary.text-uppercase.mb-1 
-                      =masternode.serverName
-                    div.h5.mb-0.font-weight-bold.text-gray-800 
-                      |$40,000
-                  div.col-auto
-                    i.fas.fa-calendar.fa-2x.text-gray-300 
-      else
-        p No masternodes yet :(
-
       //Earnings (Monthly) Card Example
       div.col-xl-3.col-md-6.mb-4
         div.card.border-left-primary.shadow.h-100.py-2

@@ -17,9 +17,14 @@
       private: no
 
     - name: adminPassword
-      prompt: "What is your admin password name"      
+      prompt: "What is your admin password name"
     
   tasks:
+ 
+  - name: get the username running the deploy
+    become: false
+    local_action: command whoami
+    register: username
  
   - name: update and upgrade apt packages
     apt:
@@ -33,7 +38,7 @@
       state: present
 
   - name: got to hom folder
-    shell: cd ~/
+    shell: cd /home/{{ username }}/
     
   - name: Install git
     apt:
@@ -42,7 +47,7 @@
 
   - git:
       repo: https://github.com/atouloupis/Masternodes.git
-      dest: ~/Masternodes
+      dest: /home/{{ username }}/Masternodes
       update: no
 
   - name: Install nodejs
@@ -79,20 +84,20 @@
     shell: sudo systemctl start mongod
       
   - htpasswd:
-      dest: /home/users.htpasswd
+      dest: /home/{{ username }}/users.htpasswd
       name: "{{ adminName }}"
       password: "{{ adminPassword }}"
       crypt_scheme: md5_crypt
       
-  - name: copy
-    local_action :
-      module: copy
-      src: /home/users.htpasswd
-      dest: ~/Masternodes/conf/users.htpasswd
+  # - name: copy
+    # local_action :
+      # module: copy
+      # src: /home/users.htpasswd
+      # dest: ~/Masternodes/conf/users.htpasswd
       
   - name: Create a directory if it does not exist
     file:
-      path: ~/Masternodes/conf
+      path: /home/{{ username }}/Masternodes/conf
       state: directory
       mode: '0755'
     
@@ -100,25 +105,25 @@
     local_action :
       module: copy
       content: '{"scalewayApi":{"skey":"{{scalewayAPIsKey}}"},{"pkey":"{{scalewayAPIpKey}}"}}'
-      dest: ~/Masternodes/conf/key.json
+      dest: /home/{{ username }}/Masternodes/conf/key.json
 
   - name: mongo db
     local_action :
       module: copy
       content: 'DATABASE=mongodb://localhost:27017/masternode'
-      dest: ~/Masternodes/.env
+      dest: /home/{{ username }}/Masternodes/.env
 
   - name: cron walletsInfosUpdate
     lineinfile:
       path: /etc/cron.d/masternode
-      line: "*/20 * * * * root node ~/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
+      line: "*/20 * * * * root node /home/{{ username }}/Masternodes/src/walletsManagement/walletsInfosUpdate.js"
       insertafter: EOF
       create: yes
       
   - name: cron coinGekoUpdate
     lineinfile:
       path: /etc/cron.d/masternode
-      line: "*/10 * * * * root node ~/Masternodes/src/marketInfo/coinGekoUpdate.js"
+      line: "*/10 * * * * root node /home/{{ username }}/Masternodes/src/marketInfo/coinGekoUpdate.js"
       insertafter: EOF
       create: yes
 
@@ -126,7 +131,7 @@
     shell: /etc/init.d/cron force-reload
     
   - name: got to hom folder
-    shell: cd ~/Masternodes
+    shell: cd /home/{{ username }}/Masternodes
 
 
 #create DB masternode
