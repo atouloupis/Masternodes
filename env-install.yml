@@ -137,7 +137,10 @@
 #create DB masternode
   - name: Install npm depedencies
     shell : sudo npm install
- 
+
+  - name: Install blockchain info API - Wallet
+    shell: sudo npm install -g blockchain-wallet-service
+
 # config nginx
   - name: Update the repository cache and update package "nginx" to latest version using default release squeeze-backport
     apt:

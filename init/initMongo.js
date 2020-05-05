@@ -43,11 +43,15 @@ listmasternodes=[
 mongoClient.connect(urlMasternode, { useUnifiedTopology: true}, function(err, db) {
     if (err) throw err;
     dbase = db.db("masternode");
-mongo.createCollection (dbase,'masternodes',function(){
+	mongo.createCollection (dbase,'masternodes',function(){
 		mongo.insertCollection(dbase,'masternodes', listmasternodes, function() {});
 
-mongo.createCollection (dbase,'cryptodata',function(){
-	db.close();
-});	
-});
+		mongo.createCollection (dbase,'cryptodata',function(){
+			mongo.createCollection (dbase,'wallets',function(){
+				mongo.createCollection (dbase,'users',function(){
+					db.close();
+				});
+			});
+		});
+	});
 });
