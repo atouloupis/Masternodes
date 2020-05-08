@@ -10,12 +10,14 @@ const walletsdatasSchema = new mongoose.Schema({
 			items:
 			{ 
 				type: 'object',
-				properties: 
+				properties:
 				{ 
 					name: { type: 'string' },
-					pubkeys: { type: 'array', items: {type: 'string' } },
+					pubkeys: {type: 'string' },
 					privkeysid: { type: 'string' },
-					balance: { type: 'integer' } 
+					receiveaddress: { type: 'string' },
+					balance: { type: 'integer' },
+					walletid: { type: 'string' }
 				} 
 			} 
 		} 

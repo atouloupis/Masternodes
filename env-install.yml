@@ -139,7 +139,7 @@
     shell : sudo npm install
 
   - name: Install blockchain info API - Wallet
-    shell: sudo npm install -g blockchain-wallet-service
+    shell: npm install --save blockchain.info
 
 # config nginx
   - name: Update the repository cache and update package "nginx" to latest version using default release squeeze-backport
