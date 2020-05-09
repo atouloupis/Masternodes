@@ -1,24 +1,13 @@
-require('../../../models/Wallets_datas');
-var MyWallet = require('blockchain.info/MyWallet');
-const path = require('path');
-var keyfile = path.join(__dirname, '../../../conf/key.json');
-var jsonfile = require('jsonfile');
-const mongoose = require('mongoose');
-const Wallets_datas = mongoose.model('Wallets_datas');
+var blockexplorer = require('blockchain.info/blockexplorer');
 
-function balanceWallet(userName,password,walletId){
+function balancePubkey(pubkey,callback){
 
-	jsonfile.readFile(keyfile, function (err, obj) {
-		var apicode=obj.blockchainWallet.apikey;
-		var apiHost = 'http://localhost:3001';
-		var options = { apiCode: apicode, apiHost: apiHost };
-		var wallet = new MyWallet(walletId, password, options)
-		wallet.getBalance().then(function (response) { 
-			console.log(response); 
-		})
-	//retourner balance et pubkey.
-
+	blockexplorer.getBalance(pubkey).then(function (wallet,err) {
+		if (err) return handleError(err);
+		console.log(wallet);
+		callback(wallet);
 	});
 }
 
- balanceWallet("Andreas",1234,'b4feb707-545c-41c7-991d-d07028063b92');
+
+module.exports.balancePubkey = balancePubkey;

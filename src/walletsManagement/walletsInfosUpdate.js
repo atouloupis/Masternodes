@@ -62,7 +62,7 @@ Masternodes.find().then((masternodes) => {
 					var gainperweek=0;
 					var gainsincecreate=0;
 					TxList.response.transactions.forEach(transaction =>{
-						if (transaction.amount!=transaction.balance && parseInt(transaction.amount)>0){
+						if (transaction.amount!=transaction.balance && parseInt(transaction.amount)>0 && transaction.amount!=item.collateral){
 							gainsincecreate=parseInt(transaction.amount)+gainsincecreate;
 							if (transaction.time>oneweektime){
 								gainperweek=parseInt(transaction.amount)+gainperweek;

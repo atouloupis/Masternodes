@@ -1,3 +1,4 @@
+const createBitcoinWallet=require('../src/walletsManagement/bitcoinWallet/bitcoinWalletCreate');
 const start = require('../start');
 const async = require('asyncawait/async');
 const auth = require('http-auth');
@@ -56,41 +57,53 @@ router.get('/404', basic.check( (req, res) => {
 
 router.get('/wallets', basic.check( (req, res) => {
 	var User=req.user;
-	wallets_data.Walletsdatas(function(Walletsdatas){
+	wallets_data.Walletsdatas(User,function(Walletsdatas){
 		crypto_data.Cryptodata(function(Cryptodata){
-			res.render('wallets', { title: 'Page non trouvée',Cryptodata,User});
+            console.log(Walletsdatas);
+			res.render('wallets', { title: 'Portefeuilles',Cryptodata,Walletsdatas,User});
 		});
 	});
 }));
 
 router.post('/wallets',
   [
-    check('name')
-      .isLength({ min: 1 })
-      .withMessage('Please enter a name'),
-    check('email')
-      .isLength({ min: 1 })
-      .withMessage('Please enter an email'),
+    check('password')
+      .isLength({ min: 8 })
+      .withMessage('Please enter a password'),
   ],
   (req, res) => {
     const errors = validationResult(req);
-
     if (errors.isEmpty()) {
-      const registration = new Registration(req.body);
-      registration.save()
-        .then(() => { res.send('Thank you for your registration!'); })
-        .catch((err) => {
-          console.log(err);
-          res.send('Sorry! Something went wrong.');
+        if (req.body.crypto=='Btc' && req.body.confirmpassword==req.body.password){
+            createBitcoinWallet.createWallet(req.body.user,req.body.password, function(BTCwallet){
+                console.log(BTCwallet);
+                var User=req.body.user;
+                wallets_data.Walletsdatas(User,function(Walletsdatas){
+                    crypto_data.Cryptodata(function(Cryptodata){
+                        res.redirect('/wallets');
+                    });
+                });
+            });
+        }
+        else {
+            var User=req.body.user;
+           wallets_data.Walletsdatas(User,function(Walletsdatas){
+              crypto_data.Cryptodata(function(Cryptodata){
+                  res.redirect('/wallets');
+              });
+          });
+        }
+    }
+    else {
+      var User=req.body.user;
+      wallets_data.Walletsdatas(User,function(Walletsdatas){
+        crypto_data.Cryptodata(function(Cryptodata){
+          res.redirect('/wallets');
         });
-    } else {
-      res.render('form', {
-        title: 'Registration form',
-        errors: errors.array(),
-        data: req.body
       });
     }
-  });
+  }
+);
 
 
 module.exports = router;

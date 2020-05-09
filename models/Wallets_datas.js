@@ -1,27 +1,23 @@
 const mongoose = require('mongoose');
 
 const walletsdatasSchema = new mongoose.Schema({
-	type: 'object',
-	properties: 
-	{ 
-		user: { type: 'string' },
-		crypto: { 
-			type: 'array',
-			items:
+	user: { type: 'string' },
+	crypto: { 
+		type: 'array',
+		items:
+		{ 
+			type: 'object',
+			properties:
 			{ 
-				type: 'object',
-				properties:
-				{ 
-					name: { type: 'string' },
-					pubkeys: {type: 'string' },
-					privkeysid: { type: 'string' },
-					receiveaddress: { type: 'string' },
-					balance: { type: 'integer' },
-					walletid: { type: 'string' }
-				} 
+				name: { type: 'string' },
+				pubkeys: {type: 'string' },
+				privkeysid: { type: 'string' },
+				receiveaddress: { type: 'string' },
+				balance: { type: 'integer' },
+				walletid: { type: 'string' }
 			} 
 		} 
-	}
+	} 
 });
 
 module.exports = mongoose.model('Wallets_datas', walletsdatasSchema);

@@ -108,11 +108,19 @@ ul.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion#accordionSideba
   div.sidebar-heading
     Addons
 
-  //Nav Item - Charts
-  li.nav-item
-    a.nav-link(href="wallets")
-      i.fas.fa-fw.fa-wallet
-      span Portefeuilles
+  if title=="wallets"
+    //Nav Item
+    li.nav-item.active
+      a.nav-link(href="wallets")
+        i.fas.fa-fw.fa-wallet
+        span Comptes
+  else
+    //Nav Item
+    li.nav-item.active
+      a.nav-link(href="wallets")
+        i.fas.fa-fw.fa-wallet
+        span Comptes
+
 
   //Nav Item - Pages Collapse Menu
   li.nav-item
