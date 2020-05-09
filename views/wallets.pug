@@ -47,9 +47,9 @@ block content
                                         =Walletsdatas.btc.balance
                                         | Btc
                                         a.text-gray-500 
-                                        =Math.round(Walletsdatas.btc.balance*cryptodata.market_data.current_price.eur*100)/100
+                                          =Math.round(Walletsdatas.btc.balance*cryptodata.market_data.current_price.eur*100)/100
                                           | € (estimé)
-                                           input(type="text" value=Walletsdatas.btc.pubkeys readonly).mb-1.s
+                                          input(type="text" value=Walletsdatas.btc.pubkeys readonly).mb-1.s
                                       div.col-auto.d-flex.flex-column
                                       div
                                         i.fas.fa-exchange-alt.fa-1x.text-primary

@@ -27,7 +27,7 @@ function Walletsdatas(userName,callback){
 			});
         });
         }
-        
+        else {callback(Walletsdatasconcat);}
 	});
 
 }
