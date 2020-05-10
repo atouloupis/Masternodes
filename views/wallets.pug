@@ -26,7 +26,7 @@ block content
                             div.card-body
                               div.row.no-gutters.align-items-center
                                 div.col.mr-2
-                                  div.mr-2.d-none.d-lg-inline.small.text-primary.my-auto.font-weight-bold
+                                  div.mr-2.d-none.d-lg-inline.text-primary.my-auto.font-weight-bold
                                     img(src=cryptodata.image.small,width="25 px")
                                     span.ml-2
                                       | Mon compte Bitcoin
@@ -35,24 +35,106 @@ block content
                                       form(name="creat-submit",method="post")
                                         input(type="hidden",id="crypto",value="Btc",name="crypto")
                                         input(type="hidden",id="user",value=User,name="user")
-                                        input(type="password" id="password" name="password" placeholder="Mot de passe portefeuille Bitcoin" minlength="8").mb-1.s
-                                        input(type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirmez le mot de passe" minlength="8").mb-1.s
+                                        input(type="password" id="password" name="password" placeholder="Mot de passe portefeuille Bitcoin" minlength="8").mb-1.small
+                                        input(type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirmez le mot de passe" minlength="8").mb-1.small
                                         button(type="submit",value="Btc").btn.btn-primary.btn-icon-split
                                             span.icon.text-white-50
                                               i.fas.fa-arrow-right
                                             span.text.text-white Créer un portefeuille Bitcoin
                                   else
-                                      div.text-s.mb-0.font-weight-bold.text-gray-800 
-                                        | Total :
+                                      div.text-s.mb-0.font-weight-bold.text-gray-800.my-3
                                         =Walletsdatas.btc.balance
                                         | Btc
                                         a.text-gray-500 
                                           =Math.round(Walletsdatas.btc.balance*cryptodata.market_data.current_price.eur*100)/100
                                           | € (estimé)
-                                          input(type="text" value=Walletsdatas.btc.pubkeys readonly).mb-1.s
-                                      div.col-auto.d-flex.flex-column
-                                      div
-                                        i.fas.fa-exchange-alt.fa-1x.text-primary
-                                      div
-                                        i.fa.fa-trash.fa-1x.text-danger
+                                      div.text-s.mb-0.font-weight-bold.text-gray-800 
+                                        | Addresse de réception
+                                        div.input-group
+                                          input#receiveaddress(type="text" value=Walletsdatas.btc.receiveaddress readonly).bg-light.border-0.small
+                                          div.input-group-append
+                                            button(onclick="copytoclipboard()").btn.btn-primary(type="button").icon.text-white-50
+                                              i.fas.fa-copy.fa-sm
+                                div.col-2.d-flex.flex-column
+                                        a(href="#" data-toggle="modal" data-target="#sendModal")
+                                          i.fas.fa-share.fa-lg
                                         
+  //Withdraw
+  div.modal.fade(id="sendModal",tabindex="-1",role="dialog",aria-labelledby="sendModal",aria-hidden="true")
+    div.modal-dialog(role="document")
+      div.modal-content
+        div.modal-header
+          h5.modal-title#sendModal
+            |Envoyer vos bitcoin hors de la plateforme
+          button.close(type="button",data-dismiss="modal",aria-label="Close")
+            span(aria-hidden="true")
+              |×
+        div.modal-body.d-flex.justify-content-around
+          p
+            |Entrez l'addresse de reception
+            input#sendaddress(type="text" pattern="^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$").bg-light.border-1.small.rounded.border-primary
+          p
+            |Choisssez le montant à envoyer
+            input#amount(type="number").bg-light.border-1.small.rounded.border-primary.m-auto
+        div.modal-footer
+          button.btn.btn-secondary(type="button" data-dismiss="modal")
+            |Fermer
+          a.btn.btn-primary(href="#" data-toggle="modal" data-target="#confirmModal" data-dismiss="modal" data-confirm="")
+            |Envoyer
+            i.fas.fa-share.fa-sm.ml-2
+
+  //ConfirmWithdraw
+  div.modal.fade(id="confirmModal",tabindex="-1",role="dialog",aria-labelledby="confirmModal",aria-hidden="true")
+    div.modal-dialog(role="document")
+      div.modal-content
+        div.modal-header
+          h5.modal-title#confirmModal
+            |Confirmez l'envoie de vos Bitcoin hors de la plateforme
+          button.close(type="button",data-dismiss="modal",aria-label="Close")
+            span(aria-hidden="true")
+              |×
+        div.modal-body.d-flex.justify-content-around
+          p
+            |Vous souhaitez envoyer à cette adresse
+            input(type="hidden",id="crypto",value="Btc",name="crypto")
+            input(type="hidden",id="user",value=User,name="user")
+            =sendaddress
+          p
+            |Choisssez le montant à envoyer
+            input#amount(type="number").bg-light.border-1.small.rounded.border-primary.m-auto
+        div.modal-footer
+          button.btn.btn-secondary(type="button" data-dismiss="modal")
+            |Annuler
+          a.btn.btn-primary(href="#" onclick="sendBtc()")
+            |Confirmer
+            i.fas.fa-share.fa-sm.ml-2
+
+
+
+
+  script.
+    function copytoclipboard() {
+      /* Get the text field */
+      var copyText = document.getElementById("receiveaddress");
+    
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+    
+      /* Copy the text inside the text field */
+      document.execCommand("copy");
+    
+      /* Alert the copied text */
+      alert("Addresse copiée " + copyText.value);
+    } 
+  
+  $('#confirmModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('whatever') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var modal = $(this)
+    modal.find('.modal-title').text('New message to ' + recipient)
+    modal.find('.modal-body input').val(recipient)
+})
+    

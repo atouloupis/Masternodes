@@ -28,10 +28,12 @@ function createWallet(userName,password,callback){
 				//working - Create a wallet
 				MyWallet.create(password, apicode, HDoptions).then(function (wallet) {
 				// working - create new HD account 
+                console.log(wallet);
 					wallet.createAccount({label:userName}).then(function (account) {
-                      wallet.getAccountReceiveAddress().then(function (address) {
-                        console.log(wallet);
                         console.log(account);
+                        
+                        wallet.getAccountReceiveAddress(0).then(function (address) {
+
                         console.log(address);
 						var BTCwallet = new Wallets_datas(
 						{
@@ -42,7 +44,7 @@ function createWallet(userName,password,callback){
 								privkeysid: account.xpriv,
 								balance: 0,
 								walletid:wallet.guid,
-                                receiveaddress:account.receiveaddress
+                                receiveaddress:address.address
 							}]
 						});
 							BTCwallet.save(function (err) {
