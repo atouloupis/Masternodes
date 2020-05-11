@@ -1,4 +1,5 @@
 const createBitcoinWallet=require('../src/walletsManagement/bitcoinWallet/bitcoinWalletCreate');
+const sendBitcoin=require('../src/walletsManagement/bitcoinWallet/bitcoinTxGenerate');
 const start = require('../start');
 const async = require('asyncawait/async');
 const auth = require('http-auth');
@@ -59,7 +60,7 @@ router.get('/wallets', basic.check( (req, res) => {
 	var User=req.user;
 	wallets_data.Walletsdatas(User,function(Walletsdatas){
 		crypto_data.Cryptodata(function(Cryptodata){
-            console.log(Walletsdatas);
+            // console.log(Walletsdatas);
 			res.render('wallets', { title: 'Portefeuilles',Cryptodata,Walletsdatas,User});
 		});
 	});
@@ -105,6 +106,34 @@ router.post('/wallets',
   }
 );
 
+router.post('/sendBtc',
+  [
+    check('password')
+      .isLength({ min: 8 }),
+    check('sendaddress')
+      .matches(/^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/),
+    check('walletId')
+      .isLength({ min: 36 }),
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+      var User=req.body.user;
+      var password=req.body.password;
+      var amount=req.body.amount;
+      var address=req.body.sendaddress;
+      var walletId=req.body.walletId;
+      console.log(User+password+amount+address);
+      sendBitcoin.sendWallet(User,password,walletId,address,amount,function(callback){
+          res.redirect('/wallets');
+        });
+    }
+    else {
+        console.log(errors);
+          res.redirect('/wallets');
+    }
+  }
+);
 
 module.exports = router;
 

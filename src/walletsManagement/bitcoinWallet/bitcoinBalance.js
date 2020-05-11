@@ -4,7 +4,7 @@ function balancePubkey(pubkey,callback){
 
 	blockexplorer.getBalance(pubkey).then(function (wallet,err) {
 		if (err) return handleError(err);
-		console.log(wallet);
+		//console.log(wallet);
 		callback(wallet);
 	});
 }

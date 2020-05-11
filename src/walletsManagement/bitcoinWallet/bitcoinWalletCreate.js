@@ -28,13 +28,13 @@ function createWallet(userName,password,callback){
 				//working - Create a wallet
 				MyWallet.create(password, apicode, HDoptions).then(function (wallet) {
 				// working - create new HD account 
-                console.log(wallet);
+                // console.log(wallet);
 					wallet.createAccount({label:userName}).then(function (account) {
-                        console.log(account);
+                        // console.log(account);
                         
                         wallet.getAccountReceiveAddress(0).then(function (address) {
 
-                        console.log(address);
+                        // console.log(address);
 						var BTCwallet = new Wallets_datas(
 						{
 							user:userName,

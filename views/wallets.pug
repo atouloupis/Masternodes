@@ -53,7 +53,7 @@ block content
                                         div.input-group
                                           input#receiveaddress(type="text" value=Walletsdatas.btc.receiveaddress readonly).bg-light.border-0.small
                                           div.input-group-append
-                                            button(onclick="copytoclipboard()").btn.btn-primary(type="button").icon.text-white-50
+                                            button(type="button", onclick="copytoclipboard()").btn.btn-primary.icon.text-white-50
                                               i.fas.fa-copy.fa-sm
                                 div.col-2.d-flex.flex-column
                                         a(href="#" data-toggle="modal" data-target="#sendModal")
@@ -69,47 +69,28 @@ block content
           button.close(type="button",data-dismiss="modal",aria-label="Close")
             span(aria-hidden="true")
               |×
-        div.modal-body.d-flex.justify-content-around
-          p
-            |Entrez l'addresse de reception
-            input#sendaddress(type="text" pattern="^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$").bg-light.border-1.small.rounded.border-primary
-          p
-            |Choisssez le montant à envoyer
-            input#amount(type="number").bg-light.border-1.small.rounded.border-primary.m-auto
+        div.modal-body
+          form#sendBtc(name="send-submit",method="post",action="/sendBtc")
+            input(type="hidden",id="crypto",value="Btc",name="crypto")
+            input(type="hidden",id="user",value=User,name="user")
+            input(type="hidden",id="walletId",value=Walletsdatas.btc.walletid,name="walletId")
+            div.d-flex.justify-content-between
+              |Entrez l'addresse de reception
+              input#sendaddress(name="sendaddress" type="text" pattern="^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$" placeholder="1Gx3rMTsPYyjVZfAv7zdYwYZWj3b7V1LSh" ).bg-light.border-1.small.rounded.border-primary
+            div.d-flex.justify-content-between
+              |Choisssez le montant à envoyer (disponible : 
+              =Walletsdatas.btc.balance
+              | )
+              input#amount(type="number" name="amount" step="0.00000001" placeholder="0.01" max=Walletsdatas.btc.balance).bg-light.border-1.small.rounded.border-primary
+            div.d-flex.justify-content-between
+              |Entrez le mot de passe
+              input#password(type="password" name="password" placeholder="Min 8 caractères" minlength="8").bg-light.border-1.small.rounded.border-primary
         div.modal-footer
           button.btn.btn-secondary(type="button" data-dismiss="modal")
             |Fermer
-          a.btn.btn-primary(href="#" data-toggle="modal" data-target="#confirmModal" data-dismiss="modal" data-confirm="")
+          button.btn.btn-primary(type="submit",value="submit", form="sendBtc")
             |Envoyer
             i.fas.fa-share.fa-sm.ml-2
-
-  //ConfirmWithdraw
-  div.modal.fade(id="confirmModal",tabindex="-1",role="dialog",aria-labelledby="confirmModal",aria-hidden="true")
-    div.modal-dialog(role="document")
-      div.modal-content
-        div.modal-header
-          h5.modal-title#confirmModal
-            |Confirmez l'envoie de vos Bitcoin hors de la plateforme
-          button.close(type="button",data-dismiss="modal",aria-label="Close")
-            span(aria-hidden="true")
-              |×
-        div.modal-body.d-flex.justify-content-around
-          p
-            |Vous souhaitez envoyer à cette adresse
-            input(type="hidden",id="crypto",value="Btc",name="crypto")
-            input(type="hidden",id="user",value=User,name="user")
-            =sendaddress
-          p
-            |Choisssez le montant à envoyer
-            input#amount(type="number").bg-light.border-1.small.rounded.border-primary.m-auto
-        div.modal-footer
-          button.btn.btn-secondary(type="button" data-dismiss="modal")
-            |Annuler
-          a.btn.btn-primary(href="#" onclick="sendBtc()")
-            |Confirmer
-            i.fas.fa-share.fa-sm.ml-2
-
-
 
 
   script.
@@ -123,18 +104,6 @@ block content
     
       /* Copy the text inside the text field */
       document.execCommand("copy");
+    }
     
-      /* Alert the copied text */
-      alert("Addresse copiée " + copyText.value);
-    } 
-  
-  $('#confirmModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget) // Button that triggered the modal
-    var recipient = button.data('whatever') // Extract info from data-* attributes
-    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    var modal = $(this)
-    modal.find('.modal-title').text('New message to ' + recipient)
-    modal.find('.modal-body input').val(recipient)
-})
     

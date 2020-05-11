@@ -5,18 +5,28 @@ var keyfile = path.join(__dirname, '../../../conf/key.json');
 var jsonfile = require('jsonfile');
 const mongoose = require('mongoose');
 const Wallets_datas = mongoose.model('Wallets_datas');
+const BTCfee = require('bitcoin-fee')
+global.fetch = require('node-fetch')
 
-
-
-function sendWallet(userName,password,walletId,address,amount){
-
-var options = { apiCode: 'myAPICode', apiHost: 'http://localhost:3000' }
-var wallet = new MyWallet(walletId, password, options)
-var options1 = {from:0};
-wallet.send(address, amount, options1).then(function (response) { 
-console.log(response);
-});
-
+function sendWallet(userName,password,walletId,address,amount,callback){
+    
+    var services=BTCfee.SERVICES;
+    console.log(services);
+    BTCfee.fetchFee(services[0])
+.then(fee => console.log(fee))
+	jsonfile.readFile(keyfile, function (err, obj) {
+		if (err) return handleError(err);
+		var apicode=obj.blockchainWallet.apikey;
+		var apiHost = 'http://localhost:3001';
+		var options = { apiCode: apicode, apiHost: apiHost };
+        var wallet = new MyWallet(walletId, password, options)
+        var options1 = {from:0,feePerByte:fee};
+        wallet.send(address, amount, options1).then(function (response) { 
+            console.log(response);
+            callback(response);
+        });
+    });
+          
 // Sends bitcoin from the wallet to a given address. Responds with a Payment Response Object.
 
 // Parameters:
@@ -39,8 +49,6 @@ console.log(response);
     // message - message confirming the transaction (string)
     // tx_hash - the hash of the transaction (string)
     // notice - notice, not always returned (string)
-
-
 }
 
-sendWallet(userName,password,walletId,address, amount);
+module.exports.sendWallet = sendWallet;
