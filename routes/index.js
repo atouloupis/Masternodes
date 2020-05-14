@@ -1,4 +1,5 @@
 const createBitcoinWallet=require('../src/walletsManagement/bitcoinWallet/bitcoinWalletCreate');
+const createEtherWallet=require('../src/walletsManagement/ethWallet/ethWalletCreate');
 const sendBitcoin=require('../src/walletsManagement/bitcoinWallet/bitcoinTxGenerate');
 const start = require('../start');
 const async = require('asyncawait/async');
@@ -78,12 +79,13 @@ router.post('/wallets',
         if (req.body.crypto=='Btc' && req.body.confirmpassword==req.body.password){
             createBitcoinWallet.createWallet(req.body.user,req.body.password, function(BTCwallet){
                 console.log(BTCwallet);
-                var User=req.body.user;
-                wallets_data.Walletsdatas(User,function(Walletsdatas){
-                    crypto_data.Cryptodata(function(Cryptodata){
                         res.redirect('/wallets');
-                    });
-                });
+            });
+        }
+        else if (req.body.crypto=='Eth' && req.body.confirmpassword==req.body.password){
+            createEtherWallet.createWallet(req.body.user,req.body.password, function(ETHwallet){
+                console.log(ETHwallet);
+                        res.redirect('/wallets');
             });
         }
         else {
@@ -123,8 +125,9 @@ router.post('/sendBtc',
       var amount=req.body.amount;
       var address=req.body.sendaddress;
       var walletId=req.body.walletId;
+      var fee=req.body.fee;
       console.log(User+password+amount+address);
-      sendBitcoin.sendWallet(User,password,walletId,address,amount,function(callback){
+      sendBitcoin.sendWallet(User,password,walletId,address,amount,fee,function(callback){
           res.redirect('/wallets');
         });
     }

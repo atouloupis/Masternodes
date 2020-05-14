@@ -22,7 +22,7 @@ mongoose.connection
 const CoinGecko = require('coingecko-api');
 //2. Initiate the CoinGecko API Client
 const CoinGeckoClient = new CoinGecko();
-var coinList=['axel','energi','safecapital','streamit-coin','telos-coin','iq-cash','bitcoin'];
+var coinList=['axel','energi','safecapital','streamit-coin','telos-coin','iq-cash','bitcoin','ethereum'];
 // var coinList=['bitcoin'];
 //3. Make calls
 var getCoinGeckoData = async(cryptoId) => {

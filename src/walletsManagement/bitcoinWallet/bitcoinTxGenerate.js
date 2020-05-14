@@ -4,16 +4,12 @@ const path = require('path');
 var keyfile = path.join(__dirname, '../../../conf/key.json');
 var jsonfile = require('jsonfile');
 const mongoose = require('mongoose');
-const Wallets_datas = mongoose.model('Wallets_datas');
-const BTCfee = require('bitcoin-fee')
-global.fetch = require('node-fetch')
+const Transactions_datas = mongoose.model('Transactions_datas');
 
-function sendWallet(userName,password,walletId,address,amount,callback){
+
+function sendWallet(userName,password,walletId,address,amount,fee,callback){
     
-    var services=BTCfee.SERVICES;
-    console.log(services);
-    BTCfee.fetchFee(services[0])
-.then(fee => console.log(fee))
+
 	jsonfile.readFile(keyfile, function (err, obj) {
 		if (err) return handleError(err);
 		var apicode=obj.blockchainWallet.apikey;

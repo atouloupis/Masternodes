@@ -35,8 +35,10 @@
     "node-ansible": "^0.5.5",
     "node-fetch": "^2.6.0",
     "pug": "^2.0.4",
+    "qrcode": "^1.4.4",
     "socket.io": "^2.3.0",
-    "to-json-schema": "^0.2.5"
+    "to-json-schema": "^0.2.5",
+    "web3": "^1.2.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

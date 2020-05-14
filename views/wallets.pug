@@ -11,11 +11,14 @@ block content
       h1.h3.mb-0.text-gray-800
         | Wallets
         h4.mb-0.text-primary
-          | Balance : XXX
+          | Balance :
+          =Walletsdatas.totalBalanceBtc
           |  Btc
         span.text-xs.text-gray-500
-          |  Balance : XXX €
-
+          |  Balance :
+          =Walletsdatas.totalBalanceEur
+          | €
+        img(width="150" height="150" alt="star" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHQAAAB0CAYAAABUmhYnAAAAAklEQVR4AewaftIAAAKsSURBVO3BQW7kQAwEwSxC//9yro88NSBIM2sTjIg/WGMUa5RijVKsUYo1SrFGKdYoxRqlWKMUa5RijVKsUYo1SrFGKdYoxRrl4qEkfJNKl4QTlS4JncpJEr5J5YlijVKsUYo1ysXLVN6UhDtUuiS8SeVNSXhTsUYp1ijFGuXiw5Jwh8oTSehUuiS8KQl3qHxSsUYp1ijFGuXij1M5ScJJEjqVv6xYoxRrlGKNcvHHJeFE5SQJkxRrlGKNUqxRLj5M5ZNU7kjCm1R+k2KNUqxRijXKxcuS8E1J6FS6JHQqXRLuSMJvVqxRijVKsUaJPxgkCZ1Kl4QTlb+sWKMUa5RijXLxUBI6lZMk/E8qXRK6JHQqJ0noVLok3KHyRLFGKdYoxRrl4j9TeSIJncoTKl0STlTuUPmkYo1SrFGKNcrFQypdEt6UhCeS0Kl0KneonCThjiR0Kk8Ua5RijVKsUeIPXpSEE5WTJHQqJ0l4QqVLQqdykoROpUvCicqbijVKsUYp1igXH6bSJeFEpUtCp9KpdEk4UXkiCSdJ6FS6JHxSsUYp1ijFGiX+4A9LQqdyRxI6lTuS0Kl0SbhD5YlijVKsUYo1ysVDSfgmlZMknKjckYQ7knCi8knFGqVYoxRrlIuXqbwpCU+odEk4ScI3JaFTeaJYoxRrlGKNcvFhSbhD5X9SOUlCp9IloVPpktCpvKlYoxRrlGKNcjGMSpeEE5UuCScqJyonKp9UrFGKNUqxRrn441S6JNyRhBOVkyR0Kl0S7lB5olijFGuUYo1y8WEq36TSJeEOlS4JnUqn8psUa5RijVKsUS5eloRvSkKn0qm8KQknKp3KNxVrlGKNUqxR4g/WGMUapVijFGuUYo1SrFGKNUqxRinWKMUapVijFGuUYo1SrFGKNUqxRvkHv7QE9MppxbsAAAAASUVORK5CYII=")
     //Content Row
     div.row
             each cryptodata in Cryptodata
@@ -51,57 +54,111 @@ block content
                                       div.text-s.mb-0.font-weight-bold.text-gray-800 
                                         | Addresse de réception
                                         div.input-group
-                                          input#receiveaddress(type="text" value=Walletsdatas.btc.receiveaddress readonly).bg-light.border-0.small
+                                          input#toCopy(type="text" value=Walletsdatas.btc.receiveaddress readonly).bg-light.border-0.small
                                           div.input-group-append
                                             button(type="button", onclick="copytoclipboard()").btn.btn-primary.icon.text-white-50
                                               i.fas.fa-copy.fa-sm
+                              if Walletsdatas.btc.balance>Walletsdatas.btc.fee*224
                                 div.col-2.d-flex.flex-column
                                         a(href="#" data-toggle="modal" data-target="#sendModal")
                                           i.fas.fa-share.fa-lg
+
+              if cryptodata.symbol=='eth'
+                      //Earnings (Monthly) Card Example
+                      div.col-xl-4.col-md-6.mb-4
+                          div.card.border-left-success.shadow.h-100.py-2
+                            div.card-body
+                              div.row.no-gutters.align-items-center
+                                div.col.mr-2
+                                  div.mr-2.d-none.d-lg-inline.text-primary.my-auto.font-weight-bold
+                                    img(src=cryptodata.image.small,width="25 px")
+                                    span.ml-2
+                                      | Mon compte Ethereum
+                                  if Walletsdatas.eth == ''
+                                    div.mt-4
+                                      form(name="creat-submit",method="post")
+                                        input(type="hidden",id="crypto",value="Eth",name="crypto")
+                                        input(type="hidden",id="user",value=User,name="user")
+                                        input(type="password" id="password" name="password" placeholder="Mot de passe portefeuille Eth" minlength="8").mb-1.small
+                                        input(type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirmez le mot de passe" minlength="8").mb-1.small
+                                        button(type="submit",value="Eth").btn.btn-primary.btn-icon-split
+                                            span.icon.text-white-50
+                                              i.fas.fa-arrow-right
+                                            span.text.text-white Créer un portefeuille Ethereum
+                                  else
+                                      div.text-s.mb-0.font-weight-bold.text-gray-800.my-3
+                                        =Walletsdatas.eth.balance
+                                        | Eth
+                                        a.text-gray-500 
+                                          =Math.round(Walletsdatas.eth.balance*cryptodata.market_data.current_price.eur*100)/100
+                                          | € (estimé)
+                                      div.text-s.mb-0.font-weight-bold.text-gray-800 
+                                        | Addresse de réception
+                                        div.input-group
+                                          input#toCopy(type="text" value=Walletsdatas.eth.receiveaddress readonly).bg-light.border-0.small
+                                          div.input-group-append
+                                            button(type="button", onclick="copytoclipboard()").btn.btn-primary.icon.text-white-50
+                                              i.fas.fa-copy.fa-sm
+                              if Walletsdatas.btc.balance>Walletsdatas.btc.fee*224
+                                div.col-2.d-flex.flex-column
+                                        a(href="#" data-toggle="modal" data-target="#sendModal")
+                                          i.fas.fa-share.fa-lg
+
+
                                         
-  //Withdraw
-  div.modal.fade(id="sendModal",tabindex="-1",role="dialog",aria-labelledby="sendModal",aria-hidden="true")
-    div.modal-dialog(role="document")
-      div.modal-content
-        div.modal-header
-          h5.modal-title#sendModal
-            |Envoyer vos bitcoin hors de la plateforme
-          button.close(type="button",data-dismiss="modal",aria-label="Close")
-            span(aria-hidden="true")
-              |×
-        div.modal-body
-          form#sendBtc(name="send-submit",method="post",action="/sendBtc")
-            input(type="hidden",id="crypto",value="Btc",name="crypto")
-            input(type="hidden",id="user",value=User,name="user")
-            input(type="hidden",id="walletId",value=Walletsdatas.btc.walletid,name="walletId")
-            div.d-flex.justify-content-between
-              |Entrez l'addresse de reception
-              input#sendaddress(name="sendaddress" type="text" pattern="^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$" placeholder="1Gx3rMTsPYyjVZfAv7zdYwYZWj3b7V1LSh" ).bg-light.border-1.small.rounded.border-primary
-            div.d-flex.justify-content-between
-              |Choisssez le montant à envoyer (disponible : 
-              =Walletsdatas.btc.balance
-              | )
-              input#amount(type="number" name="amount" step="0.00000001" placeholder="0.01" max=Walletsdatas.btc.balance).bg-light.border-1.small.rounded.border-primary
-            div.d-flex.justify-content-between
-              |Entrez le mot de passe
-              input#password(type="password" name="password" placeholder="Min 8 caractères" minlength="8").bg-light.border-1.small.rounded.border-primary
-        div.modal-footer
-          button.btn.btn-secondary(type="button" data-dismiss="modal")
-            |Fermer
-          button.btn.btn-primary(type="submit",value="submit", form="sendBtc")
-            |Envoyer
-            i.fas.fa-share.fa-sm.ml-2
+                      //Withdraw
+                      div.modal.fade(id="sendModal",tabindex="-1",role="dialog",aria-labelledby="sendModal",aria-hidden="true")
+                        div.modal-dialog(role="document")
+                          div.modal-content
+                            div.modal-header
+                              h5.modal-title#sendModal
+                                |Envoyer vos bitcoin hors de la plateforme
+                              button.close(type="button",data-dismiss="modal",aria-label="Close")
+                                span(aria-hidden="true")
+                                  |×
+                            div.modal-body
+                              form#sendBtc(name="send-submit",method="post",action="/sendBtc")
+                                input(type="hidden",id="crypto",value="Btc",name="crypto")
+                                input(type="hidden",id="user",value=User,name="user")
+                                input(type="hidden",id="fee",value=Walletsdatas.btc.fee,name="fee")
+                                input(type="hidden",id="walletId",value=Walletsdatas.btc.walletid,name="walletId")
+                                div.d-flex.justify-content-between
+                                  |Adresse de réception
+                                  input#sendaddress(name="sendaddress" type="text" pattern="^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$" placeholder="1Gx3rMTsPYyjVZfAv7zdYwYZWj3b7V1LSh" ).bg-light.border-1.small.rounded.border-primary
+                                div.d-flex.justify-content-between
+                                  div.align-self-baseline
+                                    |Montant à envoyer 
+                                    | - Max  
+                                    input(type="text" value=Walletsdatas.btc.balance maxlength="4" size="6" readonly).bg-light.border-0.small
+                                    p.small.font-italic
+                                      |  Frais du réseau
+                                      a.font-weight-bold.ml-2
+                                        =Math.round(Walletsdatas.btc.fee*224*100000000)/100000000
+                                      |  Btc  |
+                                      a.ml-1
+                                      =Math.round(cryptodata.market_data.current_price.eur*Walletsdatas.btc.fee*224*100)/100
+                                      |  €
+                                  div.align-self-baseline
+                                    input#amount(type="number" name="amount" min="0" step="0.00000001" placeholder="0.01" max=Walletsdatas.btc.balance).bg-light.border-1.small.rounded.border-primary
+                                div.d-flex.justify-content-between
+                                  |Entrez le mot de passe
+                                  input#password(type="password" name="password" placeholder="Min 8 caractères" minlength="8").bg-light.border-1.small.rounded.border-primary
+                            div.modal-footer
+                              button.btn.btn-secondary(type="button" data-dismiss="modal")
+                                |Fermer
+                              button.btn.btn-primary(type="submit",value="submit", form="sendBtc")
+                                |Envoyer
+                                i.fas.fa-share.fa-sm.ml-2
 
 
   script.
     function copytoclipboard() {
       /* Get the text field */
-      var copyText = document.getElementById("receiveaddress");
+      var copyText = document.getElementById("toCopy");
     
       /* Select the text field */
       copyText.select();
       copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-    
       /* Copy the text inside the text field */
       document.execCommand("copy");
     }
