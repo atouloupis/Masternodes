@@ -61,7 +61,7 @@ router.get('/wallets', basic.check( (req, res) => {
 	var User=req.user;
 	wallets_data.Walletsdatas(User,function(Walletsdatas){
 		crypto_data.Cryptodata(function(Cryptodata){
-            // console.log(Walletsdatas);
+            console.log(Walletsdatas);
 			res.render('wallets', { title: 'Portefeuilles',Cryptodata,Walletsdatas,User});
 		});
 	});
