@@ -20,7 +20,7 @@ const basic = auth.basic({
 
 router.get('/', basic.check( (req, res) => {
 var User=req.user;
-	wallets_data.Walletsdatas(function(Walletsdatas){
+	wallets_data.Walletsdatas(User,function(Walletsdatas){
 		masternodes_data.MNdata(function(MNdata){
 			crypto_data.Cryptodata(function(Cryptodata){
 				res.render('dashboard', { title: 'Dashboard', MNdata, Walletsdatas,Cryptodata, User });
