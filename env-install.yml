@@ -130,7 +130,7 @@
   - name: restart crontab
     shell: /etc/init.d/cron force-reload
     
-  - name: got to hom folder
+  - name: got to home folder
     shell: cd /home/{{ username }}/Masternodes
 
 
@@ -142,9 +142,10 @@
     shell: npm install --save blockchain.info
 
 # config nginx
-  - name: Update the repository cache and update package "nginx" to latest version using default release squeeze-backport
-    apt:
-      name: nginx
-      state: latest
-      default_release: bionic-backports
-      update_cache: yes
+  # - name: Update the repository cache and update package "nginx" to latest version using default release squeeze-backport
+    # apt:
+      # name: nginx
+      # state: latest
+      # default_release: bionic-backports
+      # update_cache: yes
+      
