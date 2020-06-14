@@ -6,11 +6,12 @@ const async = require('asyncawait/async');
 const await = require('asyncawait/await');
 
 
-function getMNInfos(crypto,pubkey.toLowerCase(),callback)
+function getMNInfos(crypto,pubkey,callback)
 {
 	if (pubkey==undefined){callback()}else{
 		if (crypto=='Energi')
 		{
+var pubkey=pubkey.toLowerCase();
 			energiMasternodes(pubkey,function(masternodeStatus){
 				energiWallet(pubkey,function(masternodeValue){
 					energiBalance(pubkey,function(masternodeBalance){
@@ -46,7 +47,7 @@ function energiMasternodes(pubkey,callback){
 		if (err) throw(err);
 		response.result.forEach(masternodes =>{
 			if(masternodes.Owner==pubkey){
-				callback(JSON.parse(JSON.stringify({"isactive":masternodes.IsActive})))
+				callback(JSON.parse(JSON.stringify({"isactive":masternodes.IsAlive})))
 				}
 		});
 	});
@@ -170,7 +171,7 @@ function iqcashTx(txList,pubkey,callback){
 				},
 				maxRedirects:20
 			};
-			setTimeout(restFull.getRestFull,i*500,options1,function(err,txDetail){
+			setTimeout(restFull.getRestFull,i*300,options1,function(err,txDetail){
 				if (err) throw(err);
 
 				iqcashTxgain(txDetail,pubkey,function(txgain){

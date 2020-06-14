@@ -80,7 +80,7 @@ Masternodes.find().then((masternodes) => {
 					let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
 					if (err) throw (err);
 					console.log(doc);
-					setTimeout(closeMongoose,15000);
+					//setTimeout(closeMongoose,30000);
 				});
 				});
 			});
@@ -90,9 +90,9 @@ Masternodes.find().then((masternodes) => {
 				const update = JSON.parse(JSON.stringify({"$set":{}}));
 				update.$set=MNinfos;
 				let doc =  Masternodes.findOneAndUpdate(filter, update, {new: true,useFindAndModify:false},(err, doc) => {
-					if (err)throw(err);
+					if (err)console.log(err);
 					console.log(doc);
-					setTimeout(closeMongoose,15000);
+					setTimeout(closeMongoose,40000);
 				});
 			});
 		}
