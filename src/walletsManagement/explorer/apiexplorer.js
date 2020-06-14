@@ -6,7 +6,7 @@ const async = require('asyncawait/async');
 const await = require('asyncawait/await');
 
 
-function getMNInfos(crypto,pubkey,callback)
+function getMNInfos(crypto,pubkey.toLowerCase(),callback)
 {
 	if (pubkey==undefined){callback()}else{
 		if (crypto=='Energi')
