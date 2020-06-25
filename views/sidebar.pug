@@ -35,7 +35,7 @@ ul.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion#accordionSideba
       a.nav-link(href="#", data-toggle="collapse", data-target="#collapseTwo", aria-expanded="true", aria-controls="collapseTwo")
         i.fas.fa-fw.fa-hand-holding-usd
         span Investir
-      div#collapseTwo.collapse.show(aria-labelledby="headingTwo",data-parent="#accordionSidebar")
+      div#collapseTwo.collapse(aria-labelledby="headingTwo",data-parent="#accordionSidebar")
         div.bg-white.py-2.collapse-inner.rounded
           h6.collapse-header Types d'inverstissements
           a.collapse-item.active(href="masternodes") Masternodes
@@ -116,7 +116,7 @@ ul.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion#accordionSideba
         span Comptes
   else
     //Nav Item
-    li.nav-item.active
+    li.nav-item
       a.nav-link(href="wallets")
         i.fas.fa-fw.fa-wallet
         span Comptes
