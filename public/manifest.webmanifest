@@ -1,0 +1,27 @@
+{
+  "short_name": "CriXCroXCoin",
+  "name": "Personnal Crytpo Resume",
+  "theme_color": "#ffffff",
+  "background_color": "#4e73df",
+  "display": "fullscreen",
+  "Scope": "/",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "images/favicon.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "images/favicon.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "images/favicon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": "/masternodes"
+}
