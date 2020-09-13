@@ -33,7 +33,7 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.11",
     "node-ansible": "^0.5.5",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "pug": "^2.0.4",
     "qrcode": "^1.4.4",
     "socket.io": "^2.3.0",
