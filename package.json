@@ -34,7 +34,7 @@
     "mongoose": "^5.9.11",
     "node-ansible": "^0.5.5",
     "node-fetch": "^2.6.0",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "qrcode": "^1.4.4",
     "socket.io": "^2.3.0",
     "to-json-schema": "^0.2.5",
