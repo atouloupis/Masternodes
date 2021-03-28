@@ -6,15 +6,15 @@ nav.navbar.navbar-expand.navbar-light.bg-white.topbar.mb-4.static-top.shadow
     i.fa.fa-bars
 
   //Topbar Search
-  form.d-none.d-sm-inline-block.form-inline.mr-auto.ml-md-0.my-2.my-md-0.mw-100.navbar-search
+  form.form-inline.navbar-search
     div.input-group
         each cryptodata in Cryptodata
           if cryptodata.symbol=='btc'
-            span.mr-2.d-none.d-lg-inline.small.text-primary.ml-4.my-auto
+            span.mr-2.d-lg-inline.small.text-primary.ml-4
               a.ml-2
                 img(src=cryptodata.image.small,width="25 px")
               a.ml-2
-                =cryptodata.market_data.current_price.eur
+                =Math.round(cryptodata.market_data.current_price.eur)
                 |  €
             if cryptodata.market_data.price_change_percentage_24h>0
               span.mr-2.d-none.d-lg-inline.small.font-weight-bold.text-success.ml-1.my-auto

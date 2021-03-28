@@ -1,6 +1,6 @@
 {
   "short_name": "CriXCroXCoin",
-  "name": "Personnal Crytpo Resume",
+  "name": "Your personnal crypto friend",
   "theme_color": "#ffffff",
   "background_color": "#4e73df",
   "display": "fullscreen",
@@ -8,20 +8,25 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "images/favicon.png",
+      "src": "/img/favicon48.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "images/favicon.png",
+      "src": "/img/favicon96.png",
       "type": "image/png",
       "sizes": "96x96"
     },
     {
-      "src": "images/favicon.png",
+      "src": "/img/favicon192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "/img/favicon64.png",
+      "type": "image/png",
+      "sizes": "64x64"
     }
   ],
-  "start_url": "/masternodes"
+  "start_url": "/"
 }
