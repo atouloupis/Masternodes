@@ -28,7 +28,7 @@ Masternodes.find().then((masternodes) => {
 		if(item.pubkey!="" && item.pubkey!=undefined){
 		//if axel, telos, scap go trittium
 	const filter = { serverName: item.serverName };
-		if (item.crypto.match(/^(Telos|Scap|Axel)$/))
+		if (item.crypto.match(/^(Scap|Axel)$/))
 		{
 			getTrittiumMNInfos.synthesis(item.crypto.toUpperCase(),function (Synthesis){
 				var counter1=0;

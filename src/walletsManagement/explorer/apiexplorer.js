@@ -107,6 +107,7 @@ function iqcashMasternodes(pubkey,callback){
 	};
 	restFull.getRestFull(options,function(err,response){
 		if (err) throw(err);
+        console.log(response);
 		response.forEach(masternode =>{
 			if (masternode.address==pubkey){
 				if (masternode.status=="ENABLED"){
